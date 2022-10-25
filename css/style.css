@@ -1,0 +1,44 @@
+
+
+@import url('http://fonts.cdnfonts.com/css/source-sans-pro');
+
+ @media only screen and (max-width: 768px) {
+ p {font-size: 14px;
+ }
+ #immagineVetrina img {
+  display: none;
+ }
+ }
+  .nav-link:hover {
+  opacity: 0.7;
+  
+}
+
+
+p {font-family: 'Source Sans Pro', sans-serif;}
+
+button, .btn {
+
+    background-color: #38B6FF !important;
+    font-size: larger;
+    color: white;
+    --bs-btn-font-weight: 600;
+    --bs-btn-border-radius: .5rem;
+    
+    
+   
+  }
+  
+  #btn {
+    
+    background-color: #A172FF !important;
+    font-size: larger;
+  
+  }
+
+    .text-truncate{
+        display: -webkit-box !important;
+        -webkit-line-clamp: 7;
+        -webkit-box-orient: vertical;
+        white-space: normal;
+      }
