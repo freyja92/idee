@@ -29,7 +29,7 @@
     <div class="container-fluid">
       <a class="navbar-brand" href="index.html"><img src="img/logonav.png"></a>
       
-      <ul class="nav justify-content-end display-6">
+      <ul class="nav justify-content-end fs-2">
       
       
 
@@ -41,9 +41,15 @@
           <a class="nav-link " style="color:#DCF5FF" aria-current="page" href="guida.html">Guida</a>
         </li>
         <li class="nav-item ">
-
-          <a class="nav-link  " style="color:#DCF5FF" href="#"><i class="bi bi-person-workspace"></i></a>
-
+          <div class="btn-group dropstart">
+          <a class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:#DCF5FF" href="#"><i class="bi bi-person-workspace"></i></a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#test" href="#">Crea</a></li>
+            <li><a class="dropdown-item" href="#">Profilo</a></li>
+            <li><a class="dropdown-item" href="#">Esci</a></li>
+          </ul>
+        </div>
+        
         </li>
     
       </ul>
@@ -51,7 +57,27 @@
 
     </div>
   </nav>
-
+  <!-- modale creazione progetto -->
+  <form class="modal form-progetto" tabindex="-1" id="test">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Titolo</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-header">
+          <img src="img">
+          </div>
+        <div class="modal-body">
+          <p >Scrivi qui la descrizione</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </form>
 
   <!--mission-->
 
@@ -104,6 +130,10 @@
           <div class="card-body h-50">
             <h5 class="card-title">Special title treatment</h5>
             <p class="card-text w-100 h-50 text-truncate">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab
+              aliquid eaque in delectus nobis nisi? Cupiditate itaque saepe deserunt nisi vero corporis voluptas
+              aliquam, delectus omnis! Saepe id quo harum! Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Labore libero unde veritatis quod minima fugiat soluta repudiandae ipsum dolore odio praesentium, neque
+              non ipsam! Nulla excepturi inventore nam odit commodi.Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab
               aliquid eaque in delectus nobis nisi? Cupiditate itaque saepe deserunt nisi vero corporis voluptas
               aliquam, delectus omnis! Saepe id quo harum! Lorem ipsum dolor sit amet consectetur adipisicing elit.
               Labore libero unde veritatis quod minima fugiat soluta repudiandae ipsum dolore odio praesentium, neque
