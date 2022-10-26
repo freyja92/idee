@@ -12,7 +12,8 @@ $(document).ready(function() {
     });
 
     $.get('http://localhost:8080/api/cards/' + cardId, function(response) {
-
+        result = createAnteprima(response);
+        $('.anteprima').html(result);
     });
 
 });
@@ -62,5 +63,5 @@ function createCard(card) {
 }
 
 function createAnteprima(card) {
-    
+
 }
