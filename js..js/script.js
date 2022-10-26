@@ -10,15 +10,13 @@ $(document).ready(function() {
         $('.galleria').html(result);
     });
 
-    
-
-    $('.galleria-card').click(function() {
-        alert('ciao');
-    });
-    
-    console.log($('.galleria-card'));
-
 });
+
+$(document).on('click', '.galleria-card', function() {
+    alert('ciao');
+});
+
+
 
 /*
 TEMPLATE OF A CARD
