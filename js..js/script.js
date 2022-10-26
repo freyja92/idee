@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    let cardId = window.location.href.slice(window.location.href.indexOf('?') + 1);
     let cards = [];
     let result = '';
      //l'endpoint 'http://localhost:8080/api/cards' restituisce i dati contenuti nella tabella progetto
@@ -10,12 +11,14 @@ $(document).ready(function() {
         $('.galleria').html(result);
     });
 
+    $.get('http://localhost:8080/api/cards/' + cardId, function(response) {
+
+    });
+
 });
 
-$(document).on('click', '.galleria-card', function(e) {
-    alert($(e.target).html());
-    window.location.href = 'http://127.0.0.1:5500/preview.html?'+$(e.target).data("id");
-
+$(document).on('click', '.galleria-card', function(event) {
+    window.location.replace('preview.html?'+$(event.target).parents('.galleria-card').data("id"), 'search.html/');
 });
 
 
@@ -56,4 +59,8 @@ function createCard(card) {
     </div>
   </div>`
 
+}
+
+function createAnteprima(card) {
+    
 }
