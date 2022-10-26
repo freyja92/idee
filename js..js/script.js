@@ -12,8 +12,10 @@ $(document).ready(function() {
 
 });
 
-$(document).on('click', '.galleria-card', function() {
-    alert('ciao');
+$(document).on('click', '.galleria-card', function(e) {
+    alert($(e.target).html());
+    window.location.href = 'http://127.0.0.1:5500/preview.html?'+$(e.target).data("id");
+
 });
 
 
