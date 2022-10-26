@@ -62,5 +62,19 @@ function createCard(card) {
 }
 
 function createAnteprima(card) {
+  return `<div class="col-8">
+  <img src="${card.img}" style="width:100%" 
+>
+  <p class="display-6">${card.descrizione}</p>
+      </div>
+      <div class="col">
+          <div class="d-grid gap-3 col-6 mx-auto">
+              <button class="btn btn-lg " type="button" style="background-color:rgb(246, 246, 55) !important;">Dona</button>
+              <p>tot donazioni</p>
+              <button class="btn btn-lg " type="button">Condividi</button>
+              <button class="btn btn-lg" id="btn" type="button">Collabora</button>
+            </div>
+          
+</div> `
     
 }
