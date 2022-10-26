@@ -37,7 +37,7 @@ TEMPLATE OF A CARD
 */
 
 function createCard(card) {
-    return `<div class="col">
+    return `<div class="col" data-id="${card.id}">
     <div class="card h-100 w-100 ">
       <img src="${card.img}" class="card-img-top h-50" alt="...">
       <div class="card-body h-50">
