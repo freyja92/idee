@@ -7,11 +7,17 @@ $(document).ready(function() {
         for (card of response) {
             result += createCard(card);
         }
-
-        alert(result);
         $('.galleria').html(result);
     });
+
     
+
+    $('.galleria-card').click(function() {
+        alert('ciao');
+    });
+    
+    console.log($('.galleria-card'));
+
 });
 
 /*
@@ -37,14 +43,12 @@ TEMPLATE OF A CARD
 */
 
 function createCard(card) {
-    return `<div class="col" data-id="${card.id}">
-    <div class="card h-100 w-100 ">
+    return `<div class="col">
+    <div class="card h-100 w-100 galleria-card" data-id="${card.id}">
       <img src="${card.img}" class="card-img-top h-50" alt="...">
       <div class="card-body h-50">
         <h5 class="card-title">\${card.titolo}}</h5>
         <p class="card-text w-100 h-50 text-truncate">${card.descrizione}</p>
-          
-          <p>More information</p>
         <a href="#" class="text-end">
           <p>More information</p>
         </a>
