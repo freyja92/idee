@@ -1,15 +1,17 @@
 $(document).ready(function() {
     let cards = [];
-    let result;
+    let result = '';
      //l'endpoint 'http://localhost:8080/api/cards' restituisce i dati contenuti nella tabella progetto
     $.get('http://localhost:8080/api/cards', function(response) {
         //cards = JSON.parse(response);
-        for (card of cards) {
+        for (card of response) {
             result += createCard(card);
         }
-    });
 
-    $('.galleria').html(result);
+        alert(result);
+        $('.galleria').html(result);
+    });
+    
 });
 
 /*
@@ -39,7 +41,7 @@ function createCard(card) {
     <div class="card h-100 w-100 ">
       <img src="${card.img}" class="card-img-top h-50" alt="...">
       <div class="card-body h-50">
-        <h5 class="card-title">${card.titolo}}</h5>
+        <h5 class="card-title">\${card.titolo}}</h5>
         <p class="card-text w-100 h-50 text-truncate">${card.descrizione}</p>
           
           <p>More information</p>
