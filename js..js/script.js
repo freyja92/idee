@@ -54,12 +54,15 @@ function createCard(card) {
     <img src="${card.img}" class="card-img-top h-50" alt="...">
     <div class="card-body h-50">
       <h5 class="card-title">\${card.titolo}}</h5>
-      <p class="card-text w-100 h-50 text-truncate">${card.descrizione}</p>
-      <a href="#" class="text-end">
-        <p>More information</p>
-      </a>
-    </div>
+      <p class="card-text w-100 h-50 line-clamp">${card.descrizione}</p>
+      <div class="card" style="border-color:#38B6FF; " >
+        <div class="card-body text-center">
+          <b>€ \${card.soldiRaccolti}</b> raccolti a fronte di € \${card.sodliObiettivo}
+        </div>
+      </div>
+  
   </div>
+</div>
 </div>`
 
 }

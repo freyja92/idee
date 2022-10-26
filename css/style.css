@@ -34,10 +34,21 @@ button, .btn {
     font-size: larger;
   
   }
-
+  
     .text-truncate{
-        display: -webkit-box !important;
+        display: -webkit-box ;
         -webkit-line-clamp: 7;
         -webkit-box-orient: vertical;
         white-space: normal;
+        text-overflow: ellipsis;
+        
+
+      }
+      .line-clamp {
+        
+          display: -webkit-box;
+          -webkit-line-clamp: 4;
+          -webkit-box-orient: vertical;  
+          overflow: hidden;
+        
       }
