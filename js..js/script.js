@@ -57,7 +57,7 @@ function createCard(card) {
       <p class="card-text w-100 h-50 line-clamp">${card.descrizione}</p>
       <div class="card" style="border-color:#38B6FF; " >
         <div class="card-body text-center">
-          <b>€ \${card.soldiRaccolti}</b> raccolti a fronte di € \${card.soldiObiettivo}
+          <b>€ \${card.soldiRaccolti}</b>  a fronte di € \${card.soldiObiettivo}
         </div>
       </div>
   
@@ -70,14 +70,14 @@ function createCard(card) {
 function createAnteprima(card) {
   return `<div class="row">
 <div class="col-8">
-<img src="${card.img}" style="width:100%" 
->
+<h1 class="card-title">\${card.titolo}</h1>
+<img src="${card.img}" style="width:100%" >
 <p class="display-6">${card.descrizione}</p>
     </div>
     <div class="col">
         <div class="d-grid gap-3 col-6 mx-auto">
             <button class="btn btn-lg " type="button" style="background-color:rgb(246, 246, 55) !important;">Dona</button>
-            <p>tot donazioni</p>
+            <p><b>€ \${card.soldiRaccolti}</b>  a fronte di € \${card.soldiObiettivo}</p>
             <button class="btn btn-lg " type="button">Condividi</button>
             <button class="btn btn-lg" id="btn" type="button">Collabora</button>
           </div>
