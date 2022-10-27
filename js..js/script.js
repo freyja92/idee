@@ -12,7 +12,7 @@ $(document).ready(function() {
   });
 
   $.get('http://localhost:8080/api/cards/' + cardId, function(response) {
-      result = createAnteprima(response);
+      result = createAnteprima(response, cardId);
       $('.anteprima').html(result);
   });
 
@@ -20,8 +20,10 @@ $(document).ready(function() {
 
 });
 
-$(document).on('click', '.galleria-card', function(event) {
-  window.location.replace('preview.html?'+$(event.target).parents('.galleria-card').data("id"), 'search.html/');
+$(document).on('click', function(event) {
+  if ($(event.target).parents('.galleria-card').length > 0) {
+    window.location.replace('preview.html?'+$(event.target).parents('.galleria-card').data("id"), 'search.html/');
+  }
 });
 
 
@@ -79,10 +81,9 @@ function createAnteprima(card, cardId) {
             <button class="btn btn-lg " type="button" style="background-color:rgb(246, 246, 55) !important;">Dona</button>
             <p><b>€ \${card.soldiRaccolti}</b>  a fronte di € \${card.soldiObiettivo}</p>
             <button class="btn btn-lg " type="button">Condividi</button>
-            <button class="btn btn-lg" id="btn" type="button" onclick="window.location.replace(${'project.html?'+cardId}, 'preview.html)">Collabora</button>
+            <button class="btn btn-lg" id="btn" type="button" onclick="window.location.replace('${'project.html?'+cardId}', 'preview.html')">Collabora</button>
           </div>
         
 </div> 
-</div> `
-;
+</div>`;
 }
