@@ -67,7 +67,7 @@ function createCard(card) {
 
 }
 
-function createAnteprima(card) {
+function createAnteprima(card, cardId) {
   return `<div class="row">
 <div class="col-8">
 <h1 class="card-title">\${card.titolo}</h1>
@@ -79,7 +79,7 @@ function createAnteprima(card) {
             <button class="btn btn-lg " type="button" style="background-color:rgb(246, 246, 55) !important;">Dona</button>
             <p><b>€ \${card.soldiRaccolti}</b>  a fronte di € \${card.soldiObiettivo}</p>
             <button class="btn btn-lg " type="button">Condividi</button>
-            <button class="btn btn-lg" id="btn" type="button">Collabora</button>
+            <button class="btn btn-lg" id="btn" type="button" onclick="window.location.replace(${'project.html?'+cardId}, 'preview.html)">Collabora</button>
           </div>
         
 </div> 
