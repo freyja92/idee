@@ -11,22 +11,44 @@ $(document).ready(function() {
       }
       $('.galleria').html(result);
   });
+  
+  if(typeof cardId == "number") {
 
-  $.get('http://localhost:8080/api/cards/' + cardId, function(response) {
+    $.get('http://localhost:8080/api/cards/' + cardId, function(response) {
       result = createAnteprima(response, cardId);
       $('.anteprima').html(result);
-  });
+    });
+  }
 
   $('.go-back-preview').attr('href', url.replace(url.slice(url.lastIndexOf('/') + 1), 'preview.html?'+ cardId));
 
 
+  $(document).on('click', function(event) {
+
+    if ($(event.target).parents('.galleria-card').length > 0) {
+      window.location.replace('preview.html?'+$(event.target).parents('.galleria-card').data("id"), 'search.html/');
+    }
+  
+    if ($(event.target).hasClass('categoria')) {
+      let categoria = $(event.target).html();
+      $('.categoria').removeClass('text-muted');
+      $(event.target).addClass('text-muted');
+      result = '';
+      $.get('http://localhost:8080/api/cards', function(response) {
+      cards = response;
+      for (card of response) {
+        if (card.categoria == categoria)
+          result += createCard(card);
+      }
+      $('.galleria').html(result);
+      $('.categoria-nome').html(categoria);
+      });
+    }
+  });
+
 });
 
-$(document).on('click', function(event) {
-  if ($(event.target).parents('.galleria-card').length > 0) {
-    window.location.replace('preview.html?'+$(event.target).parents('.galleria-card').data("id"), 'search.html/');
-  }
-});
+
 
 function createCard(card) {
   return `<div class="col">
