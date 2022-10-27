@@ -11,7 +11,7 @@ $(document).ready(function() {
       }
       $('.galleria').html(result);
   });
-  
+
   if(typeof cardId == "number") {
 
     $.get('http://localhost:8080/api/cards/' + cardId, function(response) {
@@ -31,8 +31,8 @@ $(document).ready(function() {
   
     if ($(event.target).hasClass('categoria')) {
       let categoria = $(event.target).html();
-      $('.categoria').removeClass('text-muted');
-      $(event.target).addClass('text-muted');
+      $('.categoria').css('color', '#A172FF');
+      $(event.target).css('color', '#38B6FF');
       result = '';
       $.get('http://localhost:8080/api/cards', function(response) {
       cards = response;
