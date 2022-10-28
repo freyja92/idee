@@ -1,6 +1,6 @@
 $(document).ready(function() {
   let url = window.location.href;
-  let cardId = window.location.href.slice(window.location.href.indexOf('?') + 1);
+  let cardId = window.location.href.slice(window.location.href.indexOf('?') + 1); //this is not only cardid, it may be search result
   let cards = [];
   let result = '';
    //l'endpoint 'http://localhost:8080/api/cards' restituisce i dati contenuti nella tabella progetto
@@ -12,13 +12,13 @@ $(document).ready(function() {
       $('.galleria').html(result);
   });
 
-  if(typeof cardId == "number") {
-
+  if (!isNaN(cardId)) {
     $.get('http://localhost:8080/api/cards/' + cardId, function(response) {
       result = createAnteprima(response, cardId);
       $('.anteprima').html(result);
     });
   }
+  
 
   $('.go-back-preview').attr('href', url.replace(url.slice(url.lastIndexOf('/') + 1), 'preview.html?'+ cardId));
 
@@ -86,4 +86,10 @@ function createAnteprima(card, cardId) {
         
 </div> 
 </div>`;
+}
+
+function ricercaProgetto(form) {
+  let url = window.location.href;
+  window.location.replace(url.replace('index.html', 'search.html?'+ form.search.value));
+  return false;
 }
