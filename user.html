@@ -1,12 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>TeamFund</title>
+    <link rel="icon" href="img/logo.png" type="image/icon type">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+
+    <script src="js..js/script.js"></script>
 </head>
+
 <body>
-    ciao
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+    <!--navbar -->
+    <nav class="navbar" style="background-color: #38B6FF;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html"><img src="img/logonav.png"></a>
+            <ul class="nav justify-content-end fs-2">
+
+                <li class="nav-item">
+                    <a class="nav-link " style="color: #DCF5FF" href="search.html">Idee</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link " style="color:#DCF5FF" aria-current="page" href="guida.html">Guida</a>
+                </li>
+                <li class="nav-item ">
+
+                    <a class="nav-link  " style="color:#DCF5FF" href="#"><i class="bi bi-person-workspace"></i></a>
+
+                </li>
+
+            </ul>
+
+
+        </div>
+    </nav>
+
+
+
+    <!--menu utente -->
+
+
+
+<!--   <div class="col-sm-auto bg-light sticky-top"style="background-color: #DCF5FF !important;">
+                        <div class="d-flex flex-sm-column flex-row flex-nowrap bg-light align-items-center sticky-top"style="background-color: #DCF5FF !important;" >-->
+
+    <div class="container-fluid">
+        <div class="row ">
+            
+            <div class="col-sm-auto bg-light  " style="background-color: #DCF5FF !important; ">
+                <div class="d-flex flex-sm-column flex-row flex-nowrap bg-light align-items-center sticky-top "style="background-color: #DCF5FF !important;" >
+
+                    <ul
+                        class=" nav nav-pills nav-flush flex-sm-column flex-row flex-nowrap mb-auto mx-auto text-center justify-content-between w-100 py-4 align-items-center  " >
+                        <!--<li class="nav-item">
+                                  <a href="#" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Home">
+                                      <i class="bi bi-plus-circle fs-1"></i>
+                                  </a>
+                              </li>-->
+
+                        <li>
+                            <a href="#infoPersonali" role="button" aria-expanded="false"
+                                aria-controls="infoPersonali" class="nav-link py-3 px-2"
+                                data-bs-toggle="collapse" title="" data-bs-placement="right"
+                                data-bs-original-title="cartella">
+                                <p>Informazioni personali</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#creaProgetto" role="button" aria-expanded="false"
+                                aria-controls="creaProgetto" class="nav-link py-3 px-2" title=""
+                                data-bs-toggle="collapse" data-bs-placement="right" data-bs-original-title="crono">
+                                <p>Crea Progetti </p>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#mieiProgetti" role="button" aria-expanded="false"
+                                aria-controls="mieiProgetti" class="nav-link py-3 px-2" title=""
+                                data-bs-toggle="collapse" data-bs-placement="right" data-bs-original-title="prog">
+                                <p>I miei progetti </p>
+                            </a>
+                        </li>
+
+                        <li  >
+                            <a href="#visualizzaProgetti" role="button" aria-expanded="false"
+                                aria-controls="visualizzaProgetti" class="nav-link py-3 px-2" title=""
+                                data-bs-toggle="collapse" data-bs-placement="right" data-bs-original-title="utenti">
+                                <p>Visualizza progetti </p>
+                            </a>
+                        </li>
+                       
+                    </ul>
+
+                </div>
+            </div>
+            <!--collapse-->
+            <div id="myGroup" class="col-10 py-5 ">
+
+            <div class="  collapse " id="infoPersonali"data-bs-parent="#myGroup">
+                
+
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit in nesciunt illo hic cupiditate nisi
+                    animi veritatis ullam voluptate! Eius ratione ipsam quidem voluptas excepturi ex cupiditate harum
+                    doloremque odit.</p>
+
+            </div>
+
+            <div class=" collapse " id="creaProgetto"data-bs-parent="#myGroup">
+
+                <i class="bi-speedometer2 fs-1"></i>
+
+            </div>
+
+            <div class=" collapse " id="mieiProgetti"data-bs-parent="#myGroup">
+
+                <i class="bi-people fs-1"></i>
+
+            </div>
+            <div class="  collapse " id="visualizzaProgetti"data-bs-parent="#myGroup">
+
+               <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dignissimos nemo fugiat, dolorum labore, quisquam delectus cum officia cumque, deleniti ipsum perspiciatis laborum modi hic totam qui natus accusamus temporibus asperiores!</p>
+
+            </div>
+  
+                        <!-- content -->
+                        <div class=" min-vh-100">
+                        
+                          
+                       
+                       
+                       
+                        </div>
+
+
+
+
+
+
+        </div>
+
+        
+            <!--footer-->
+            <nav class="navbar  " style="background-color: #DCF5FF; ">
+                <div class="row">
+                    <span class="navbar-text  mx-3">
+                        <div class="col">Copyright © 2022, Bazinga Team. All rights reserved &nbsp<img
+                                src="img/logonav.png">
+
+                    </span>
+
+               
+                </div>
+        </div>
+        </nav>
+
 </body>
+
 </html>

@@ -35,7 +35,7 @@ button, .btn {
   
   }
   
-    .text-truncate{
+   /* .text-truncate{
         display: -webkit-box ;
         -webkit-line-clamp: 7;
         -webkit-box-orient: vertical;
@@ -43,7 +43,7 @@ button, .btn {
         text-overflow: ellipsis;
         
 
-      }
+      }*/
       .line-clamp {
         
           display: -webkit-box;
@@ -52,3 +52,7 @@ button, .btn {
           overflow: hidden;
         
       }
+
+     
+
+     
