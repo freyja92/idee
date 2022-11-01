@@ -41,7 +41,7 @@
         </li>
         <li class="nav-item ">
 
-          <a class="nav-link  " style="color:#DCF5FF" href="#"><i class="bi bi-person-workspace"></i></a>
+          <a class="nav-link  " style="color:#DCF5FF" href="#"data-bs-toggle="modal" data-bs-target="#loginModal"><i class="bi bi-person-workspace"></i></a>
 
         </li>
 
@@ -51,12 +51,110 @@
     </div>
   </nav>
 
+<!-- Modale login -->
+
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModal" aria-hidden="true" >
+  <div class="modal-dialog" >
+
+
+    <div class="modal-content" style="background-color: #38B6FF;">
+      
+      <div class="text-center mb-4 mt-3">
+        <img src="img/logobig.png"
+          style="width: 200px;" alt="logo">
+     
+      </div>
+    
+      <div class="modal-header">
+        
+        <h4 class="modal-title" id="loginModal" style="color:#A172FF">Login</h4>
+        
+        
+      </div>
+      <div class="modal-body">
+
+        <form>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label" >Email address</label>
+            <input type="email" class="form-control " id="exampleInputEmail1">
+          
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1">
+          </div>
+          <div class="d-grid gap-2 col-6 mx-auto">
+          <button type="submit" class="btn  ">Login</button>
+          <span class="modal-title text-center ">Non sei ancora registrato? <div class="text-center"><a href="#" class="text-decoration-none " data-bs-toggle="modal" data-bs-target="#signupModal" style="color: #A172FF;"><b >Clicca qui</b></a></div></span>
+          </div>
+
+        </form>
+
+      </div>
+    
+    </div>
+    
+  </div>
+</div>
+
+
+
+
+<!--modale signup-->
+<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content"style="background-color: #38B6FF;">
+      <div class="text-center mb-4 mt-3">
+        <img src="img/logobig.png"
+          style="width: 200px;" alt="logo">
+     
+      </div>
+    
+      <div class="modal-header">
+        <h4 class="modal-title" id="signupModal"style="color:#A172FF">Sign up</h4>
+      </div>
+      <div class="modal-body">
+       <form>
+  <div class="mb-3">
+    <label for="inputNome" class="form-label">Nome</label>
+    <input type="text" class="form-control" id="inputNome" >
+    
+    <label for="inputCognome" class="form-label">Cognome</label>
+    <input type="text" class="form-control" id="inputCognome" >
+   
+    <label for="inputEmail1" class="form-label mt-3">Email address</label>
+    <input type="email" class="form-control" id="inputEmail1" >
+   
+  </div>
+  <div class="mb-3">
+    <label for="inputPassword1" class="form-label">Password</label>
+    <input type="password" class="form-control" id="inputPassword1">
+
+    <label for="inputPassword2" class="form-label">Conferma password</label>
+    <input type="password" class="form-control" id="inputPassword2">
+  </div>
+  <div class="mb-3 form-check">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+    <label class="form-check-label" for="exampleCheck1">Accetta termini e condizioni</label>
+  </div>
+  <div class="d-grid gap-2 col-6 mx-auto">
+  <button type="submit" class="btn ">Submit</button>
+  </div>
+</form>
+        
+      </div>
+ 
+    
+    </div>
+  </div>
+</div>
+
 
 
 <!--categorie-->
 
     
-    <div class="container">
+    <div class="container pt-3">
         <nav class="navbar navbar-expand-lg bg-light" style="background-color: #DCF5FF !important;">
             <div class="container-fluid">
               <a class="navbar-brand" href="#" style="color:#38B6FF">Settore</a>
@@ -80,7 +178,7 @@
 
 </div>
 
- 
+
     
   
 
@@ -216,14 +314,14 @@
 
   <!--footer-->
   <nav class="navbar" style="background-color: #DCF5FF;">
-    <div class="row">
+    <div class="row ">
       <span class="navbar-text  mx-3">
-        <div class="col">Copyright © 2022, Bazinga Team. All rights reserved &nbsp<img src="img/logonav.png">
+       Copyright © 2022, Bazinga Team. All rights reserved &nbsp<img src="img/logonav.png" class="img-fluid">
 
       </span>
 
 
-    </div>
+   
     </div>
   </nav>
 

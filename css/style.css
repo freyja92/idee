@@ -55,4 +55,10 @@ button, .btn {
 
      
 
-     
+      input {
+      background-color: #DCF5FF !important;
+     }
+
+     form .btn {
+      background-color:  #A172FF !important;
+     }
