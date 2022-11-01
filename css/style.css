@@ -62,3 +62,7 @@ button, .btn {
      form .btn {
       background-color:  #A172FF !important;
      }
+
+     #newsletter {
+      border-width: 1px; background-color: white !important; border-color: #38B6FF; width:40%
+     }
