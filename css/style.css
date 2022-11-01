@@ -64,5 +64,9 @@ button, .btn {
      }
 
      #newsletter {
-      border-width: 1px; background-color: white !important; border-color: #38B6FF; width:40%
+      border-width: 1px; 
+      background-color: white !important; 
+      border-color: #38B6FF; 
+      width:50%;
+      display: inline-block;
      }
