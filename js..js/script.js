@@ -6,13 +6,47 @@ $(document).ready(function() {
   let cards = [];
   let result = '';
    //l'endpoint 'http://localhost:8080/api/cards' restituisce i dati contenuti nella tabella progetto
-  $.get('http://localhost:8080/api/cards', function(response) { // CAMBIARE ENDPOINT
+
+   let JWTHeader = {
+    Authorization: 'Bearer ' + $.cookie('jwt')
+  };
+
+  let baseURL = 'http://localhost:8080';
+
+   /*$.ajax({
+    url: 'http://localhost:8080/progetti',
+    //headers: JWTHeader,
+    contentType: 'application/json;charset=UTF-8',
+    type: "GET",
+    success: function (response) {
       cards = response;
       if (cardId != url) { //se è stata effettuata una ricerca
         result = '';
         for (card of cards) {
           console.log(card);
-          if (card.descrizione.toLowerCase().includes(cardId.toLowerCase())) { //CAMBIARE DESCRIZIONE CON TITOLO
+          if (card.titolo.toLowerCase().includes(cardId.toLowerCase())) { //CAMBIARE DESCRIZIONE CON TITOLO
+            result += createCard(card);
+          }
+        }
+      } else {
+        for (card of response) {
+          result += createCard(card);
+        }
+      }
+      $('.galleria').html(result);
+    },
+    error: function () {
+      alert('accesso non autorizzato');
+    } 
+  });*/
+
+  $.get('http://localhost:8080/progetti', function(response) {
+      cards = response;
+      if (cardId != url) { //se è stata effettuata una ricerca
+        result = '';
+        for (card of cards) {
+          console.log(card);
+          if (card.titolo.toLowerCase().includes(cardId.toLowerCase())) { //CAMBIARE DESCRIZIONE CON TITOLO
             result += createCard(card);
           }
         }
@@ -25,7 +59,7 @@ $(document).ready(function() {
   });
 
   if (!isNaN(cardId)) {
-    $.get('http://localhost:8080/api/cards/' + cardId, function(response) {
+    $.get('http://localhost:8080/progetti/' + cardId, function(response) {
       result = createAnteprima(response, cardId);
       $('.anteprima').html(result);
     });
@@ -60,11 +94,7 @@ $(document).ready(function() {
 
     //PARTE DI SPRING SECURITY
 
-    let JWTHeader = {
-      Authorization: 'Bearer ' + $.cookie('jwt')
-    };
-
-    let baseURL = 'http://localhost:8080'; // modifica la parte precedente del codice per utilizzare questo ingegnoso stratagemma
+    // modifica la parte precedente del codice per utilizzare questo ingegnoso stratagemma
 
     //form login
     $("#loginBtn").click(function (event) {
@@ -204,7 +234,7 @@ function extractPayload(token) {
 
   
 
-});
+//});
 
 
 
@@ -213,11 +243,11 @@ function createCard(card) {
   <div class="card h-100 w-100 galleria-card" data-id="${card.id}">
     <img src="${card.img}" class="card-img-top h-50" alt="...">
     <div class="card-body h-50">
-      <h5 class="card-title">\${card.titolo}}</h5>
-      <p class="card-text w-100 h-45 line-clamp">${card.descrizione}</p>
+      <h5 class="card-title">${card.titolo}</h5>
+      <p class="card-text w-100 h-45 line-clamp">${card.info}</p>
       <div class="card" style="border-color:#38B6FF; " >
         <div class="card-body text-center">
-          <b>€ \${card.soldiRaccolti}</b>  a fronte di € \${card.soldiObiettivo}
+          <b>€ ${card.cifraRaccolta}</b>  a fronte di € ${card.cifraGoal}
         </div>
       </div>
   
