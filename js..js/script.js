@@ -1,14 +1,25 @@
 $(document).ready(function() {
   //alert(tinymce.Editor.translate('<p>%26euro%3B<%2Fp></p>'));
   let url = window.location.href;
-  let cardId = window.location.href.slice(window.location.href.indexOf('?') + 1); //this is not only cardid, it may be search result
+  let cardId = decodeURIComponent(window.location.href.slice(window.location.href.indexOf('?') + 1)); //this is not only cardid, it may be search result
+  console.log(cardId);
   let cards = [];
   let result = '';
    //l'endpoint 'http://localhost:8080/api/cards' restituisce i dati contenuti nella tabella progetto
-  $.get('http://localhost:8080/api/cards', function(response) {
+  $.get('http://localhost:8080/api/cards', function(response) { // CAMBIARE ENDPOINT
       cards = response;
-      for (card of response) {
+      if (cardId != url) { //se è stata effettuata una ricerca
+        result = '';
+        for (card of cards) {
+          console.log(card);
+          if (card.descrizione.toLowerCase().includes(cardId.toLowerCase())) { //CAMBIARE DESCRIZIONE CON TITOLO
+            result += createCard(card);
+          }
+        }
+      } else {
+        for (card of response) {
           result += createCard(card);
+        }
       }
       $('.galleria').html(result);
   });
