@@ -92,6 +92,7 @@ $(document).ready(function() {
     }
   });
 
+  
     //PARTE DI SPRING SECURITY
 
     // modifica la parte precedente del codice per utilizzare questo ingegnoso stratagemma
@@ -147,94 +148,20 @@ $(document).ready(function() {
 
 
   //DOMENICO PETITO
-
+$('#prg').click(function () {
+  alert("prova effettuata");
+});
 
 
   //ANTONIO PASCARELLA
-  
+
 
 
   //FRANCESCA BARONISSI
-    //form login
-    $("#loginBtn").click(function (event) {
-      event.preventDefault();
-      let email = $('#email').val();
-      let password = $('#password').val();
-      let params = {
-          email: email,
-          password: password
-      };
-      let jsonParams = JSON.stringify(params);
-      $.ajax({
-          url: `${baseURL}/api/auth/login`,
-          contentType: 'application/json;charset=UTF-8',
-          type: "POST",
-          data: jsonParams,
-          success: function (response) {
-              //console.log('response = ' + JSON.stringify(response));
-              let token = response.accessToken;
-              console.log("token ricevuto = " + token);
-              $.cookie('jwt', token);
-              JWTHeader = updateHeader();
-              extractPayload(token);
-              //verifica
-              console.log('verifica = ' + $.cookie('jwt'));
-              console.log('JWTHeader = ' + JSON.stringify(JWTHeader));
-          },
-          error: function () {
-              alert('login errato');
-          }
-      });
-  });
-
-  // Visualizzazione di tutti gli utenti
-  $('#getUserBtn').click(function () {
-      $.ajax({
-          url: `${baseURL}/api/admin/users`,
-          headers: JWTHeader,
-          contentType: 'application/json;charset=UTF-8',
-          type: "GET",
-          success: function (response) {
-              console.log(response);
-          },
-          error: function () {
-              alert('accesso non autorizzato');
-          } 
-      });
-  });
-
-  // Logout
-  $('#logoutBtn').click(function () {
-      $.cookie('jwt', '');
-      JWTHeader = updateHeader();
-  });
-
-}); /* end jQuery */
-
-function updateHeader() {
-  return {
-      Authorization: 'Bearer ' + $.cookie('jwt')
-  };
-}
-
-function extractPayload(token) {
-  let array = token.split('.');
-  let payload = array[1];
-  let jsonPayload = atob(payload);
-  console.log("jsonPayload = " + jsonPayload);
-  //estrazione dei dati dal payload
-  let objPayload = JSON.parse(jsonPayload);
-  let userEmail = objPayload.sub;
-  let dataExp = objPayload.exp;
-  console.log("user email = " + userEmail + ", data expiration = " + dataExp);
- 
-}
-
-
 
   
 
-//});
+});
 
 
 
