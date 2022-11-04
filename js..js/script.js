@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  alert(tinymce.Editor.translate('<p>%26euro%3B<%2Fp></p>'));
+  //alert(tinymce.Editor.translate('<p>%26euro%3B<%2Fp></p>'));
   let url = window.location.href;
   let cardId = window.location.href.slice(window.location.href.indexOf('?') + 1); //this is not only cardid, it may be search result
   let cards = [];
