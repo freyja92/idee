@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  alert(tinymce.Editor.translate('<p>%26euro%3B<%2Fp></p>'));
   let url = window.location.href;
   let cardId = window.location.href.slice(window.location.href.indexOf('?') + 1); //this is not only cardid, it may be search result
   let cards = [];
@@ -44,6 +45,52 @@ $(document).ready(function() {
       $('.categoria-nome').html(categoria);
       });
     }
+  });
+
+    //PARTE DI SPRING SECURITY
+
+    let JWTHeader = {
+      Authorization: 'Bearer ' + $.cookie('jwt')
+    };
+
+    let baseURL = 'http://localhost:8080'; // modifica la parte precedente del codice per utilizzare questo ingegnoso stratagemma
+
+    //form login
+    $("#loginBtn").click(function (event) {
+      event.preventDefault();
+      let email = $('#email').val();
+      let password = $('#password').val();
+      let params = {
+          email: email,
+          password: password
+      };
+      let jsonParams = JSON.stringify(params);
+      $.ajax({
+          url: `${baseURL}/api/auth/login`,
+          contentType: 'application/json;charset=UTF-8',
+          type: "POST",
+          data: jsonParams,
+          success: function (response) {
+              //console.log('response = ' + JSON.stringify(response));
+              let token = response.accessToken;
+              console.log("token ricevuto = " + token);
+              $.cookie('jwt', token);
+              JWTHeader = updateHeader();
+              extractPayload(token);
+              //verifica
+              console.log('verifica = ' + $.cookie('jwt'));
+              console.log('JWTHeader = ' + JSON.stringify(JWTHeader));
+          },
+          error: function () {
+              alert('login errato');
+          }
+      });
+  });
+
+  // Logout
+  $('#logoutBtn').click(function () {
+    $.cookie('jwt', '');
+    JWTHeader = updateHeader();
   });
 
 });
@@ -92,4 +139,23 @@ function ricercaProgetto(form) {
   let url = window.location.href;
   window.location.replace(url.replace('index.html', 'search.html?'+ form.search.value));
   return false;
+}
+
+function updateHeader() {
+  return {
+      Authorization: 'Bearer ' + $.cookie('jwt')
+  };
+}
+
+function extractPayload(token) {
+  let array = token.split('.');
+  let payload = array[1];
+  let jsonPayload = atob(payload);
+  console.log("jsonPayload = " + jsonPayload);
+  //estrazione dei dati dal payload
+  let objPayload = JSON.parse(jsonPayload);
+  let userEmail = objPayload.sub;
+  let dataExp = objPayload.exp;
+  console.log("user email = " + userEmail + ", data expiration = " + dataExp);
+ 
 }
