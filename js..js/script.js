@@ -80,7 +80,7 @@ $(document).ready(function() {
       $('.categoria').css('color', '#A172FF');
       $(event.target).css('color', '#38B6FF');
       result = '';
-      $.get('http://localhost:8080/api/cards', function(response) {
+      $.get('http://localhost:8080/donazioni', function(response) {
       cards = response;
       for (card of response) {
         if (card.categoria == categoria)
@@ -92,7 +92,6 @@ $(document).ready(function() {
     }
   });
 
-  
     //PARTE DI SPRING SECURITY
 
     // modifica la parte precedente del codice per utilizzare questo ingegnoso stratagemma
@@ -141,27 +140,132 @@ $(document).ready(function() {
 
   //PASQUALE PANICO
 
+  $.get('http://localhost:8080/donazioni', function(response) {
+    let donazione;
+    let htmlDaAggiungere = '';
+    for (donazione of response) {
+        htmlDaAggiungere += createListaDonazioni(donazione);
+    }
+    $('#donazioni').html(htmlDaAggiungere);
+  });
 
+  function createListaDonazioni(donazione) {
+    return `
+    <div class="card d-flex   " style="border: none; ">
+                  <div class="card-text " >
+                    
+                    <div class="row  " >
+                      <div class="col-4">
+                        <div class="card" style="border: none">
+                    <img src="https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_960_720.png" alt="avatar"
+                      class="rounded-circle h-100 w-100 mb-4 mt-4" >
+                    </div></div>
+                    <div class="col-8">
+                      <div class="card-body">
+                        <p class="card-title mb-4 mt-4">${donazione.nome}
+                        ha donato <b>€ ${donazione.cifra} </b></p>
+                      </div>
+                   
+                  </div>
+                </div>
+                </div>
+                </div>
+    `
+  }
 
   //CRISTIAN FIERRO
 
 
 
   //DOMENICO PETITO
-$('#prg').click(function () {
-  alert("prova effettuata");
-});
+
 
 
   //ANTONIO PASCARELLA
-
+  
 
 
   //FRANCESCA BARONISSI
+    //form login
+    $("#loginBtn").click(function (event) {
+      event.preventDefault();
+      let email = $('#email').val();
+      let password = $('#password').val();
+      let params = {
+          email: email,
+          password: password
+      };
+      let jsonParams = JSON.stringify(params);
+      $.ajax({
+          url: `${baseURL}/api/auth/login`,
+          contentType: 'application/json;charset=UTF-8',
+          type: "POST",
+          data: jsonParams,
+          success: function (response) {
+              //console.log('response = ' + JSON.stringify(response));
+              let token = response.accessToken;
+              console.log("token ricevuto = " + token);
+              $.cookie('jwt', token);
+              JWTHeader = updateHeader();
+              extractPayload(token);
+              //verifica
+              console.log('verifica = ' + $.cookie('jwt'));
+              console.log('JWTHeader = ' + JSON.stringify(JWTHeader));
+          },
+          error: function () {
+              alert('login errato');
+          }
+      });
+  });
+
+  // Visualizzazione di tutti gli utenti
+  $('#getUserBtn').click(function () {
+      $.ajax({
+          url: `${baseURL}/api/admin/users`,
+          headers: JWTHeader,
+          contentType: 'application/json;charset=UTF-8',
+          type: "GET",
+          success: function (response) {
+              console.log(response);
+          },
+          error: function () {
+              alert('accesso non autorizzato');
+          } 
+      });
+  });
+
+  // Logout
+  $('#logoutBtn').click(function () {
+      $.cookie('jwt', '');
+      JWTHeader = updateHeader();
+  });
+
+}); /* end jQuery */
+
+function updateHeader() {
+  return {
+      Authorization: 'Bearer ' + $.cookie('jwt')
+  };
+}
+
+function extractPayload(token) {
+  let array = token.split('.');
+  let payload = array[1];
+  let jsonPayload = atob(payload);
+  console.log("jsonPayload = " + jsonPayload);
+  //estrazione dei dati dal payload
+  let objPayload = JSON.parse(jsonPayload);
+  let userEmail = objPayload.sub;
+  let dataExp = objPayload.exp;
+  console.log("user email = " + userEmail + ", data expiration = " + dataExp);
+ 
+}
+
+
 
   
 
-});
+//});
 
 
 
