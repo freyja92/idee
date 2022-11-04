@@ -93,6 +93,30 @@ $(document).ready(function() {
     JWTHeader = updateHeader();
   });
 
+  //ANDREA SABIA
+
+
+
+  //PASQUALE PANICO
+
+
+
+  //CRISTIAN FIERRO
+
+
+
+  //DOMENICO PETITO
+
+
+
+  //ANTONIO PASCARELLA
+
+
+
+  //FRANCESCA BARONISSI
+
+  
+
 });
 
 
