@@ -175,60 +175,24 @@ $(document).ready(function() {
 
   //CRISTIAN FIERRO
 
-  //
-  $.get('http://localhost:8080/utenti/' + cardId, function() {
+$.get('http://localhost:8080/utenti/' + cardId, function(response) {
     let utente = response;
-    let htmlDaAggiungere = creaInfoProfilo(utente);
-    $('#infoUtente').html(htmlDaAggiungere);
+    $('#foto').attr("src", utente.immagineProfilo);
+    $('#nomeUtenteProfilo').html(utente.nome);
+    $('#emailUtenteProfilo').html(utente.email);
+    $('#bioProfiloUtente').html(utente.bio);
   });
 
-  function creaInfoProfilo (utente) {
-      return `
-      <div class="row"> 
-                <div class="col-sm-3">
-                  <p class="mb-0">Nome</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0">${utente.nome}</p>
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0">Email</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0">${utente.mail}</p>
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0">Social</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0"><a href="#">LinkedIn</a>, <a href="#">GitHub</a></p>
-                </div>
-              </div>
-             
-            
-              </div>
-          
-
-              <!--bio-->
-          <div class="row rows-col-1 ">
-            <div class="col-md-10 mb-4 ">
-              
-                  <p class="mb-4"> Biografia
-                  </p>
-                  <i>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis hic ea eius laborum autem qui adipisci quos. Minima, ad repellat. Voluptate voluptas dicta temporibus laborum culpa praesentium unde dignissimos aut?</i>
-                 
-                  
-              </div>
-            </div>
-          </div>
-      `;
-  }
+  $.get('http://localhost:8080/social', function(response) {
+    let social = response;
+    let x = "";
+    for (social of response){
+      if(social.socialId.idUtente==cardId){
+        x+=`<a href="${social.linkSocial}">${social.socialId.nome}, &nbsp;&nbsp;&nbsp;&nbsp;</a>`
+      }
+    }
+    $('#nomeSocialProfilo').html(x);
+  });
 
   //DOMENICO PETITO
 
