@@ -449,7 +449,7 @@ function extractPayload(token) {
 
 function createCard(card) {
   return `<div class="col">
-  <div class="card h-100 w-100 galleria-card" data-id="${card.id}">
+  <div class="card h-100 w-100 galleria-card" data-id="${card.idProgetti}">
     <img src="${card.img}" class="card-img-top h-50" alt="...">
     <div class="card-body h-50">
       <h5 class="card-title">${card.titolo}</h5>
