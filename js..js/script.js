@@ -1,72 +1,124 @@
 $(document).ready(function() {
-  //alert(tinymce.Editor.translate('<p>%26euro%3B<%2Fp></p>'));
-  let url = window.location.href;
-  let cardId = decodeURIComponent(window.location.href.slice(window.location.href.indexOf('?') + 1)); //this is not only cardid, it may be search result
-  console.log(cardId);
-  let cards = [];
-  let result = '';
-   //l'endpoint 'http://localhost:8080/api/cards' restituisce i dati contenuti nella tabella progetto
 
-   let JWTHeader = {
+  //VARIABILI UTILI AL CARICAMENTO DELLA PAGINA
+
+  let url = window.location.href;
+  let queryResult = decodeURIComponent(window.location.href.slice(window.location.href.indexOf('?') + 1));
+
+  let JWTHeader = {
     Authorization: 'Bearer ' + $.cookie('jwt')
   };
 
-  let baseURL = 'http://localhost:8080';
-
-   /*$.ajax({
-    url: 'http://localhost:8080/progetti',
-    //headers: JWTHeader,
-    contentType: 'application/json;charset=UTF-8',
-    type: "GET",
-    success: function (response) {
-      cards = response;
-      if (cardId != url) { //se è stata effettuata una ricerca
-        result = '';
-        for (card of cards) {
-          console.log(card);
-          if (card.titolo.toLowerCase().includes(cardId.toLowerCase())) { //CAMBIARE DESCRIZIONE CON TITOLO
-            result += createCard(card);
-          }
-        }
-      } else {
-        for (card of response) {
-          result += createCard(card);
-        }
-      }
-      $('.galleria').html(result);
-    },
-    error: function () {
-      alert('accesso non autorizzato');
-    } 
-  });*/
-
-  $.get('http://localhost:8080/progetti', function(response) {
-      cards = response;
-      if (cardId != url) { //se è stata effettuata una ricerca
-        result = '';
-        for (card of cards) {
-          console.log(card);
-          if (card.titolo.toLowerCase().includes(cardId.toLowerCase())) { //CAMBIARE DESCRIZIONE CON TITOLO
-            result += createCard(card);
-          }
-        }
-      } else {
-        for (card of response) {
-          result += createCard(card);
-        }
-      }
-      $('.galleria').html(result);
+  //INIZIALIZZAZIONE ARRAY CONTENENTI TUTTI GLI ELEMENTI DI TUTTE LE TABELLE DEL DATABASE IN ORDINE CRONOLOGICO
+  
+    let cartelle = new Promise((resolve, reject) => {
+    $.get('http://localhost:8080/cartelle', function(response) {
+      resolve(response);
+    });
   });
 
-  if (!isNaN(cardId)) {
-    $.get('http://localhost:8080/progetti/' + cardId, function(response) {
-      result = createAnteprima(response, cardId);
-      $('.anteprima').html(result);
+  let categorie = new Promise((resolve, reject) => {
+    $.get('http://localhost:8080/categorie', function(response) {
+      resolve(response);
+    });
+  });
+
+  let commenti = new Promise((resolve, reject) => {
+    $.get('http://localhost:8080/commenti', function(response) {
+      resolve(response);
+    });
+  });
+
+  let documenti = new Promise((resolve, reject) => {
+    $.get('http://localhost:8080/documenti', function(response) {
+      resolve(response);
+    });
+  });
+
+  let documentiModificati = new Promise((resolve, reject) => {
+    $.get('http://localhost:8080/docmod', function(response) {
+      resolve(response);
+    });
+  });
+
+  let donazioni = new Promise((resolve, reject) => {
+    $.get('http://localhost:8080/donazioni', function(response) {
+      resolve(response);
+    });
+  });
+
+  let iscrittiNewsletter = new Promise((resolve, reject) => {
+    $.get('http://localhost:8080/iscrittiNewsletter', function(response) {
+      resolve(response);
+    });
+  });
+
+  let partecipazioniProgetti = new Promise((resolve, reject) => {
+    $.get('http://localhost:8080/partecipazioni', function(response) {
+      resolve(response);
+    });
+  });
+
+  let progetti = new Promise((resolve, reject) => {
+    $.get('http://localhost:8080/progetti', function(response) {
+      resolve(response);
+    });
+  });
+
+  let proposte = new Promise((resolve, reject) => {
+    $.get('http://localhost:8080/proposte', function(response) {
+      resolve(response);
+    });
+  });
+
+  let socialLinks = new Promise((resolve, reject) => {
+    $.get('http://localhost:8080/social', function(response) {
+      resolve(response);
+    });
+  });
+
+  let utenti = new Promise((resolve, reject) => {
+    $.get('http://localhost:8080/utenti', function(response) {
+      resolve(response);
+    });
+  });
+
+  let versioniProposte = new Promise((resolve, reject) => {
+    $.get('http://localhost:8080/versioni', function(response) {
+      resolve(response);
+    });
+  });
+
+  progetti.then((response) => {
+    let htmlString = '';
+    if (queryResult != url) { //se è stata effettuata una ricerca
+      for (card of response) {
+        //console.log(card);
+        if (card.titolo.toLowerCase().includes(queryResult.toLowerCase())) {
+          htmlString += createCard(card);
+        }
+      }
+    } else {
+      for (card of response) {
+        htmlString += createCard(card);
+      }
+    }
+    $('.galleria').html(htmlString);
+  });
+
+  if (!isNaN(queryResult)) {
+    progetti.then((response) => {
+      let progetto;
+      for (progetto of response) {
+        if (progetto.idProgetti == queryResult) {
+          $('.anteprima').html(createAnteprima(progetto, queryResult));
+        }
+      }
     });
   }
   
 
-  $('.go-back-preview').attr('href', url.replace(url.slice(url.lastIndexOf('/') + 1), 'preview.html?'+ cardId));
+  $('.go-back-preview').attr('href', url.replace(url.slice(url.lastIndexOf('/') + 1), 'preview.html?'+ queryResult));
 
 
   $(document).on('click', function(event) {
@@ -76,19 +128,21 @@ $(document).ready(function() {
     }
   
     if ($(event.target).hasClass('categoria')) {
+
       let categoria = $(event.target).html();
       $('.categoria').css('color', '#A172FF');
       $(event.target).css('color', '#38B6FF');
-      result = '';
-      $.get('http://localhost:8080/donazioni', function(response) {
-      cards = response;
-      for (card of response) {
-        if (card.categoria == categoria)
-          result += createCard(card);
-      }
-      $('.galleria').html(result);
-      $('.categoria-nome').html(categoria);
+
+      progetti.then((response) => {
+        let htmlString = '';
+        for (card of response) {
+          if (card.categoria.nome == categoria)
+            htmlString += createCard(card);
+        }
+        $('.galleria').html(htmlString);
+        $('.categoria-nome').html(categoria);
       });
+
     }
   });
 
@@ -175,8 +229,9 @@ $(document).ready(function() {
 
   //CRISTIAN FIERRO
 
-  //
-  $.get('http://localhost:8080/utenti/' + cardId, function() {
+  let social;
+  $.get()
+  $.get('http://localhost:8080/utenti/' + queryResult, function() {
     let utente = response;
     let htmlDaAggiungere = creaInfoProfilo(utente);
     $('#infoUtente').html(htmlDaAggiungere);
@@ -341,19 +396,19 @@ function createCard(card) {
 
 }
 
-function createAnteprima(card, cardId) {
+function createAnteprima(progetto, queryResult) {
   return `<div class="row">
 <div class="col-8">
-<h1 class="card-title">\${card.titolo}</h1>
-<img src="${card.img}" style="width:100%" >
-<p class="display-6">${card.descrizione}</p>
+<h1 class="card-title">${progetto.titolo}</h1>
+<img src="${progetto.img}" style="width:100%" >
+<p class="display-6">${progetto.info}</p>
     </div>
     <div class="col">
         <div class="d-grid gap-3 col-6 mx-auto">
             <button class="btn btn-lg " type="button" style="background-color:rgb(246, 246, 55) !important;">Dona</button>
-            <p><b>€ \${card.soldiRaccolti}</b>  a fronte di € \${card.soldiObiettivo}</p>
+            <p><b>€ ${progetto.cifraRaccolta}</b>  a fronte di € ${progetto.cifraGoal}</p>
             <button class="btn btn-lg " type="button">Condividi</button>
-            <button class="btn btn-lg" id="btn" type="button" onclick="window.location.replace('${'project.html?'+cardId}', 'preview.html')">Collabora</button>
+            <button class="btn btn-lg" id="btn" type="button" onclick="window.location.replace('${'project.html?'+queryResult}', 'preview.html')">Collabora</button>
           </div>
         
 </div> 
