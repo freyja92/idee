@@ -42,7 +42,9 @@ $(document).ready(function () {
   //VARIABILI UTILI AL CARICAMENTO DELLA PAGINA
 
   let url = window.location.href;
-  let queryResult = decodeURIComponent(window.location.href.slice(window.location.href.indexOf('?') + 1));
+  const queryParams = new Proxy(new URLSearchParams(window.location.search), {
+    get: (searchParams, prop) => searchParams.get(prop),
+  });
 
   let JWTHeader = {
     Authorization: 'Bearer ' + $.cookie('jwt')
@@ -134,10 +136,10 @@ $(document).ready(function () {
 
   progetti.then((response) => {
     let htmlString = '';
-    if (queryResult != url) { //se è stata effettuata una ricerca
+    if (queryParams.search != undefined) { //se è stata effettuata una ricerca
       for (card of response) {
         //console.log(card);
-        if (card.titolo.toLowerCase().includes(queryResult.toLowerCase())) {
+        if (card.titolo.toLowerCase().includes(queryParams.search.toLowerCase())) {
           htmlString += createCard(card);
         }
       }
@@ -151,12 +153,12 @@ $(document).ready(function () {
 
   //Generazione anteprima in preview.html
 
-  if (!isNaN(queryResult)) {
+  if (queryParams.idProgetto != undefined) {
     progetti.then((response) => {
       let progetto;
       for (progetto of response) {
-        if (progetto.idProgetti == queryResult) {
-          $('.anteprima').html(createAnteprima(progetto, queryResult));
+        if (progetto.idProgetti == queryParams.idProgetto) {
+          $('.anteprima').html(createAnteprima(progetto, 'idProgetto=' + queryParams.idProgetto));
         }
       }
     });
@@ -165,7 +167,7 @@ $(document).ready(function () {
 
   //Pulsante per tornare indietro in project.html
 
-  $('.go-back-preview').attr('href', url.replace(url.slice(url.lastIndexOf('/') + 1), 'preview.html?' + queryResult));
+  $('.go-back-preview').attr('href', url.replace(url.slice(url.lastIndexOf('/') + 1), 'preview.html?idProgetto=' + queryParams.idProgetto));
 
 
   //Gestione eventi di click sulla pagina
@@ -200,7 +202,15 @@ $(document).ready(function () {
 
     //ANDREA SABIA
 
+    if($(event.target).hasClass('documento')) {
 
+      (async function() {
+        let documento = await getDocumentoById(event.target.id.slice(event.target.id.indexOf('-') + 1));
+        $('.titolo-documento').html(documento.nome);
+        $('.corpo-documento').html(documento.testo);
+      })();
+      
+    }
 
     //PASQUALE PANICO
 
@@ -267,7 +277,7 @@ $(document).ready(function () {
     JWTHeader = updateHeader();
   });
 
-  
+
   //signup 
   
 $('#signupBtn').click(function(event) {
@@ -349,7 +359,7 @@ $('#signupBtn').click(function(event) {
 
 
 
-})
+});
 
 
 
@@ -357,7 +367,73 @@ $('#signupBtn').click(function(event) {
 
   //ANDREA SABIA
 
+  
 
+  (async function createTreeData () {
+    let parentFolder = await getCartellaById(queryParams.idProgetto, 'Generale');
+    parentFolder = initializeFolder(parentFolder);
+    documenti.then(function(response) {
+      let documento;
+      for (documento of response) {
+        if (documento.cartella.cartelleId.idProgetto == queryParams.idProgetto) {
+          parentFolder = addDocument(parentFolder, documento);
+        }
+      }
+
+      let treeData = treeNodes([], parentFolder.sottoCartella, parentFolder.documenti);
+      $('#tree').bstreeview({
+      data: treeData
+      });
+    });
+    
+  })();
+
+  function initializeFolder (folder) {
+    folder.documenti = [];
+    let cartella;
+    let count = 0;
+    for(cartella of folder.sottoCartella) {
+      folder.sottoCartella[count++] = initializeFolder(cartella);
+    }
+    folder.sottoCartella.sort((a,b) => (a.cartelleId.nomeSottoCartella > b.cartelleId.nomeSottoCartella) ? 1 : ((b.cartelleId.nomeSottoCartella > a.cartelleId.nomeSottoCartella) ? -1 : 0));
+    return folder;
+  }
+
+  function addDocument(parentFolder, documento) { //Si potrebbe ottimizzare
+    if (parentFolder.cartelleId.nomeSottoCartella != documento.cartella.cartelleId.nomeSottoCartella) {
+      let cartella;
+      let count = 0;
+      for (cartella of parentFolder.sottoCartella) {
+        parentFolder.sottoCartella[count++] = addDocument(cartella, documento);
+      }
+    } else {
+      parentFolder.documenti.push(documento);
+    }
+    return parentFolder;
+  }
+  
+  function treeNodes (treeNode, cartelle, documenti) {
+    let cartella;
+    let count = 0;
+    for (cartella of cartelle) {
+      treeNode.push({text: cartella.cartelleId.nomeSottoCartella, icon:'fa fa-folder'});
+      if (cartella.sottoCartella.length != 0 || cartella.documenti.length != 0) {
+        treeNode[count++].nodes = treeNodes([], cartella.sottoCartella, cartella.documenti);
+      } else {
+        treeNode[count++].nodes = [{text: 'Aggiungi un Documento', icon:'fa-solid fa-plus', class:'aggiungi-documento'}];
+      }
+    }
+    let documento;
+    for (documento of documenti) {
+      treeNode.push({id: 'documento-' + documento.id, text: documento.nome, icon:'fa-solid fa-file', class:'documento'});
+    }
+    treeNode.push({text: 'Aggiungi un Documento', icon:'fa-solid fa-plus', class:'aggiungi-documento'});
+    console.log(cartelle.length == 0);
+    if (cartelle.length == 0) {
+      
+    }
+    return treeNode;
+  }
 
   //PASQUALE PANICO
 
@@ -398,7 +474,7 @@ $('#signupBtn').click(function(event) {
 
   let social;
   $.get()
-  $.get('http://localhost:8080/utenti/' + queryResult, function () {
+  $.get('http://localhost:8080/utenti/' + queryParams.idUtente, function (response) {
     let utente = response;
     let htmlDaAggiungere = creaInfoProfilo(utente);
     $('#infoUtente').html(htmlDaAggiungere);
@@ -540,7 +616,7 @@ function extractPayload(token) {
 
 function createCard(card) {
   return `<div class="col">
-  <div class="card h-100 w-100 galleria-card" data-id="${card.idProgetti}">
+  <div class="card h-100 w-100 galleria-card" data-id="${'idProgetto=' + card.idProgetti}">
     <img src="${card.img}" class="card-img-top h-50" alt="...">
     <div class="card-body h-50">
       <h5 class="card-title">${card.titolo}</h5>
@@ -557,7 +633,7 @@ function createCard(card) {
 
 }
 
-function createAnteprima(progetto, queryResult) {
+function createAnteprima(progetto, query) {
   return `<div class="row">
 <div class="col-8">
 <h1 class="card-title">${progetto.titolo}</h1>
@@ -569,7 +645,7 @@ function createAnteprima(progetto, queryResult) {
             <button class="btn btn-lg " type="button" style="background-color:rgb(246, 246, 55) !important;">Dona</button>
             <p><b>€ ${progetto.cifraRaccolta}</b>  a fronte di € ${progetto.cifraGoal}</p>
             <button class="btn btn-lg " type="button">Condividi</button>
-            <button class="btn btn-lg" id="btn" type="button" onclick="window.location.replace('${'project.html?' + queryResult}', 'preview.html')">Collabora</button>
+            <button class="btn btn-lg" id="btn" type="button" onclick="window.location.replace('${'project.html?' + query}', 'preview.html')">Collabora</button>
           </div>
         
 </div> 
@@ -596,9 +672,10 @@ function extractPayload(token) {
   //estrazione dei dati dal payload
   let objPayload = JSON.parse(jsonPayload);
   let userEmail = objPayload.sub;
+  //$.cookie('dataExp', objPayload.exp);
   let dataExp = objPayload.exp;
-  console.log("user email = " + userEmail + ", data expiration = " + dataExp);
-
+  //console.log("user email = " + userEmail + ", data expiration = " + dataExp);
+  //return {userEmail:}
 }
 
 //TUTTI I GETID PER RECUPERARE L'ELEMENTO DEL DATABASE
@@ -705,4 +782,28 @@ async function getVersioneById(id) {
     versione = response;
   });
   return versione;
+}
+
+//Get utente by email
+
+async function getUtenteByEmail(email) {
+  let utente;
+  await $.get('http://localhost:8080/utenti/email/' + email, function(response) {
+    utente = response;
+  });
+  return utente;
+}
+
+function checkLoggedUser () {
+  let array = $.cookie('jwt').split('.');
+  let payload = array[1];
+  let jsonPayload = atob(payload);
+  let objPayload = JSON.parse(jsonPayload);
+  if (objPayload.exp*1000 > new Date().getTime()) {
+    //token valido, l'utente può proseguire la navigazione
+    return objPayload.sub; //restituisco l'email
+  } else {
+    //token scaduto, butta fuori l'utente eliminando l'informazione nel cookie
+    return false;
+  }
 }
