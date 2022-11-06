@@ -132,6 +132,18 @@ $(document).ready(function () {
     });
   });
 
+  //NavBar utente loggato
+
+  (function() {
+    if(!checkLoggedUser()) {
+      $('#navbar').html(``);
+    } else {
+      //Sloggare l'utente
+      $.cookie('jwt', '');
+      updateHeader();
+    }
+  })();
+
   //Generazione galleria progetti in search.html
 
   progetti.then((response) => {
