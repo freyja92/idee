@@ -33,6 +33,8 @@
     * event contiene al suo interno l'elemento della pagina che è stato cliccato, tramite un if assicurati che il tuo
     * codice venga eseguito nel momento in cui l'elemento cliccato corrisponde con l'elemento cui il blocco di codice fa riferimento
     * 
+    * $(event.target) elemento cliccato
+    * 
   */
 
 $(document).ready(function () {
@@ -265,7 +267,7 @@ $(document).ready(function () {
     JWTHeader = updateHeader();
   });
 
-
+  
   //signup 
   
 $('#signupBtn').click(function(event) {
@@ -460,8 +462,59 @@ $('#signupBtn').click(function(event) {
 
 
   //FRANCESCA BARONISSI
- 
+  //form login
+  $("#loginBtn").click(function (event) {
+    event.preventDefault();
+    let email = $('#email').val();
+    let password = $('#password').val();
+    let params = {
+      email: email,
+      password: password
+    };
+    let jsonParams = JSON.stringify(params);
+    $.ajax({
+      url: `${baseURL}/api/auth/login`,
+      contentType: 'application/json;charset=UTF-8',
+      type: "POST",
+      data: jsonParams,
+      success: function (response) {
+        //console.log('response = ' + JSON.stringify(response));
+        let token = response.accessToken;
+        console.log("token ricevuto = " + token);
+        $.cookie('jwt', token);
+        JWTHeader = updateHeader();
+        extractPayload(token);
+        //verifica
+        console.log('verifica = ' + $.cookie('jwt'));
+        console.log('JWTHeader = ' + JSON.stringify(JWTHeader));
+      },
+      error: function () {
+        alert('login errato');
+      }
+    });
+  });
 
+  // Visualizzazione di tutti gli utenti
+  $('#getUserBtn').click(function () {
+    $.ajax({
+      url: `${baseURL}/api/admin/users`,
+      headers: JWTHeader,
+      contentType: 'application/json;charset=UTF-8',
+      type: "GET",
+      success: function (response) {
+        console.log(response);
+      },
+      error: function () {
+        alert('accesso non autorizzato');
+      }
+    });
+  });
+
+  // Logout
+  $('#logoutBtn').click(function () {
+    $.cookie('jwt', '');
+    JWTHeader = updateHeader();
+  });
 
 }); /* end jQuery */
 
@@ -550,9 +603,9 @@ function extractPayload(token) {
 
 //TUTTI I GETID PER RECUPERARE L'ELEMENTO DEL DATABASE
 
-async function getCartellaById(id) {
+async function getCartellaById(id, nome) {
   let cartella;
-  await $.get('http://localhost:8080/cartelle/' + id, function (response) {
+  await $.get('http://localhost:8080/cartelle/' + id +'_' + nome, function (response) {
     cartella = response;
   });
   return cartella;
@@ -630,9 +683,9 @@ async function getPropostaById(id) {
   return proposta;
 }
 
-async function getSocialById(id) {
+async function getSocialById(id, nome) {
   let social;
-  await $.get('http://localhost:8080/social/' + id, function (response) {
+  await $.get('http://localhost:8080/social/' + id + '_' + nome, function (response) {
     social = response;
   });
   return social;
