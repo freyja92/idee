@@ -227,6 +227,7 @@ $(document).ready(function () {
   // modifica la parte precedente del codice per utilizzare questo ingegnoso stratagemma
 
   //form login
+  let baseURL = 'http://localhost:8080';
   $("#loginBtn").click(function (event) {
     event.preventDefault();
     let email = $('#email').val();
@@ -263,6 +264,94 @@ $(document).ready(function () {
     $.cookie('jwt', '');
     JWTHeader = updateHeader();
   });
+
+
+  //signup 
+  
+$('#signupBtn').click(function(event) {
+  event.preventDefault();
+  let nome = $("#signupNome").val();
+  let cognome = $("#signupCognome").val();
+
+  let email = $('#signupEmail').val();
+  let password = $('#signupPwd1').val();
+  let params = {
+    email: email,
+    password: password,
+    nome: nome, 
+    cognome: cognome, 
+  };
+
+
+  //WORK IN PROGRESS DI FRANCESCA
+  var uppercasePassword = /(?=.*?[A-Z])/;
+  var lowercasePassword = /(?=.*?[a-z])/;
+  var digitPassword = /(?=.*?[0-9])/;
+  var spacesPassword = /^$|\s+/;
+  var symbolPassword = /(?=.*?[#?!@$%^&*-])/;
+  let password2 = $('#signupPwd2').val();
+  var pass1= $('#signupPwd1');
+
+  if (password != password2) {
+    alert('Le password inserite non coincidono')
+    $('#signupPwd2').addClass('invalid-input');
+  } if (uppercasePassword.test(password)==false) {
+    alert('Non sono presenti caratteri in maiuscolo')
+    pass1.addClass('invalid-input');
+
+  }
+
+
+  if (password === password2 && password.length >= 8 && uppercasePassword.test(password)==true && 
+  lowercasePassword.test(password)==true && digitPassword.test(password)==true && !(spacesPassword.test(password)==true) &&
+  symbolPassword.test(password)==true) {
+
+
+  let jsonParams = JSON.stringify(params);
+    $.ajax({
+      url: `${baseURL}/api/auth/signup`,
+      contentType: 'application/json;charset=UTF-8',
+      type: "POST",
+      data: jsonParams,
+
+      success: function (response) {
+        
+        
+
+          
+        
+        let token = response.accessToken;
+        console.log("token ricevuto = " + token);
+        $.cookie('jwt', token);
+        JWTHeader = updateHeader();
+        extractPayload(token);
+
+        console.log('verifica = ' + $.cookie('jwt'));
+        console.log('JWTHeader = ' + JSON.stringify(JWTHeader));
+
+      
+
+        
+        
+      },
+
+      
+      error: function () {
+        alert('registrazione fallita');
+
+        
+      }
+    })
+
+  } else { alert ('fail')}
+
+
+
+})
+
+
+
+  
 
   //ANDREA SABIA
 
@@ -371,59 +460,8 @@ $(document).ready(function () {
 
 
   //FRANCESCA BARONISSI
-  //form login
-  $("#loginBtn").click(function (event) {
-    event.preventDefault();
-    let email = $('#email').val();
-    let password = $('#password').val();
-    let params = {
-      email: email,
-      password: password
-    };
-    let jsonParams = JSON.stringify(params);
-    $.ajax({
-      url: `${baseURL}/api/auth/login`,
-      contentType: 'application/json;charset=UTF-8',
-      type: "POST",
-      data: jsonParams,
-      success: function (response) {
-        //console.log('response = ' + JSON.stringify(response));
-        let token = response.accessToken;
-        console.log("token ricevuto = " + token);
-        $.cookie('jwt', token);
-        JWTHeader = updateHeader();
-        extractPayload(token);
-        //verifica
-        console.log('verifica = ' + $.cookie('jwt'));
-        console.log('JWTHeader = ' + JSON.stringify(JWTHeader));
-      },
-      error: function () {
-        alert('login errato');
-      }
-    });
-  });
+ 
 
-  // Visualizzazione di tutti gli utenti
-  $('#getUserBtn').click(function () {
-    $.ajax({
-      url: `${baseURL}/api/admin/users`,
-      headers: JWTHeader,
-      contentType: 'application/json;charset=UTF-8',
-      type: "GET",
-      success: function (response) {
-        console.log(response);
-      },
-      error: function () {
-        alert('accesso non autorizzato');
-      }
-    });
-  });
-
-  // Logout
-  $('#logoutBtn').click(function () {
-    $.cookie('jwt', '');
-    JWTHeader = updateHeader();
-  });
 
 }); /* end jQuery */
 
