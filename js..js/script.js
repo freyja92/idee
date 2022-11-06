@@ -276,6 +276,7 @@ $(document).ready(function () {
         //verifica
         console.log('verifica = ' + $.cookie('jwt'));
         console.log('JWTHeader = ' + JSON.stringify(JWTHeader));
+        
       },
       error: function () {
         alert('login errato');
