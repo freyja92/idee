@@ -258,7 +258,36 @@ $(document).ready(function () {
     }
 
     //PASQUALE PANICO
+   
 
+    donazioni.then((response) => {
+      let htmlString= ' ';
+        for (donazione of response){
+            htmlString += createDonazione(donazione);
+        }
+      $('#donazioni').html(htmlString);
+     })
+
+     
+function createDonazione(donazioni) {
+  return `<div class="card d-flex   " style="border: none; ">
+  <div class="card-text " >
+    
+    <div class="row  " >
+      <div class="col-4">
+        <div class="card" style="border: none">
+    <img src="https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_960_720.png" alt="avatar"
+      class="rounded-circle h-100 w-100 mb-4 mt-4" >
+    </div></div>
+    <div class="col-8">
+      <div class="card-body">
+        <p class="card-title mb-4 mt-4"> ${donazioni.idUtente}donazioni
+        ha donato <b> ${donazioni.importo} </b></p>
+      </div>
+   
+  </div>
+</div>`;
+}
 
 
     //CRISTIAN FIERRO
@@ -483,15 +512,16 @@ $('#signupBtn').click(function(event) {
 
   //PASQUALE PANICO
 
-  $.get('http://localhost:8080/donazioni', function (response) {
-    let donazione;
-    let htmlDaAggiungere = '';
-    for (donazione of response) {
-      htmlDaAggiungere += createListaDonazioni(donazione);
-    }
-    //$('#donazioni').html(htmlDaAggiungere);
-  });
+/*
+  donazioni.then((response) => {
+    let htmlString= ' ';
+      for (donazione of response){
+          htmlString += createListaDonazioni(donazione);
+      }
+    $('#donazioni').html(htmlString);
+   })
 
+   
   function createListaDonazioni(donazione) {
     return `
     <div class="card d-flex   " style="border: none; ">
@@ -515,7 +545,7 @@ $('#signupBtn').click(function(event) {
                 </div>
     `
   }
-
+ */
   //CRISTIAN FIERRO
 
 $.get('http://localhost:8080/utenti/1', function(response) {
