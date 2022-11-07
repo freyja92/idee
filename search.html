@@ -27,7 +27,7 @@
     integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
     crossorigin="anonymous"></script>
   <!--navbar -->
-  <nav class="navbar" style="background-color: #38B6FF;">
+  <nav class="navbar" style="background-color: #38B6FF;" >
     <div class="container-fluid">
       <a class="navbar-brand" href="index.html"><img src="img/logonav.png"></a>
       <ul class="nav justify-content-end fs-2">
@@ -116,29 +116,29 @@
       <div class="modal-body">
        <form>
   <div class="mb-3">
-    <label for="inputNome" class="form-label" >Nome</label>
-    <input type="text" class="form-control" id="inputNome" required>
+    <label for="signupNome" class="form-label" >Nome</label>
+    <input type="text" class="form-control" id="signupNome" required>
     
-    <label for="inputCognome" class="form-label">Cognome</label>
-    <input type="text" class="form-control" id="inputCognome"required >
+    <label for="signupCognome" class="form-label">Cognome</label>
+    <input type="text" class="form-control" id="signupCognome"required >
    
-    <label for="inputEmail1" class="form-label mt-3">Email address</label>
-    <input type="email" class="form-control" id="inputEmail1" required>
+    <label for="signupEmail" class="form-label mt-3">Email address</label>
+    <input type="email" class="form-control" id="signupEmail" required>
    
   </div>
   <div class="mb-3">
-    <label for="inputPassword1" class="form-label">Password</label>
-    <input type="password" class="form-control" id="inputPassword1"required>
+    <label for="signupPwd1" class="form-label">Password</label>
+    <input type="password" class="form-control" id="signupPwd1" pattern=“/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/” required>
 
-    <label for="inputPassword2" class="form-label">Conferma password</label>
-    <input type="password" class="form-control" id="inputPassword2"required>
+    <label for="signupPwd2" class="form-label">Conferma password</label>
+    <input type="password" class="form-control" id="signupPwd2"required>
   </div>
   <div class="mb-3 form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1"required>
-    <label class="form-check-label" for="exampleCheck1">Accetta termini e condizioni</label>
+    <input type="checkbox" class="form-check-input" id="terminiCondizioni"required value="terminiCondizioni" name="termini " style="background-color: #A172FF  !important;">
+    <label class="form-check-label" for="terminiCondizioni" >Accetta termini e condizioni</label>
   </div>
   <div class="d-grid gap-2 col-6 mx-auto">
-  <button type="submit" class="btn ">Submit</button>
+  <button type="submit" class="btn " id="signupBtn">Submit</button>
   </div>
 </form>
         
@@ -313,7 +313,7 @@
 
 
   <!--footer-->
-  <nav class="navbar " style="background-color: #DCF5FF; padding-top: 3%; padding-bottom: 3%">
+  <nav class="navbar mt-4" style="background-color: #DCF5FF; padding-top: 3%; padding-bottom: 3%">
 
     <div class="container-fluid   ">
       <div class="col-lg-5 text-center">Copyright © 2022, Bazinga Team. All rights reserved &nbsp</div>
