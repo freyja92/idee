@@ -569,6 +569,11 @@ $.get('http://localhost:8080/utenti/1', function(response) {
     });
 
 
+  $('#prg').click(function () {
+    alert("Prova effettuata");
+  });
+
+
 
   //ANTONIO PASCARELLA
 
