@@ -258,36 +258,7 @@ $(document).ready(function () {
     }
 
     //PASQUALE PANICO
-   
 
-    donazioni.then((response) => {
-      let htmlString= ' ';
-        for (donazione of response){
-            htmlString += createDonazione(donazione);
-        }
-      $('#donazioni').html(htmlString);
-     })
-
-     
-function createDonazione(donazioni) {
-  return `<div class="card d-flex   " style="border: none; ">
-  <div class="card-text " >
-    
-    <div class="row  " >
-      <div class="col-4">
-        <div class="card" style="border: none">
-    <img src="https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_960_720.png" alt="avatar"
-      class="rounded-circle h-100 w-100 mb-4 mt-4" >
-    </div></div>
-    <div class="col-8">
-      <div class="card-body">
-        <p class="card-title mb-4 mt-4"> ${donazioni.idUtente}donazioni
-        ha donato <b> ${donazioni.importo} </b></p>
-      </div>
-   
-  </div>
-</div>`;
-}
 
 
     //CRISTIAN FIERRO
@@ -355,7 +326,7 @@ function createDonazione(donazioni) {
 
   //signup 
   
-  $('#signupBtn').click(function(event) {
+$('#signupBtn').click(function(event) {
   event.preventDefault();
   let nome = $("#signupNome").val();
   let cognome = $("#signupCognome").val();
@@ -404,22 +375,17 @@ function createDonazione(donazioni) {
       success: function (response) {
         
         
-        
 
           
         
-        /*let token = response.accessToken;
+        let token = response.accessToken;
         console.log("token ricevuto = " + token);
         $.cookie('jwt', token);
         JWTHeader = updateHeader();
         extractPayload(token);
 
         console.log('verifica = ' + $.cookie('jwt'));
-        console.log('JWTHeader = ' + JSON.stringify(JWTHeader));*/
-        alert("Registrazione avvenuta con successo ");
-
-        return window.open("http://127.0.0.1:5500/index.html" ,"_self");
-        
+        console.log('JWTHeader = ' + JSON.stringify(JWTHeader));
 
       
 
@@ -450,21 +416,25 @@ function createDonazione(donazioni) {
   
 
   (async function createTreeData () {
-    let parentFolder = await getCartellaById(queryParams.idProgetto, 'Generale');
-    parentFolder = initializeFolder(parentFolder);
-    documenti.then(function(response) {
-      let documento;
-      for (documento of response) {
-        if (documento.cartella.cartelleId.idProgetto == queryParams.idProgetto) {
-          parentFolder = addDocument(parentFolder, documento);
+    alert(window.location.pathname);
+    if (queryParams.idProgetto != undefined && window.location.pathname == '/project.html') {
+      let parentFolder = await getCartellaById(queryParams.idProgetto, 'Generale');
+      parentFolder = initializeFolder(parentFolder);
+      documenti.then(function(response) {
+        let documento;
+        for (documento of response) {
+          if (documento.cartella.cartelleId.idProgetto == queryParams.idProgetto) {
+            parentFolder = addDocument(parentFolder, documento);
+          }
         }
-      }
 
-      let treeData = treeNodes([], parentFolder.sottoCartella, parentFolder.documenti);
-      $('#tree').bstreeview({
-      data: treeData
+        let treeData = treeNodes([], parentFolder.sottoCartella, parentFolder.documenti);
+        $('#tree').bstreeview({
+        data: treeData
+        });
       });
-    });
+    }
+    
     
   })();
 
@@ -517,16 +487,15 @@ function createDonazione(donazioni) {
 
   //PASQUALE PANICO
 
-/*
-  donazioni.then((response) => {
-    let htmlString= ' ';
-      for (donazione of response){
-          htmlString += createListaDonazioni(donazione);
-      }
-    $('#donazioni').html(htmlString);
-   })
+  $.get('http://localhost:8080/donazioni', function (response) {
+    let donazione;
+    let htmlDaAggiungere = '';
+    for (donazione of response) {
+      htmlDaAggiungere += createListaDonazioni(donazione);
+    }
+    //$('#donazioni').html(htmlDaAggiungere);
+  });
 
-   
   function createListaDonazioni(donazione) {
     return `
     <div class="card d-flex   " style="border: none; ">
@@ -550,30 +519,28 @@ function createDonazione(donazioni) {
                 </div>
     `
   }
- */
+
   //CRISTIAN FIERRO
 
-$.get('http://localhost:8080/utenti/1', function(response) {
+//AL POSTO DI '1' Inserirai il l'id dell'utente loggato
+
+$.get('http://localhost:8080/utenti/' + '1', function(response) {
     let utente = response;
     $('#foto').attr("src", utente.immagineProfilo);
     $('#nomeUtenteProfilo').html(utente.nome);
     $('#emailUtenteProfilo').html(utente.email);
     $('#bioProfiloUtente').html(utente.bio);
-    //partecipazione
-    $('#idUtentePartecipazione').html(utente.idUtente);
-    $('#nomeUtentePartecipazione').html(utente.nome);
-    $('#emailUtentePartecipazione').html(utente.email);
   });
 
   $.get('http://localhost:8080/social', function(response) {
     let social = response;
-    let html = "";
+    let x = "";
     for (social of response){
-      if(social.socialId.idUtente==cardId){
-        html+=`<a href="${social.linkSocial}">${social.socialId.nome}, &nbsp;&nbsp;&nbsp;&nbsp;</a>`
+      if(social.socialId.idUtente=='1'){
+        x+=`<a href="${social.linkSocial}">${social.socialId.nome}, &nbsp;&nbsp;&nbsp;&nbsp;</a>`
       }
     }
-    $('#nomeSocialProfilo').html(html);
+    $('#nomeSocialProfilo').html(x);
   });
 
   //DOMENICO PETITO
@@ -646,8 +613,6 @@ $.get('http://localhost:8080/utenti/1', function(response) {
         //verifica
         console.log('verifica = ' + $.cookie('jwt'));
         console.log('JWTHeader = ' + JSON.stringify(JWTHeader));
-        
-        
       },
       error: function () {
         alert('login errato');
