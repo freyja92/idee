@@ -538,17 +538,48 @@ $.get('http://localhost:8080/utenti/' + '1', function(response) {
     $('#nomeUtenteProfilo').html(utente.nome);
     $('#emailUtenteProfilo').html(utente.email);
     $('#bioProfiloUtente').html(utente.bio);
+    //partecipazione
+    $('#idUtentePartecipazione').html(utente.idUtente);
+    $('#nomeUtentePartecipazione').html(utente.nome);
+    $('#emailUtentePartecipazione').html(utente.email);
+  });
+  $.get('http://localhost:8080/utenti/2', function(response) {
+    let u = response;
+    $('#foto2').attr("src", u.immagineProfilo);
+    $('#nome2').html(u.nome);
   });
 
   $.get('http://localhost:8080/social', function(response) {
     let social = response;
     let x = "";
     for (social of response){
-      if(social.socialId.idUtente=='1'){
-        x+=`<a href="${social.linkSocial}">${social.socialId.nome}, &nbsp;&nbsp;&nbsp;&nbsp;</a>`
+      if(social.socialId.idUtente=="2"){
+        html+=`<a href="${social.linkSocial}">${social.socialId.nome}, &nbsp;&nbsp;&nbsp;&nbsp;</a>`
       }
     }
     $('#nomeSocialProfilo').html(x);
+  });
+  
+  $.get('http://localhost:8080/partecipazioni', function(response) {
+    let utente = response;
+    let html = "";
+      for(utente of response){
+        html+=`
+        <tbody >
+            <tr class="gino mt-3">
+                <td class="pt-2"> <img class="fotolistacollaboratori" id="foto" src="${utente.utente.immagineProfilo}" alt="">
+                    <div class="pl-lg-5 pl-md-3 pl-1 name"></div>
+                </td>
+                <td id="nomeUtenteProfilo" class="pt-3">${utente.utente.nome}</td>
+                <td class="pt-3"><div class="btn">Vai al profilo</div></td>
+            </tr>
+            <tr id="spacing-row">
+                <td></td>
+            </tr>
+        </tbody>
+        `
+    }
+    $('#listaColl').html(html);
   });
 
   //DOMENICO PETITO
