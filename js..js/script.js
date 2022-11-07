@@ -518,23 +518,27 @@ $('#signupBtn').click(function(event) {
 
   //CRISTIAN FIERRO
 
-$.get('http://localhost:8080/utenti/' + cardId, function(response) {
+$.get('http://localhost:8080/utenti/1', function(response) {
     let utente = response;
     $('#foto').attr("src", utente.immagineProfilo);
     $('#nomeUtenteProfilo').html(utente.nome);
     $('#emailUtenteProfilo').html(utente.email);
     $('#bioProfiloUtente').html(utente.bio);
+    //partecipazione
+    $('#idUtentePartecipazione').html(utente.idUtente);
+    $('#nomeUtentePartecipazione').html(utente.nome);
+    $('#emailUtentePartecipazione').html(utente.email);
   });
 
   $.get('http://localhost:8080/social', function(response) {
     let social = response;
-    let x = "";
+    let html = "";
     for (social of response){
       if(social.socialId.idUtente==cardId){
-        x+=`<a href="${social.linkSocial}">${social.socialId.nome}, &nbsp;&nbsp;&nbsp;&nbsp;</a>`
+        html+=`<a href="${social.linkSocial}">${social.socialId.nome}, &nbsp;&nbsp;&nbsp;&nbsp;</a>`
       }
     }
-    $('#nomeSocialProfilo').html(x);
+    $('#nomeSocialProfilo').html(html);
   });
 
   //DOMENICO PETITO
