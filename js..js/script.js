@@ -505,7 +505,31 @@ $.get('http://localhost:8080/utenti/' + cardId, function(response) {
   });
 
   //DOMENICO PETITO
+  $.get('http://localhost:8080/partecipazioni', function(response) {
+      //let email = $('#email').val();
+      let emailDaVerificare = 'aaa@gmail.com';
+      let emailUtente;
+      let partecipazioni;
+      let htmlDaAggiungereAProprietario = '';
+      let htmlDaAggiungereACollaboratore = '';
+      let progetti;
 
+      for(partecipazioni of response) { 
+        emailUtente = partecipazioni.utente.email;    
+        let num = partecipazioni.progetto.idProgetti;
+        let ruolo = partecipazioni.ruolo;
+        $.get('http://localhost:8080/progetti/' + num, function(response) {
+          progetti = response;
+            if (ruolo === 'proprietario' && emailUtente === emailDaVerificare) {
+              htmlDaAggiungereAProprietario += createCard(progetti);
+            } else if (ruolo === 'collaboratore' && emailUtente === emailDaVerificare) {
+              htmlDaAggiungereACollaboratore += createCard(progetti);
+            }
+            $('#mieiProgetti').html(htmlDaAggiungereAProprietario);
+            $('#visualizzaProgetti').html(htmlDaAggiungereACollaboratore);
+          })  
+      }
+    });
 
 
 
