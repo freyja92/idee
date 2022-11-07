@@ -27,30 +27,128 @@
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         crossorigin="anonymous"></script>
     <!--navbar -->
-    <nav class="navbar" style="background-color: #38B6FF;">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="index.html"><img src="img/logonav.png"></a>
-            <ul class="nav justify-content-end fs-2">
-
-                <li class="nav-item">
-                    <a class="nav-link " style="color: #DCF5FF" href="search.html">Idee</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link " style="color:#DCF5FF" aria-current="page" href="guida.html">Guida</a>
-                </li>
-                <li class="nav-item ">
-
-                    <a class="nav-link  " style="color:#DCF5FF" href="#"><i class="bi bi-person-workspace"></i></a>
-
-                </li>
-
-            </ul>
-
-
-        </div>
+    <nav class="navbar" style="background-color: #38B6FF;" id="navbar">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="index.html"><img src="img/logonav.png"></a>
+        <ul class="nav justify-content-end fs-2">
+  
+          <li class="nav-item">
+            <a class="nav-link " style="color: #DCF5FF" href="search.html">Idee</a>
+          </li>
+  
+          <li class="nav-item">
+            <a class="nav-link " style="color:#DCF5FF" aria-current="page" href="guida.html">Guida</a>
+          </li>
+          <li class="nav-item ">
+  
+            <a class="nav-link  " style="color:#DCF5FF" href="#"data-bs-toggle="modal" data-bs-target="#loginModal"><i class="bi bi-person-workspace"></i></a>
+  
+          </li>
+  
+        </ul>
+  
+  
+      </div>
     </nav>        
 <!--fine navbar-->
+
+<!-- Modale login -->
+
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModal" aria-hidden="true" >
+  <div class="modal-dialog" >
+
+
+    <div class="modal-content" style="background-color: #38B6FF;">
+      
+      <div class="text-center mb-4 mt-3">
+        <img src="img/logobig.png"
+          style="width: 200px;" alt="logo">
+     
+      </div>
+    
+      <div class="modal-header">
+        
+        <h4 class="modal-title" id="loginModal" style="color:#A172FF">Login</h4>
+        
+        
+      </div>
+      <div class="modal-body">
+
+        <form>
+          <div class="mb-3">
+            <label for="email" class="form-label" >Email address</label>
+            <input type="email" class="form-control " id="email">
+          
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password">
+          </div>
+          <div class="d-grid gap-2 col-6 mx-auto">
+          <button type="submit" class="btn  " id="loginBtn">Login</button>
+          <span class="modal-title text-center ">Non sei ancora registrato? <div class="text-center"><a href="#" class="text-decoration-none " data-bs-toggle="modal" data-bs-target="#signupModal" style="color: #A172FF;"><b >Clicca qui</b></a></div></span>
+          </div>
+
+        </form>
+
+      </div>
+    
+    </div>
+    
+  </div>
+</div>
+
+
+
+
+<!--modale signup-->
+<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content"style="background-color: #38B6FF;">
+      <div class="text-center mb-4 mt-3">
+        <img src="img/logobig.png"
+          style="width: 200px;" alt="logo">
+     
+      </div>
+    
+      <div class="modal-header">
+        <h4 class="modal-title" id="signupModal"style="color:#A172FF">Sign up</h4>
+      </div>
+      <div class="modal-body">
+       <form>
+  <div class="mb-3">
+    <label for="signupNome" class="form-label" >Nome</label>
+    <input type="text" class="form-control" id="signupNome" required>
+    
+    <label for="signupCognome" class="form-label">Cognome</label>
+    <input type="text" class="form-control" id="signupCognome"required >
+   
+    <label for="signupEmail" class="form-label mt-3">Email address</label>
+    <input type="email" class="form-control" id="signupEmail" required>
+   
+  </div>
+  <div class="mb-3">
+    <label for="signupPwd1" class="form-label">Password</label>
+    <input type="password" class="form-control" id="signupPwd1"  required>
+
+    <label for="signupPwd2" class="form-label">Conferma password</label>
+    <input type="password" class="form-control" id="signupPwd2"required>
+  </div>
+  <div class="mb-3 form-check">
+    <input type="checkbox" class="form-check-input" id="terminiCondizioni"required value="terminiCondizioni" name="termini " style="background-color: #A172FF  !important;">
+    <label class="form-check-label" for="terminiCondizioni" >Accetta termini e condizioni</label>
+  </div>
+  <div class="d-grid gap-2 col-6 mx-auto">
+  <button type="submit" class="btn " id="signupBtn">Submit</button>
+  </div>
+</form>
+        
+      </div>
+ 
+    
+    </div>
+  </div>
+</div>
 
 
     <div class="container py-5 min-vh-100 " id="infoUtente">

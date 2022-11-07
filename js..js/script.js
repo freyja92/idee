@@ -135,14 +135,47 @@ $(document).ready(function () {
   //NavBar utente loggato
 
   (function() {
-    if(!checkLoggedUser()) {
-      $('#navbar').html(``);
+    if(checkLoggedUser()) {
+      $('#navbar').html(`    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html"><img src="img/logonav.png"></a>
+      
+      <ul class="nav justify-content-end fs-2">
+      
+      
+
+        <li class="nav-item ">
+          <a class="nav-link  " aria-current="page"style="color: #DCF5FF" href="search.html">Idee</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link  " style="color:#DCF5FF" aria-current="page" href="guida.html">Guida</a>
+        </li>
+
+        <li class="nav-item  ">
+          <div class="btn-group dropstart ">
+          <a class="btn dropdown-toggle " type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:#DCF5FF" href="#"><i class="bi bi-person-workspace"></i></a>
+          <ul class="dropdown-menu ">
+            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#test" href="#">Crea</a></li>
+            <li><a class="dropdown-item" href="profilocopy.html">Profilo</a></li>
+            <li><a class="dropdown-item" href="user.html">Impostazioni</a></li>
+            <li><a class="dropdown-item" href="#" id="logoutBtn">Esci</a></li>
+          </ul>
+        </div>
+        
+        </li>
+    
+      </ul>
+
+
+    </div>`);
     } else {
       //Sloggare l'utente
       $.cookie('jwt', '');
       updateHeader();
     }
   })();
+
+
 
   //Generazione galleria progetti in search.html
 
@@ -551,6 +584,12 @@ $('#signupBtn').click(function(event) {
 
 
   //FRANCESCA BARONISSI
+ 
+
+
+
+
+
   //form login
   $("#loginBtn").click(function (event) {
     event.preventDefault();
@@ -808,15 +847,24 @@ async function getUtenteByEmail(email) {
 }
 
 function checkLoggedUser () {
-  let array = $.cookie('jwt').split('.');
-  let payload = array[1];
-  let jsonPayload = atob(payload);
-  let objPayload = JSON.parse(jsonPayload);
-  if (objPayload.exp*1000 > new Date().getTime()) {
-    //token valido, l'utente può proseguire la navigazione
-    return objPayload.sub; //restituisco l'email
+  if ($.cookie('jwt') != undefined && $.cookie('jwt') != '') {
+    array = $.cookie('jwt').split('.');
+    payload = array[1];
+    jsonPayload = atob(payload);
+    objPayload = JSON.parse(jsonPayload);
+    if (objPayload.exp*1000 > new Date().getTime()) {
+      //token valido, l'utente può proseguire la navigazione
+      if (objPayload.sub == '') {
+        alert('email vuota');
+        return false;
+      } else {
+        return objPayload.sub; //restituisco l'email
+      }
+    } else {
+      //token scaduto, butta fuori l'utente eliminando l'informazione nel cookie
+      return false;
+    }
   } else {
-    //token scaduto, butta fuori l'utente eliminando l'informazione nel cookie
     return false;
   }
 }
