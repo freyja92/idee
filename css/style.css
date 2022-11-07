@@ -14,7 +14,7 @@
   
 }
 
-p, #nomeUtenteProfilo, #nome2 {font-family: 'Source Sans Pro', sans-serif;}
+p {font-family: 'Source Sans Pro', sans-serif;}
 
 button, .btn {
 
@@ -83,12 +83,20 @@ button, .btn {
         box-sizing: border-box
     }
     
+    .h2 {
+        color: #444;
+        font-family: 'PT Sans', sans-serif
+    }
+    
     thead {
         font-family: 'Poppins', sans-serif;
         font-weight: bolder;
         font-size: 20px;
         color: #666
     }
+    
+  
+    
     .name {
         display: inline-block
     }
@@ -136,18 +144,10 @@ button, .btn {
     .table{
       font-size: medium !important;
     }
-
-    .gino{
-      background-color: #DCF5FF !important;
-    }
-
-    .ciao {
-      font-size: medium !important;
-    }
-    #nomeUtenteProfilo, #nome2{
-      font-size: xx-large;
-    }
-    .fotolistacollaboratori{
-      height: 60px;
-      width: 60px;
+    
+    @media(max-width:575px) {
+        .container {
+            width: 125%;
+            padding: 20px 10px
+        }
     }
