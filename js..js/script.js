@@ -564,9 +564,9 @@ $.get('http://localhost:8080/utenti/' + '1', function(response) {
         $.get('http://localhost:8080/progetti/' + num, function(response) {
           progetti = response;
             if (ruolo === 'proprietario' && emailUtente === emailDaVerificare) {
-              htmlDaAggiungereAProprietario += createCard(progetti);
+              htmlDaAggiungereAProprietario += createCardUser(progetti);
             } else if (ruolo === 'collaboratore' && emailUtente === emailDaVerificare) {
-              htmlDaAggiungereACollaboratore += createCard(progetti);
+              htmlDaAggiungereACollaboratore += createCardUser(progetti);
             }
             $('#mieiProgetti').html(htmlDaAggiungereAProprietario);
             $('#visualizzaProgetti').html(htmlDaAggiungereACollaboratore);
@@ -669,6 +669,25 @@ function extractPayload(token) {
 
 
 function createCard(card) {
+  return `<div class="col">
+  <div class="card h-100 w-100 galleria-card" data-id="${'idProgetto=' + card.idProgetti}">
+    <img src="${card.img}" class="card-img-top h-50" alt="...">
+    <div class="card-body h-50">
+      <h5 class="card-title">${card.titolo}</h5>
+      <p class="card-text w-100 h-45 line-clamp">${card.info}</p>
+      <div class="card" style="border-color:#38B6FF; " >
+        <div class="card-body text-center">
+          <b>€ ${card.cifraRaccolta}</b>  a fronte di € ${card.cifraGoal}
+        </div>
+      </div>
+  
+  </div>
+</div>
+</div>`
+
+}
+
+function createCardUser(card) {
   return `<div class="col">
   <div class="card h-100 w-100 galleria-card" data-id="${'idProgetto=' + card.idProgetti}">
     <img src="${card.img}" class="card-img-top h-50" alt="...">
