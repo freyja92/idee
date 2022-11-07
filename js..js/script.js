@@ -326,7 +326,7 @@ $(document).ready(function () {
 
   //signup 
   
-$('#signupBtn').click(function(event) {
+  $('#signupBtn').click(function(event) {
   event.preventDefault();
   let nome = $("#signupNome").val();
   let cognome = $("#signupCognome").val();
@@ -375,17 +375,22 @@ $('#signupBtn').click(function(event) {
       success: function (response) {
         
         
+        
 
           
         
-        let token = response.accessToken;
+        /*let token = response.accessToken;
         console.log("token ricevuto = " + token);
         $.cookie('jwt', token);
         JWTHeader = updateHeader();
         extractPayload(token);
 
         console.log('verifica = ' + $.cookie('jwt'));
-        console.log('JWTHeader = ' + JSON.stringify(JWTHeader));
+        console.log('JWTHeader = ' + JSON.stringify(JWTHeader));*/
+        alert("Registrazione avvenuta con successo ");
+
+        return window.open("http://127.0.0.1:5500/index.html" ,"_self");
+        
 
       
 
@@ -602,6 +607,8 @@ $.get('http://localhost:8080/utenti/' + cardId, function(response) {
         //verifica
         console.log('verifica = ' + $.cookie('jwt'));
         console.log('JWTHeader = ' + JSON.stringify(JWTHeader));
+        
+        
       },
       error: function () {
         alert('login errato');
