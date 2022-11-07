@@ -151,3 +151,12 @@ button, .btn {
       height: 60px;
       width: 60px;
     }
+
+ 
+    #terminiCondizioni:checked {
+        background-color: #A172FF !important;
+    }
+
+    #signupModal h4{
+        /*font-weight: 800 !important;*/
+    }

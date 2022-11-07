@@ -349,7 +349,7 @@ $('#signupBtn').click(function(event) {
   };
 
 
-  //WORK IN PROGRESS DI FRANCESCA
+  //validation
   var uppercasePassword = /(?=.*?[A-Z])/;
   var lowercasePassword = /(?=.*?[a-z])/;
   var digitPassword = /(?=.*?[0-9])/;
@@ -359,30 +359,48 @@ $('#signupBtn').click(function(event) {
   var pass1= $('#signupPwd1');
   var validName = /^[a-zA-Z ]*$/;
   var validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  var errore ='';
 
   if (password != password2) {
-    alert('Le password inserite non coincidono')
+    errore+='Le password inserite non coincidono \n'
     $('#signupPwd2').addClass('invalid-input');
   } if (uppercasePassword.test(password)==false) {
-    alert('Non sono presenti caratteri in maiuscolo')
+    errore+='Non sono presenti caratteri in maiuscolo\n'
     pass1.addClass('invalid-input');
 
   } if (digitPassword.test(password)== false) {
-    alert ('La password deve contenere almeno 9 caratteri')
+    errore+= 'La password deve contenere almeno 9 caratteri \n'
     pass1.addClass('invalid-input');
   } if ( symbolPassword.test(password)== false) {
-    alert ('La password deve contenere almeno un simbolo') 
+    errore+= 'La password deve contenere almeno un simbolo\n'
     pass1.addClass('invalid-input'); 
   } if (nome.length <= 0 ) {
-    alert ('Inserire il nome')
-    $('#signupNome').assClass
+    errore+= 'Inserire il nome\n';
+    $('#signupNome').addClass('invalid-input'); 
+  } if (validName.test(nome)==false ) {
+    errore+= 'inserire un nome valido \n'
+    $('#signupNome').addClass('invalid-input');
+  } if (cognome.length <= 0 ) {
+    errore+= 'Inserire il cognome\n';
+    $('#signupCognome').addClass('invalid-input'); 
+  } if (validName.test(cognome)==false ) {
+    errore+= 'inserire un cognome valido \n'
+    $('#signupCognome').addClass('invalid-input');
+  }if (email <=0) {
+    errore+= 'Inserire un e-mail\n'
+    $('#signupEmail').addClass('invalid-input');
   }
-
+    if (validEmail.test(email)== false){
+      errore+= 'Inserire un e-mail valida\n'
+      $('#signupEmail').addClass('invalid-input');
+    } if (document.getElementById("terminiCondizioni").checked ==false) {
+      errore+= 'Accettare termini e condizioni';
+    }
 
   if (password === password2  && uppercasePassword.test(password)==true && 
   lowercasePassword.test(password)==true && digitPassword.test(password)==true && !(spacesPassword.test(password)==true) &&
   symbolPassword.test(password)==true && nome.length > 0 && validName.test(nome) == true && cognome.length > 0 && validName.test(cognome)== true &&
-  validEmail.test(email) == true && email > 0 ) {
+  validEmail.test(email) == true && document.getElementById("terminiCondizioni").checked==true )  {
 
 
   let jsonParams = JSON.stringify(params);
@@ -396,7 +414,7 @@ $('#signupBtn').click(function(event) {
         
         
         alert("La registrazione è andata a buon fine");
-        window.open("http://127.0.0.1:5500/index.html", "_self");;
+        window.open("http://127.0.0.1:5500/index.html", "_self");
 
      
         
@@ -410,19 +428,14 @@ $('#signupBtn').click(function(event) {
       }
     })
 
-  } else { alert ('fail')}
+  } else { alert (errore)}
 
 
 
 });
 
-
-
-  
-
   //ANDREA SABIA
 
-  
 
   (async function createTreeData () {
     if (queryParams.idProgetto != undefined && window.location.pathname == '/project.html') {
