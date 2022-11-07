@@ -50,6 +50,11 @@ $(document).ready(function () {
     Authorization: 'Bearer ' + $.cookie('jwt')
   };
 
+  //toggle
+  var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+          return new bootstrap.Popover(popoverTriggerEl)
+        })
   //INIZIALIZZAZIONE ARRAY CONTENENTI TUTTI GLI ELEMENTI DI TUTTE LE TABELLE DEL DATABASE IN ORDINE CRONOLOGICO
 
   //CONSIDERA LA POSSIBILITà DI INIZIALIZZARE LE VARIABILI AL MOMENTO DEL BISOGNO
@@ -864,4 +869,6 @@ function checkLoggedUser () {
   } else {
     return false;
   }
+
+  
 }
