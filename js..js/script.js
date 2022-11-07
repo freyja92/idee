@@ -135,14 +135,47 @@ $(document).ready(function () {
   //NavBar utente loggato
 
   (function() {
-    if(!checkLoggedUser()) {
-      $('#navbar').html(``);
+    if(checkLoggedUser()) {
+      $('#navbar').html(`    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html"><img src="img/logonav.png"></a>
+      
+      <ul class="nav justify-content-end fs-2">
+      
+      
+
+        <li class="nav-item ">
+          <a class="nav-link  " aria-current="page"style="color: #DCF5FF" href="search.html">Idee</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link  " style="color:#DCF5FF" aria-current="page" href="guida.html">Guida</a>
+        </li>
+
+        <li class="nav-item  ">
+          <div class="btn-group dropstart ">
+          <a class="btn dropdown-toggle " type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:#DCF5FF" href="#"><i class="bi bi-person-workspace"></i></a>
+          <ul class="dropdown-menu ">
+            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#test" href="#">Crea</a></li>
+            <li><a class="dropdown-item" href="profilocopy.html">Profilo</a></li>
+            <li><a class="dropdown-item" href="user.html">Impostazioni</a></li>
+            <li><a class="dropdown-item" href="#" id="logoutBtn">Esci</a></li>
+          </ul>
+        </div>
+        
+        </li>
+    
+      </ul>
+
+
+    </div>`);
     } else {
       //Sloggare l'utente
       $.cookie('jwt', '');
       updateHeader();
     }
   })();
+
+
 
   //Generazione galleria progetti in search.html
 
@@ -485,61 +518,24 @@ $('#signupBtn').click(function(event) {
 
   //CRISTIAN FIERRO
 
-  let social;
-  $.get()
-  $.get('http://localhost:8080/utenti/' + queryParams.idUtente, function (response) {
+$.get('http://localhost:8080/utenti/' + cardId, function(response) {
     let utente = response;
-    let htmlDaAggiungere = creaInfoProfilo(utente);
-    $('#infoUtente').html(htmlDaAggiungere);
+    $('#foto').attr("src", utente.immagineProfilo);
+    $('#nomeUtenteProfilo').html(utente.nome);
+    $('#emailUtenteProfilo').html(utente.email);
+    $('#bioProfiloUtente').html(utente.bio);
   });
 
-  function creaInfoProfilo(utente) {
-    return `
-      <div class="row"> 
-                <div class="col-sm-3">
-                  <p class="mb-0">Nome</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0">${utente.nome}</p>
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0">Email</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0">${utente.mail}</p>
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0">Social</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0"><a href="#">LinkedIn</a>, <a href="#">GitHub</a></p>
-                </div>
-              </div>
-             
-            
-              </div>
-          
-
-              <!--bio-->
-          <div class="row rows-col-1 ">
-            <div class="col-md-10 mb-4 ">
-              
-                  <p class="mb-4"> Biografia
-                  </p>
-                  <i>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis hic ea eius laborum autem qui adipisci quos. Minima, ad repellat. Voluptate voluptas dicta temporibus laborum culpa praesentium unde dignissimos aut?</i>
-                 
-                  
-              </div>
-            </div>
-          </div>
-      `;
-  }
+  $.get('http://localhost:8080/social', function(response) {
+    let social = response;
+    let x = "";
+    for (social of response){
+      if(social.socialId.idUtente==cardId){
+        x+=`<a href="${social.linkSocial}">${social.socialId.nome}, &nbsp;&nbsp;&nbsp;&nbsp;</a>`
+      }
+    }
+    $('#nomeSocialProfilo').html(x);
+  });
 
   //DOMENICO PETITO
   $.get('http://localhost:8080/partecipazioni', function(response) {
@@ -580,6 +576,12 @@ $('#signupBtn').click(function(event) {
 
 
   //FRANCESCA BARONISSI
+ 
+
+
+
+
+
   //form login
   $("#loginBtn").click(function (event) {
     event.preventDefault();
@@ -837,15 +839,24 @@ async function getUtenteByEmail(email) {
 }
 
 function checkLoggedUser () {
-  let array = $.cookie('jwt').split('.');
-  let payload = array[1];
-  let jsonPayload = atob(payload);
-  let objPayload = JSON.parse(jsonPayload);
-  if (objPayload.exp*1000 > new Date().getTime()) {
-    //token valido, l'utente può proseguire la navigazione
-    return objPayload.sub; //restituisco l'email
+  if ($.cookie('jwt') != undefined && $.cookie('jwt') != '') {
+    array = $.cookie('jwt').split('.');
+    payload = array[1];
+    jsonPayload = atob(payload);
+    objPayload = JSON.parse(jsonPayload);
+    if (objPayload.exp*1000 > new Date().getTime()) {
+      //token valido, l'utente può proseguire la navigazione
+      if (objPayload.sub == '') {
+        alert('email vuota');
+        return false;
+      } else {
+        return objPayload.sub; //restituisco l'email
+      }
+    } else {
+      //token scaduto, butta fuori l'utente eliminando l'informazione nel cookie
+      return false;
+    }
   } else {
-    //token scaduto, butta fuori l'utente eliminando l'informazione nel cookie
     return false;
   }
 }
