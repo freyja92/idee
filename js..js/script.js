@@ -550,7 +550,7 @@ $.get('http://localhost:8080/utenti/' + '1', function(response) {
   //DOMENICO PETITO
   $.get('http://localhost:8080/partecipazioni', function(response) {
       //let email = $('#email').val();
-      let emailDaVerificare = 'aaa@gmail.com';
+      let emailDaVerificare = 'francescabaronissi@outlook.it';
       let emailUtente;
       let partecipazioni;
       let htmlDaAggiungereAProprietario = '';
@@ -688,7 +688,7 @@ function createCard(card) {
 }
 
 function createCardUser(card) {
-  return `<div class="col">
+  return `<div class="col-4">
   <div class="card h-100 w-100 galleria-card" data-id="${'idProgetto=' + card.idProgetti}">
     <img src="${card.img}" class="card-img-top h-50" alt="...">
     <div class="card-body h-50">
