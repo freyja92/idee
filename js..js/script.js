@@ -416,7 +416,6 @@ $('#signupBtn').click(function(event) {
   
 
   (async function createTreeData () {
-    alert(window.location.pathname);
     if (queryParams.idProgetto != undefined && window.location.pathname == '/project.html') {
       let parentFolder = await getCartellaById(queryParams.idProgetto, 'Generale');
       parentFolder = initializeFolder(parentFolder);
