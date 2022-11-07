@@ -569,6 +569,11 @@ $('#signupBtn').click(function(event) {
     });
 
 
+  $('#prg').click(function () {
+    alert("Prova effettuata");
+  });
+
+
 
   //ANTONIO PASCARELLA
 
