@@ -286,7 +286,7 @@ $(document).ready(function () {
 
   //PARTE DI SPRING SECURITY
 
-
+  // modifica la parte precedente del codice per utilizzare questo ingegnoso stratagemma
 
   //form login
   let baseURL = 'http://localhost:8080';
@@ -314,7 +314,6 @@ $(document).ready(function () {
         //verifica
         console.log('verifica = ' + $.cookie('jwt'));
         console.log('JWTHeader = ' + JSON.stringify(JWTHeader));
-        window.open ("http://127.0.0.1:5500/index.html", "_self");
         
       },
       error: function () {
@@ -325,10 +324,8 @@ $(document).ready(function () {
 
   // Logout
   $('#logoutBtn').click(function () {
-    
     $.cookie('jwt', '');
     JWTHeader = updateHeader();
-    window.open ("http://127.0.0.1:5500/index.html", "_self");
   });
 
 
@@ -400,7 +397,7 @@ $('#signupBtn').click(function(event) {
   if (password === password2  && uppercasePassword.test(password)==true && 
   lowercasePassword.test(password)==true && digitPassword.test(password)==true && !(spacesPassword.test(password)==true) &&
   symbolPassword.test(password)==true && nome.length > 0 && validName.test(nome) == true && cognome.length > 0 && validName.test(cognome)== true &&
-  validEmail.test(email) == true && document.getElementById("terminiCondizioni").checked==true )  {
+  validEmail.test(email) == true && email > 0 ) {
 
 
   let jsonParams = JSON.stringify(params);
@@ -416,7 +413,20 @@ $('#signupBtn').click(function(event) {
         alert("La registrazione è andata a buon fine");
         window.open("http://127.0.0.1:5500/index.html", "_self");
 
-     
+          
+        
+        let token = response.accessToken;
+        console.log("token ricevuto = " + token);
+        $.cookie('jwt', token);
+        JWTHeader = updateHeader();
+        extractPayload(token);
+
+        console.log('verifica = ' + $.cookie('jwt'));
+        console.log('JWTHeader = ' + JSON.stringify(JWTHeader));
+
+      
+
+        
         
       },
 
@@ -551,48 +561,17 @@ $.get('http://localhost:8080/utenti/' + '1', function(response) {
     $('#nomeUtenteProfilo').html(utente.nome);
     $('#emailUtenteProfilo').html(utente.email);
     $('#bioProfiloUtente').html(utente.bio);
-    //partecipazione
-    $('#idUtentePartecipazione').html(utente.idUtente);
-    $('#nomeUtentePartecipazione').html(utente.nome);
-    $('#emailUtentePartecipazione').html(utente.email);
-  });
-  $.get('http://localhost:8080/utenti/2', function(response) {
-    let u = response;
-    $('#foto2').attr("src", u.immagineProfilo);
-    $('#nome2').html(u.nome);
   });
 
   $.get('http://localhost:8080/social', function(response) {
     let social = response;
     let x = "";
     for (social of response){
-      if(social.socialId.idUtente=="2"){
-        html+=`<a href="${social.linkSocial}">${social.socialId.nome}, &nbsp;&nbsp;&nbsp;&nbsp;</a>`
+      if(social.socialId.idUtente=='1'){
+        x+=`<a href="${social.linkSocial}">${social.socialId.nome}, &nbsp;&nbsp;&nbsp;&nbsp;</a>`
       }
     }
     $('#nomeSocialProfilo').html(x);
-  });
-  
-  $.get('http://localhost:8080/partecipazioni', function(response) {
-    let utente = response;
-    let html = "";
-      for(utente of response){
-        html+=`
-        <tbody >
-            <tr class="gino mt-3">
-                <td class="pt-2"> <img class="fotolistacollaboratori" id="foto" src="${utente.utente.immagineProfilo}" alt="">
-                    <div class="pl-lg-5 pl-md-3 pl-1 name"></div>
-                </td>
-                <td id="nomeUtenteProfilo" class="pt-3">${utente.utente.nome}</td>
-                <td class="pt-3"><div class="btn">Vai al profilo</div></td>
-            </tr>
-            <tr id="spacing-row">
-                <td></td>
-            </tr>
-        </tbody>
-        `
-    }
-    $('#listaColl').html(html);
   });
 
   //DOMENICO PETITO
