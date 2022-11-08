@@ -135,7 +135,7 @@
     <input type="password" class="form-control" id="signupPwd2"required>
   </div>
   <div class="mb-3 form-check">
-    <input type="checkbox" class="form-check-input" id="terminiCondizioni"required value="terminiCondizioni" name="termini " style="background-color: #A172FF  !important;">
+    <input type="checkbox" class="form-check-input" id="terminiCondizioni"required name="termini ">
     <label class="form-check-label" for="terminiCondizioni" >Accetta termini e condizioni</label>
   </div>
   <div class="d-grid gap-2 col-6 mx-auto">
@@ -220,8 +220,8 @@
 <nav class="navbar  " style="background-color: #DCF5FF; border-radius: 20px;">
 
     <div class="container ">
-      <div class="col-6 text-end"><a class="navbar-brand "  href="#"> Progetti </a></div>
-      <div class="col-6  text"><a class="navbar-brand" href="#">Collaborazioni </a></div>
+      <div class="col-6 text-end"><a  data-bs-toggle="collapse" href="#profiloProgetti" role="button" class="navbar-brand " aria-expanded="false" > Progetti </a></div>
+      <div class="col-6  text"><a class="navbar-brand" data-bs-toggle="collapse" href="#profiloCollab" role="button" class="navbar-brand " aria-expanded="false">Collaborazioni </a></div>
 
       
 
@@ -230,13 +230,19 @@
   </div>
 </nav>
 
- <div class="container">
+ <div class="container" id="profiloGruppo" >
 
-          <div class="row row-cols-1 pt-5 row-cols-md-3 g-2 galleria">
+            <div class="collapse row pt-4" id="profiloProgetti"data-bs-parent="#profiloGruppo">
+              <div class="card card-body">
+                Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+              </div>
+            </div>
 
-
-
-
+            <div class="collapse row" id="profiloCollab"data-bs-parent="#profiloGruppo">
+              <div class="card card-body">
+                Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+              </div>
+            </div>
         </div>
 
 

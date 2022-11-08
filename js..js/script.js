@@ -383,14 +383,7 @@ $('#signupBtn').click(function(event) {
 
           
         
-        let token = response.accessToken;
-        console.log("token ricevuto = " + token);
-        $.cookie('jwt', token);
-        JWTHeader = updateHeader();
-        extractPayload(token);
-
-        console.log('verifica = ' + $.cookie('jwt'));
-        console.log('JWTHeader = ' + JSON.stringify(JWTHeader));
+        
 
       
 
@@ -548,9 +541,9 @@ $.get('http://localhost:8080/utenti/' + '1', function(response) {
   });
 
   //DOMENICO PETITO
-  $.get('http://localhost:8080/partecipazioni', function(response) {
-      //let email = $('#email').val();
-      let emailDaVerificare = 'francescabaronissi@outlook.it';
+  (function () {
+    partecipazioniProgetti.then(function(response) {
+      let emailDaVerificare = checkLoggedUser();
       let emailUtente;
       let partecipazioni;
       let htmlDaAggiungereAProprietario = '';
@@ -564,21 +557,18 @@ $.get('http://localhost:8080/utenti/' + '1', function(response) {
         $.get('http://localhost:8080/progetti/' + num, function(response) {
           progetti = response;
             if (ruolo === 'proprietario' && emailUtente === emailDaVerificare) {
-              htmlDaAggiungereAProprietario += createCardUser(progetti);
+              htmlDaAggiungereAProprietario += createCard(progetti);
             } else if (ruolo === 'collaboratore' && emailUtente === emailDaVerificare) {
-              htmlDaAggiungereACollaboratore += createCardUser(progetti);
+              htmlDaAggiungereACollaboratore += createCard(progetti);
             }
             $('#mieiProgetti').html(htmlDaAggiungereAProprietario);
+            $('#profiloProgetti').html(htmlDaAggiungereAProprietario);
             $('#visualizzaProgetti').html(htmlDaAggiungereACollaboratore);
+            $('#profiloCollab').html(htmlDaAggiungereACollaboratore);
           })  
       }
     });
-
-
-  $('#prg').click(function () {
-    alert("Prova effettuata");
-  });
-
+  })();
 
 
   //ANTONIO PASCARELLA
