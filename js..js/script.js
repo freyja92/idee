@@ -52,9 +52,9 @@ $(document).ready(function () {
 
   //toggle
   var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
-  var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-    return new bootstrap.Popover(popoverTriggerEl)
-  })
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+          return new bootstrap.Popover(popoverTriggerEl)
+        })
   //INIZIALIZZAZIONE ARRAY CONTENENTI TUTTI GLI ELEMENTI DI TUTTE LE TABELLE DEL DATABASE IN ORDINE CRONOLOGICO
 
   //CONSIDERA LA POSSIBILITà DI INIZIALIZZARE LE VARIABILI AL MOMENTO DEL BISOGNO
@@ -139,8 +139,8 @@ $(document).ready(function () {
 
   //NavBar utente loggato
 
-  (function () {
-    if (checkLoggedUser()) {
+  (function() {
+    if(checkLoggedUser()) {
       $('#navbar').html(`    <div class="container-fluid">
       <a class="navbar-brand" href="index.html"><img src="img/logonav.png"></a>
       
@@ -252,14 +252,14 @@ $(document).ready(function () {
 
     //ANDREA SABIA
 
-    if ($(event.target).hasClass('documento')) {
+    if($(event.target).hasClass('documento')) {
 
-      (async function () {
+      (async function() {
         let documento = await getDocumentoById(event.target.id.slice(event.target.id.indexOf('-') + 1));
         $('.titolo-documento').html(documento.nome);
         $('.corpo-documento').html(documento.testo);
       })();
-
+      
     }
 
     //PASQUALE PANICO
@@ -321,11 +321,7 @@ $(document).ready(function () {
         //verifica
         console.log('verifica = ' + $.cookie('jwt'));
         console.log('JWTHeader = ' + JSON.stringify(JWTHeader));
-<<<<<<< Updated upstream
-        window.open ("http://127.0.0.1:5500/index.html", "_self");
-=======
-
->>>>>>> Stashed changes
+        
       },
       error: function () {
         alert('login errato');
@@ -341,96 +337,44 @@ $(document).ready(function () {
   });
 
   //signup 
-<<<<<<< Updated upstream
   
-  $('#signupBtn').click(function(event) {
-    event.preventDefault();
-    let nome = $("#signupNome").val();
-    let cognome = $("#signupCognome").val();
-  
-=======
+$('#signupBtn').click(function(event) {
+  event.preventDefault();
+  let nome = $("#signupNome").val();
+  let cognome = $("#signupCognome").val();
 
-  $('#signupBtn').click(function (event) {
-    event.preventDefault();
-    let nome = $("#signupNome").val();
-    let cognome = $("#signupCognome").val();
-
->>>>>>> Stashed changes
-    let email = $('#signupEmail').val();
-    let password = $('#signupPwd1').val();
-    let params = {
-      email: email,
-      password: password,
-<<<<<<< Updated upstream
-      nome: nome, 
-      cognome: cognome, 
-    };
-  
-  
-    //validation
-=======
-      nome: nome,
-      cognome: cognome,
-    };
+  let email = $('#signupEmail').val();
+  let password = $('#signupPwd1').val();
+  let params = {
+    email: email,
+    password: password,
+    nome: nome, 
+    cognome: cognome, 
+  };
 
 
-    //WORK IN PROGRESS DI FRANCESCA
->>>>>>> Stashed changes
-    var uppercasePassword = /(?=.*?[A-Z])/;
-    var lowercasePassword = /(?=.*?[a-z])/;
-    var digitPassword = /(?=.*?[0-9])/;
-    var spacesPassword = /^$|\s+/;
-    var symbolPassword = /(?=.*?[#?!@$%^&*-])/;
-    let password2 = $('#signupPwd2').val();
-<<<<<<< Updated upstream
-    var pass1= $('#signupPwd1');
-    var validName = /^[a-zA-Z ]*$/;
-    var validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    var errore ='';
-  
-    if (password != password2) {
-      errore+='Le password inserite non coincidono \n'
-      $('#signupPwd2').addClass('invalid-input');
-    } if (uppercasePassword.test(password)==false) {
-      errore+='Non sono presenti caratteri in maiuscolo\n'
-      pass1.addClass('invalid-input');
-  
-    } if (digitPassword.test(password)== false) {
-      errore+= 'La password deve contenere almeno 9 caratteri \n'
-      pass1.addClass('invalid-input');
-    } if ( symbolPassword.test(password)== false) {
-      errore+= 'La password deve contenere almeno un simbolo\n'
-      pass1.addClass('invalid-input'); 
-    } if (nome.length <= 0 ) {
-      errore+= 'Inserire il nome\n';
-      $('#signupNome').addClass('invalid-input'); 
-    } if (validName.test(nome)==false ) {
-      errore+= 'inserire un nome valido \n'
-      $('#signupNome').addClass('invalid-input');
-    } if (cognome.length <= 0 ) {
-      errore+= 'Inserire il cognome\n';
-      $('#signupCognome').addClass('invalid-input'); 
-    } if (validName.test(cognome)==false ) {
-      errore+= 'inserire un cognome valido \n'
-      $('#signupCognome').addClass('invalid-input');
-    }if (email <=0) {
-      errore+= 'Inserire un e-mail\n'
-      $('#signupEmail').addClass('invalid-input');
-    }
-      if (validEmail.test(email)== false){
-        errore+= 'Inserire un e-mail valida\n'
-        $('#signupEmail').addClass('invalid-input');
-      } if (document.getElementById("terminiCondizioni").checked ==false) {
-        errore+= 'Accettare termini e condizioni';
-      }
-  
+  //WORK IN PROGRESS DI FRANCESCA
+  var uppercasePassword = /(?=.*?[A-Z])/;
+  var lowercasePassword = /(?=.*?[a-z])/;
+  var digitPassword = /(?=.*?[0-9])/;
+  var spacesPassword = /^$|\s+/;
+  var symbolPassword = /(?=.*?[#?!@$%^&*-])/;
+  let password2 = $('#signupPwd2').val();
+  var pass1= $('#signupPwd1');
 
-    if (password === password2  && uppercasePassword.test(password)==true && 
-    lowercasePassword.test(password)==true && digitPassword.test(password)==true && !(spacesPassword.test(password)==true) &&
-    symbolPassword.test(password)==true && nome.length > 0 && validName.test(nome) == true && cognome.length > 0 && validName.test(cognome)== true &&
-    validEmail.test(email) == true && document.getElementById("terminiCondizioni").checked==true ){
-=======
-    var pass1 = $('#signupPwd1');
+  if (password != password2) {
+    alert('Le password inserite non coincidono')
+    $('#signupPwd2').addClass('invalid-input');
+  } if (uppercasePassword.test(password)==false) {
+    alert('Non sono presenti caratteri in maiuscolo')
+    pass1.addClass('invalid-input');
+
+  }
+
+
+  if (password === password2 && password.length >= 8 && uppercasePassword.test(password)==true && 
+  lowercasePassword.test(password)==true && digitPassword.test(password)==true && !(spacesPassword.test(password)==true) &&
+  symbolPassword.test(password)==true) {
 
     if (password != password2) {
       alert('Le password inserite non coincidono')
@@ -439,93 +383,62 @@ $(document).ready(function () {
       alert('Non sono presenti caratteri in maiuscolo')
       pass1.addClass('invalid-input');
 
-    }
->>>>>>> Stashed changes
+  let jsonParams = JSON.stringify(params);
+    $.ajax({
+      url: `${baseURL}/api/auth/signup`,
+      contentType: 'application/json;charset=UTF-8',
+      type: "POST",
+      data: jsonParams,
 
-
-    if (password === password2 && password.length >= 8 && uppercasePassword.test(password) == true &&
-      lowercasePassword.test(password) == true && digitPassword.test(password) == true && !(spacesPassword.test(password) == true) &&
-      symbolPassword.test(password) == true) {
-
-<<<<<<< Updated upstream
       success: function (response) {
         
         
-        alert("La registrazione è andata a buon fine");
-        window.open("http://127.0.0.1:5500/index.html", "_self");
 
           
         
-        
+        let token = response.accessToken;
+        console.log("token ricevuto = " + token);
+        $.cookie('jwt', token);
+        JWTHeader = updateHeader();
+        extractPayload(token);
+
+        console.log('verifica = ' + $.cookie('jwt'));
+        console.log('JWTHeader = ' + JSON.stringify(JWTHeader));
 
       
-    
+
+        
+        
       },
-=======
 
-      let jsonParams = JSON.stringify(params);
-      $.ajax({
-        url: `${baseURL}/api/auth/signup`,
-        contentType: 'application/json;charset=UTF-8',
-        type: "POST",
-        data: jsonParams,
+      
+      error: function () {
+        alert('registrazione fallita');
 
-        success: function (response) {
+        
+      }
+    })
 
-
->>>>>>> Stashed changes
+  } else { alert ('fail')}
 
 
 
-<<<<<<< Updated upstream
-  } else { alert (errore)}
-=======
-          let token = response.accessToken;
-          console.log("token ricevuto = " + token);
-          $.cookie('jwt', token);
-          JWTHeader = updateHeader();
-          extractPayload(token);
->>>>>>> Stashed changes
-
-          console.log('verifica = ' + $.cookie('jwt'));
-          console.log('JWTHeader = ' + JSON.stringify(JWTHeader));
+});
 
 
 
-<<<<<<< Updated upstream
-=======
-
-
-        },
-
-
-        error: function () {
-          alert('registrazione fallita');
-
-
-        }
-      })
-
-    } else { alert('fail') }
-
-
-
-  });
-
-
-
-
+  
 
 >>>>>>> Stashed changes
   //ANDREA SABIA
 
+  
 
-
-  (async function createTreeData() {
+  (async function createTreeData () {
     if (queryParams.idProgetto != undefined && window.location.pathname == '/project.html') {
       let parentFolder = await getCartellaById(queryParams.idProgetto, 'Generale');
       parentFolder = initializeFolder(parentFolder);
-      documenti.then(function (response) {
+      documenti.then(function(response) {
         let documento;
         for (documento of response) {
           if (documento.cartella.cartelleId.idProgetto == queryParams.idProgetto) {
@@ -535,21 +448,22 @@ $(document).ready(function () {
 
         let treeData = treeNodes([], parentFolder.sottoCartella, parentFolder.documenti);
         $('#tree').bstreeview({
-          data: treeData
+        data: treeData
         });
       });
     }
-
+    
+    
   })();
 
-  function initializeFolder(folder) {
+  function initializeFolder (folder) {
     folder.documenti = [];
     let cartella;
     let count = 0;
-    for (cartella of folder.sottoCartella) {
+    for(cartella of folder.sottoCartella) {
       folder.sottoCartella[count++] = initializeFolder(cartella);
     }
-    folder.sottoCartella.sort((a, b) => (a.cartelleId.nomeSottoCartella > b.cartelleId.nomeSottoCartella) ? 1 : ((b.cartelleId.nomeSottoCartella > a.cartelleId.nomeSottoCartella) ? -1 : 0));
+    folder.sottoCartella.sort((a,b) => (a.cartelleId.nomeSottoCartella > b.cartelleId.nomeSottoCartella) ? 1 : ((b.cartelleId.nomeSottoCartella > a.cartelleId.nomeSottoCartella) ? -1 : 0));
     return folder;
   }
 
@@ -565,26 +479,26 @@ $(document).ready(function () {
     }
     return parentFolder;
   }
-
-  function treeNodes(treeNode, cartelle, documenti) {
+  
+  function treeNodes (treeNode, cartelle, documenti) {
     let cartella;
     let count = 0;
     for (cartella of cartelle) {
-      treeNode.push({ text: cartella.cartelleId.nomeSottoCartella, icon: 'fa fa-folder' });
+      treeNode.push({text: cartella.cartelleId.nomeSottoCartella, icon:'fa fa-folder'});
       if (cartella.sottoCartella.length != 0 || cartella.documenti.length != 0) {
         treeNode[count++].nodes = treeNodes([], cartella.sottoCartella, cartella.documenti);
       } else {
-        treeNode[count++].nodes = [{ text: 'Aggiungi un Documento', icon: 'fa-solid fa-plus', class: 'aggiungi-documento' }];
+        treeNode[count++].nodes = [{text: 'Aggiungi un Documento', icon:'fa-solid fa-plus', class:'aggiungi-documento'}];
       }
     }
     let documento;
     for (documento of documenti) {
-      treeNode.push({ id: 'documento-' + documento.id, text: documento.nome, icon: 'fa-solid fa-file', class: 'documento' });
+      treeNode.push({id: 'documento-' + documento.id, text: documento.nome, icon:'fa-solid fa-file', class:'documento'});
     }
-    treeNode.push({ text: 'Aggiungi un Documento', icon: 'fa-solid fa-plus', class: 'aggiungi-documento' });
+    treeNode.push({text: 'Aggiungi un Documento', icon:'fa-solid fa-plus', class:'aggiungi-documento'});
     console.log(cartelle.length == 0);
     if (cartelle.length == 0) {
-
+      
     }
     return treeNode;
   }
@@ -626,9 +540,9 @@ $(document).ready(function () {
 
   //CRISTIAN FIERRO
 
-  //AL POSTO DI '1' Inserirai il l'id dell'utente loggato
+//AL POSTO DI '1' Inserirai il l'id dell'utente loggato
 
-  $.get('http://localhost:8080/utenti/' + '1', function (response) {
+$.get('http://localhost:8080/utenti/' + '1', function(response) {
     let utente = response;
     $('#foto').attr("src", utente.immagineProfilo);
     $('#nomeInfoProfilo').html(utente.nome);
@@ -636,18 +550,12 @@ $(document).ready(function () {
     $('#bioProfiloUtente').html(utente.bio);
   });
 
-  $.get('http://localhost:8080/social', function (response) {
+  $.get('http://localhost:8080/social', function(response) {
     let social = response;
     let x = "";
-<<<<<<< Updated upstream
-    for (social of response) {
-      if (social.socialId.idUtente == '1') {
-        x += `<a href="${social.linkSocial}">${social.socialId.nome}, &nbsp;&nbsp;&nbsp;&nbsp;</a>`
-=======
     for (social of response){
-      if(social.socialId.idUtente=="2"){
+      if(social.socialId.idUtente=='1'){
         x+=`<a href="${social.linkSocial}">${social.socialId.nome}, &nbsp;&nbsp;&nbsp;&nbsp;</a>`
->>>>>>> Stashed changes
       }
     }
     $('#nomeSocialProfilo').html(x);
@@ -655,9 +563,9 @@ $(document).ready(function () {
 
 <<<<<<< Updated upstream
   //DOMENICO PETITO
-  (function () {
-    partecipazioniProgetti.then(function(response) {
-      let emailDaVerificare = checkLoggedUser();
+  $.get('http://localhost:8080/partecipazioni', function(response) {
+      //let email = $('#email').val();
+      let emailDaVerificare = 'francescabaronissi@outlook.it';
       let emailUtente;
       let partecipazioni;
       let htmlDaAggiungereAProprietario = '';
@@ -676,129 +584,19 @@ $(document).ready(function () {
               htmlDaAggiungereACollaboratore += createCardUser(progetti);
             }
             $('#mieiProgetti').html(htmlDaAggiungereAProprietario);
-            $('#profiloProgetti').html(htmlDaAggiungereAProprietario);
             $('#visualizzaProgetti').html(htmlDaAggiungereACollaboratore);
-            $('#profiloCollab').html(htmlDaAggiungereACollaboratore);
           })  
       }
     });
-  })();
-=======
-  $.get('http://localhost:8080/partecipazioni', function (response) {
-    let utente = response;
-    let html = "";
-<<<<<<< Updated upstream
-    for (utente of response) {
-      html += `
-=======
-    response.sort((a,b) => (a.utente.nome > b.utente.nome) ? 1 : ((b.utente.nome > a.utente.nome) ? -1 : 0));
-      for(utente of response){
 
-
-        html+=`
->>>>>>> Stashed changes
-        <tbody >
-            <tr class="gino mt-3">
-                <td class="pt-2"> <img class="fotolistacollaboratori" id="foto" src="${utente.utente.immagineProfilo}" alt="">
-                    <div class="pl-lg-5 pl-md-3 pl-1 name"></div>
-                </td>
-                <td id="nomeUtenteProfilo" class="pt-3">${utente.utente.nome}</td>
-                <td class="pt-3"><div class="btn">Vai al profilo</div></td>
-            </tr>
-            <tr id="spacing-row">
-                <td></td>
-            </tr>
-        </tbody>
-        `
-    }
-    $('#listaColl').html(html);
-  });
-
-  //Salvataggio proposta 
-
-  $('#salvaProposta').click(function () {
-    testoProposta = tinymce.get("testoProposta").getContent()
-    motivazione = $('#insMotiv').val();
-    let params = {
-      testoModificato: testoProposta,
-      motivazione: motivazione
-    }
-    let jsonParams = JSON.stringify(params);
-    console.log('params string = ' + jsonParams);
-    $.ajax({
-      url: 'http://localhost:8080/proposte/save',
-      contentType: 'application/json;charset=UTF-8',
-      type: "POST",
-      data: jsonParams,
-      success: function (response) {
-        console.log('response dopo create =' + JSON.stringify(response));
-        alert('proposta inserita');
-        //ricarica la pagina
-        location.reload(true);
-      }
-    });
-  });
-
-  //accordion lista proposte
-  let i = 0;
-  let proposteList = [];
-  $.get('http://localhost:8080/proposte', function (response) {
-    let accordion = '<div class="accordion" id="accordion">';
-    for (proposte of response) {
-      i++;
-      accordion +=
-        '<div class="accordion-item mt-3">' + '<h2 class="accordion-header" id="heading' + i + '">' +
-        '<button style="background-color: #DCF5FF !important;"class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse' + i + '" aria-expanded="true" aria-controls="collapseOne">' +
-        '<strong>Proposta di ' + proposte.utente.nome + '</strong>' + '</button>' + '</h2>' +
-        '<div id="collapse' + i + '" class="accordion-collapse collapse" aria-labelledby="heading' + i + '">' +
-        '<div class="accordion-body">' +
-        '<div class="row">' +
-        '<div class="col">' +
-        '<p>' + '<h5>Proposta pubblicata il:</h5> ' +'<div>'+ proposte.dataPubblicazione +'</div>'+'</p>' +
-        '<p>' + '<h5>Motivazione:</h5> ' +'<div>'+ proposte.motivazione + '</div>'+'</p>' +
-        '<p>' + '<h5>Proposta:</h5> ' +'<div>'+ proposte.testoModificato + '</div>'+'</p>' +
-        '</div>' +
-        '</div>' + '</div>' + '</div>';
-      proposteList[i] = {
-        motivazione: proposte.motivazione
-      }
-    } /* end for of */
-    $("#listaProposte").append(accordion);
-  });
-
-  //DOMENICO PETITO
-  $.get('http://localhost:8080/partecipazioni', function (response) {
-    //let email = $('#email').val();
-    let emailDaVerificare = 'francescabaronissi@outlook.it';
-    let emailUtente;
-    let partecipazioni;
-    let htmlDaAggiungereAProprietario = '';
-    let htmlDaAggiungereACollaboratore = '';
-    let progetti;
-
-    for (partecipazioni of response) {
-      emailUtente = partecipazioni.utente.email;
-      let num = partecipazioni.progetto.idProgetti;
-      let ruolo = partecipazioni.ruolo;
-      $.get('http://localhost:8080/progetti/' + num, function (response) {
-        progetti = response;
-        if (ruolo === 'proprietario' && emailUtente === emailDaVerificare) {
-          htmlDaAggiungereAProprietario += createCardUser(progetti);
-        } else if (ruolo === 'collaboratore' && emailUtente === emailDaVerificare) {
-          htmlDaAggiungereACollaboratore += createCardUser(progetti);
-        }
-        $('#mieiProgetti').html(htmlDaAggiungereAProprietario);
-        $('#visualizzaProgetti').html(htmlDaAggiungereACollaboratore);
-      })
-    }
-  });
-
+  (async function () {
+    let emailDaVerificare = await getUtenteByEmail(checkLoggedUser()).email;
+    partecipazioniProgetti.then(function (response) {
 
   $('#prg').click(function () {
     alert("Prova effettuata");
   });
 
->>>>>>> Stashed changes
 
 
   //ANTONIO PASCARELLA
@@ -806,7 +604,7 @@ $(document).ready(function () {
 
 
   //FRANCESCA BARONISSI
-
+ 
 
 
 
@@ -975,7 +773,7 @@ function extractPayload(token) {
 
 async function getCartellaById(id, nome) {
   let cartella;
-  await $.get('http://localhost:8080/cartelle/' + id + '_' + nome, function (response) {
+  await $.get('http://localhost:8080/cartelle/' + id +'_' + nome, function (response) {
     cartella = response;
   });
   return cartella;
@@ -1081,19 +879,19 @@ async function getVersioneById(id) {
 
 async function getUtenteByEmail(email) {
   let utente;
-  await $.get('http://localhost:8080/utenti/email/' + email, function (response) {
+  await $.get('http://localhost:8080/utenti/email/' + email, function(response) {
     utente = response;
   });
   return utente;
 }
 
-function checkLoggedUser() {
+function checkLoggedUser () {
   if ($.cookie('jwt') != undefined && $.cookie('jwt') != '') {
     array = $.cookie('jwt').split('.');
     payload = array[1];
     jsonPayload = atob(payload);
     objPayload = JSON.parse(jsonPayload);
-    if (objPayload.exp * 1000 > new Date().getTime()) {
+    if (objPayload.exp*1000 > new Date().getTime()) {
       //token valido, l'utente può proseguire la navigazione
       if (objPayload.sub == '') {
         alert('email vuota');
@@ -1109,5 +907,5 @@ function checkLoggedUser() {
     return false;
   }
 
-
+  
 }
