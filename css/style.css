@@ -151,6 +151,7 @@ button, .btn {
       height: 60px;
       width: 60px;
     }
+<<<<<<< Updated upstream
 
  
     #terminiCondizioni:checked {
@@ -159,4 +160,16 @@ button, .btn {
 
     #signupModal h4{
         /*font-weight: 800 !important;*/
+=======
+    #ddd{
+      width: 300%;
+   height: auto;
+   position: absolute;
+   left: 50%;
+   top: 50%; 
+   margin-left: -750px;
+    }
+    .boldP{
+      font-weight: bold !important;
+>>>>>>> Stashed changes
     }
