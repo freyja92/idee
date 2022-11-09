@@ -583,9 +583,9 @@ $.get('http://localhost:8080/utenti/' + '1', function(response) {
         $.get('http://localhost:8080/progetti/' + num, function(response) {
           progetti = response;
             if (ruolo === 'proprietario' && emailUtente === emailDaVerificare) {
-              htmlDaAggiungereAProprietario += createCard(progetti);
+              htmlDaAggiungereAProprietario += createCardUser(progetti);
             } else if (ruolo === 'collaboratore' && emailUtente === emailDaVerificare) {
-              htmlDaAggiungereACollaboratore += createCard(progetti);
+              htmlDaAggiungereACollaboratore += createCardUser(progetti);
             }
             $('#mieiProgetti').html(htmlDaAggiungereAProprietario);
             $('#profiloProgetti').html(htmlDaAggiungereAProprietario);
