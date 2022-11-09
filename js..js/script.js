@@ -478,51 +478,62 @@ $(document).ready(function () {
         success: function (response) {
     
           
-          alert("il tuo progetto è stato creato correttamente ")
+          alert("il tuo progetto è stato creato correttamente ");
         },
         error: function () {
           alert('errore');
         }
       });
     });
+  
 
     //update del profilo 
-    $("#submitForm").click(function(event){
-    let nome= $("#nomeCreazione").val();
-    let cognome = $("#cognomeCreazione").val();
-    let email = $('#emailCreazione').val();
-    let immagineProfilo =$("#picCreazione").val().replace("C:\\fakepath", "img");
-    let bio = $("#bioCreazione").val();
-    let params = {
-      nome:nome,
-      cognome: cognome,
-      email:email,
-      immagineProfilo:immagineProfilo,
-      bio:bio
+    
+
+    
+
+      $("#assurdoBtn").click(async function(event){
+        event.preventDefault();
+        let utente = await getUtenteByEmail(checkLoggedUser());
+        let nome= $("#nomeCreazione").val();
+        let cognome = $("#cognomeCreazione").val();
+        let email = $('#emailCreazione').val();
+        let immagineProfilo =$("#picCreazione").val().replace("C:\\fakepath", "img");
+        let bio = $("#bioCreazione").val();
+        let params = {
+          nome:nome,
+          cognome: cognome,
+          email:email,
+          immagineProfilo:immagineProfilo,
+          bio:bio,
+          password: utente.password
+          
+        }; 
+    
+        let jsonParams = JSON.stringify(params);
+        $.ajax({
+          url: `${baseURL}/utenti/update/`+ utente.idUtente,
+          contentType: 'application/json;',
+          type: "PUT",
+          data: jsonParams,
+          success: function (response) {
       
-    }; 
-
-    let jsonParams = JSON.stringify(params);
-    $.ajax({
-      url: `${baseURL}/utenti/update/`+ id,
-      contentType: 'application/json;',
-      type: "POST",
-      data: jsonParams,
-      success: function (response) {
-  
-        
-        alert("il tuo profilo è stato aggiornato correttamente ")
-      },
-      error: function () {
-        alert('errore');
-      }
-    });
+            
+            alert("il tuo profilo è stato aggiornato correttamente ")
+          },
+          error: function () {
+            alert('errore');
+          }
+        });
+    
+    
+    
+    
+        });
+      
 
 
-
-
-    });
-
+    
 
 
 
@@ -638,14 +649,18 @@ $(document).ready(function () {
   //CRISTIAN FIERRO
 
 //AL POSTO DI '1' Inserirai il l'id dell'utente loggato
+(async function() {
+      let utente = await getUtenteByEmail(checkLoggedUser());
+      utente.idUtente;
 
-$.get('http://localhost:8080/utenti/' + '1', function(response) {
-    let utente = response;
+
+
     $('#foto').attr("src", utente.immagineProfilo);
     $('#nomeUtenteProfilo').html(utente.nome);
     $('#emailUtenteProfilo').html(utente.email);
+    $('#cognomeUtenteProfilo').html(utente.cognome);
     $('#bioProfiloUtente').html(utente.bio);
-  });
+
 
   $.get('http://localhost:8080/social', function(response) {
     let social = response;
@@ -657,9 +672,9 @@ $.get('http://localhost:8080/utenti/' + '1', function(response) {
     }
     $('#nomeSocialProfilo').html(x);
   });
-
+}) ();
   //DOMENICO PETITO
-  $.get('http://localhost:8080/partecipazioni', function(response) {
+ /* $.get('http://localhost:8080/partecipazioni', function(response) {
       //let email = $('#email').val();
       let emailDaVerificare = 'francescabaronissi@outlook.it';
       let emailUtente;
@@ -694,7 +709,7 @@ $.get('http://localhost:8080/utenti/' + '1', function(response) {
   });
 
 
-
+*/
   //ANTONIO PASCARELLA
 
 
