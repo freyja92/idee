@@ -315,12 +315,16 @@ $(document).ready(function () {
         console.log('verifica = ' + $.cookie('jwt'));
         console.log('JWTHeader = ' + JSON.stringify(JWTHeader));
         window.open ("http://127.0.0.1:5500/index.html", "_self");
+       
+        
       },
       error: function () {
         alert('login errato');
       }
     });
   });
+
+
 
   // Logout francesca
   $('#logoutBtn').click(function () {
@@ -448,11 +452,11 @@ $(document).ready(function () {
 //francesca post FUNZIONA
 
 
-
+//creazione progetto 
   $("#submitForm").click(function(event){
     event.preventDefault();
     let titolo = $('#titoloCreazione').val();
-    let img =$("#formImg").val();
+    let img =$("#formImg").val().replace("C:\\fakepath", "img");
     let info=$("#formDescrizione").val();
     let cifraGoal=$("#formGoal").val();
     let idCategorie= $("#formCategorie").val();
@@ -474,7 +478,7 @@ $(document).ready(function () {
         success: function (response) {
     
           
-          alert("il tup progetto è stato creato correttamente ")
+          alert("il tuo progetto è stato creato correttamente ")
         },
         error: function () {
           alert('errore');
@@ -482,7 +486,42 @@ $(document).ready(function () {
       });
     });
 
+    //update del profilo 
+    $("#submitForm").click(function(event){
+    let nome= $("#nomeCreazione").val();
+    let cognome = $("#cognomeCreazione").val();
+    let email = $('#emailCreazione').val();
+    let immagineProfilo =$("#picCreazione").val().replace("C:\\fakepath", "img");
+    let bio = $("#bioCreazione").val();
+    let params = {
+      nome:nome,
+      cognome: cognome,
+      email:email,
+      immagineProfilo:immagineProfilo,
+      bio:bio
+      
+    }; 
 
+    let jsonParams = JSON.stringify(params);
+    $.ajax({
+      url: `${baseURL}/utenti/update/`+ id,
+      contentType: 'application/json;',
+      type: "POST",
+      data: jsonParams,
+      success: function (response) {
+  
+        
+        alert("il tuo profilo è stato aggiornato correttamente ")
+      },
+      error: function () {
+        alert('errore');
+      }
+    });
+
+
+
+
+    });
 
 
 
