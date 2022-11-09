@@ -321,11 +321,7 @@ $(document).ready(function () {
         //verifica
         console.log('verifica = ' + $.cookie('jwt'));
         console.log('JWTHeader = ' + JSON.stringify(JWTHeader));
-<<<<<<< Updated upstream
         window.open ("http://127.0.0.1:5500/index.html", "_self");
-=======
-
->>>>>>> Stashed changes
       },
       error: function () {
         alert('login errato');
@@ -341,48 +337,29 @@ $(document).ready(function () {
   });
 
   //signup 
-<<<<<<< Updated upstream
   
-  $('#signupBtn').click(function(event) {
+  /*$('#signupBtn').click(function(event) {
     event.preventDefault();
     let nome = $("#signupNome").val();
     let cognome = $("#signupCognome").val();
   
-=======
-
-  $('#signupBtn').click(function (event) {
-    event.preventDefault();
-    let nome = $("#signupNome").val();
-    let cognome = $("#signupCognome").val();
-
->>>>>>> Stashed changes
     let email = $('#signupEmail').val();
     let password = $('#signupPwd1').val();
     let params = {
       email: email,
       password: password,
-<<<<<<< Updated upstream
       nome: nome, 
       cognome: cognome, 
     };
   
   
     //validation
-=======
-      nome: nome,
-      cognome: cognome,
-    };
-
-
-    //WORK IN PROGRESS DI FRANCESCA
->>>>>>> Stashed changes
     var uppercasePassword = /(?=.*?[A-Z])/;
     var lowercasePassword = /(?=.*?[a-z])/;
     var digitPassword = /(?=.*?[0-9])/;
     var spacesPassword = /^$|\s+/;
     var symbolPassword = /(?=.*?[#?!@$%^&*-])/;
     let password2 = $('#signupPwd2').val();
-<<<<<<< Updated upstream
     var pass1= $('#signupPwd1');
     var validName = /^[a-zA-Z ]*$/;
     var validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -429,27 +406,14 @@ $(document).ready(function () {
     lowercasePassword.test(password)==true && digitPassword.test(password)==true && !(spacesPassword.test(password)==true) &&
     symbolPassword.test(password)==true && nome.length > 0 && validName.test(nome) == true && cognome.length > 0 && validName.test(cognome)== true &&
     validEmail.test(email) == true && document.getElementById("terminiCondizioni").checked==true ){
-=======
-    var pass1 = $('#signupPwd1');
-
-    if (password != password2) {
-      alert('Le password inserite non coincidono')
-      $('#signupPwd2').addClass('invalid-input');
-    } if (uppercasePassword.test(password) == false) {
-      alert('Non sono presenti caratteri in maiuscolo')
-      pass1.addClass('invalid-input');
-
-    }
->>>>>>> Stashed changes
 
 
     if (password === password2 && password.length >= 8 && uppercasePassword.test(password) == true &&
       lowercasePassword.test(password) == true && digitPassword.test(password) == true && !(spacesPassword.test(password) == true) &&
       symbolPassword.test(password) == true) {
 
-<<<<<<< Updated upstream
       success: function (response) {
-        
+        console.log(response);
         
         alert("La registrazione è andata a buon fine");
         window.open("http://127.0.0.1:5500/index.html", "_self");
@@ -461,39 +425,16 @@ $(document).ready(function () {
       
     
       },
-=======
-
-      let jsonParams = JSON.stringify(params);
-      $.ajax({
-        url: `${baseURL}/api/auth/signup`,
-        contentType: 'application/json;charset=UTF-8',
-        type: "POST",
-        data: jsonParams,
-
-        success: function (response) {
-
-
->>>>>>> Stashed changes
 
 
 
-<<<<<<< Updated upstream
   } else { alert (errore)}
-=======
-          let token = response.accessToken;
-          console.log("token ricevuto = " + token);
-          $.cookie('jwt', token);
-          JWTHeader = updateHeader();
-          extractPayload(token);
->>>>>>> Stashed changes
 
           console.log('verifica = ' + $.cookie('jwt'));
           console.log('JWTHeader = ' + JSON.stringify(JWTHeader));
 
 
 
-<<<<<<< Updated upstream
-=======
 
 
         },
@@ -510,13 +451,12 @@ $(document).ready(function () {
 
 
 
-  });
+  });*/
 
 
 
 
 
->>>>>>> Stashed changes
   //ANDREA SABIA
 
 
@@ -639,21 +579,14 @@ $(document).ready(function () {
   $.get('http://localhost:8080/social', function (response) {
     let social = response;
     let x = "";
-<<<<<<< Updated upstream
-    for (social of response) {
-      if (social.socialId.idUtente == '1') {
-        x += `<a href="${social.linkSocial}">${social.socialId.nome}, &nbsp;&nbsp;&nbsp;&nbsp;</a>`
-=======
     for (social of response){
       if(social.socialId.idUtente=="2"){
         x+=`<a href="${social.linkSocial}">${social.socialId.nome}, &nbsp;&nbsp;&nbsp;&nbsp;</a>`
->>>>>>> Stashed changes
       }
     }
     $('#nomeSocialProfilo').html(x);
   });
 
-<<<<<<< Updated upstream
   //DOMENICO PETITO
   (function () {
     partecipazioniProgetti.then(function(response) {
@@ -683,20 +616,14 @@ $(document).ready(function () {
       }
     });
   })();
-=======
   $.get('http://localhost:8080/partecipazioni', function (response) {
     let utente = response;
     let html = "";
-<<<<<<< Updated upstream
-    for (utente of response) {
-      html += `
-=======
     response.sort((a,b) => (a.utente.nome > b.utente.nome) ? 1 : ((b.utente.nome > a.utente.nome) ? -1 : 0));
       for(utente of response){
 
 
         html+=`
->>>>>>> Stashed changes
         <tbody >
             <tr class="gino mt-3">
                 <td class="pt-2"> <img class="fotolistacollaboratori" id="foto" src="${utente.utente.immagineProfilo}" alt="">
@@ -798,7 +725,6 @@ $(document).ready(function () {
     alert("Prova effettuata");
   });
 
->>>>>>> Stashed changes
 
 
   //ANTONIO PASCARELLA
