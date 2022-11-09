@@ -212,13 +212,74 @@
 
         <div class="  collapse " id="infoPersonali" data-bs-parent="#myGroup">
 
+<form id="personalizzaUtente">
+       <div class="container">
+<div class="row">
+  
+  <div class="col-2"></div>
+        <div class="col-4">
+          <div class="row pt-3 ">
+              <label for="nomeCreazione" class="form-label" style="color:#38B6FF">
+                    <h5>Nome</h5>
+                  </label>
+                  <input type="text" class="form-control" id="nomeCreazione" placeholder="Nome">
+          </div>
+          <div class="row pt-3"> 
+            <label for="cognomeCreazione" class="form-label" style="color:#38B6FF">
+              <h5>Cognome</h5>
+            </label>
+            <input type="text" class="form-control" id="cognomeCreazione" placeholder="Cognome">
 
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit in nesciunt illo hic cupiditate nisi
-            animi veritatis ullam voluptate! Eius ratione ipsam quidem voluptas excepturi ex cupiditate harum
-            doloremque odit.</p>
+          </div>
+          <div class="row pt-3">
+            <label for="emailCreazione" class="form-label" style="color:#38B6FF">
+              <h5>Email</h5>
+            </label>
+            <input type="email" class="form-control" id="emailCreazione" placeholder="Email"> </div>
+          <div class="row pt-3"> 
+            <label for="socialCreazione" class="form-label" style="color:#38B6FF">
+              <h5>I tuoi contatti </h5>
+            </label>
+            <input type="text" class="form-control" id="socialCreazione" placeholder="Social networks"> 
+          </div>
+
+
+
+          <div class="row pt-3" > 
+
+
+            <label for="bioCreazione" class="form-label" style="color:#38B6FF">
+              <h5>Biografia </h5>
+            </label>
+            <textarea class="form-control" id="bioCreazione" row="3" style="background-color: #DCF5FF;"> </textarea>
+          </div>
+
 
         </div>
+<div class="col"></div>
 
+        <div class="col-3 pt-3">
+          <div class="row">
+          <label for="picCreazione" class="form-label" style="color:#38B6FF">
+            <h5>Avatar </h5>
+          </label>
+          <input type="file" class="form-control" id="picCreazione" placeholder="Social networks"> 
+        </div>
+        
+        <div class="row " style="margin-top: 350px" >
+         <button type="submit" class="btn">Submit</button>
+        </div>
+      </div>
+   
+        <div class="col-2"></div>
+
+      </div>
+
+       </div>
+
+        </div>
+      </form>
+      
         <div class=" collapse " id="creaProgetto" data-bs-parent="#myGroup">
 
           <form id="formCreazioneProgetto">
@@ -283,12 +344,38 @@
 
                   </div>
 
+                 
+  
+  
+                    </div>
+                    <div class="row mt-4">
+                      <div class="col-2"></div>
+                      <div class="col-4 ">
+                        <label for="formCategorie" class="form-label" style="color:#38B6FF">
+                          <h5>Seleziona la categoria:   </h5> 
+                          
+                       
+                        </label>
+                        <select class="form-control"  id="formCategorie" style="background-color:#DCF5FF">
+                          <option value="">seleziona una categoria</option>
+                          <option value="1"> Tecnologia e Informatica </option>
+                          <option value="2"> Arte</option>
+                          <option value="3"> Ambiente e Costruzioni </option>
+                          <option value="4"> Sport </option>
+                          <option value="5"> Manufatturiero</option>
+                          
 
-                  <div class="col-4 text-end">
+                          </select>
+
+                  </div>
+
+
+                  <div class="col-lg-4 text-end">
                     <div class="row"> &nbsp</div>
                     <div class="row"> &nbsp</div>
+                  
 
-                    <button type="submit" class="btn btn-lg">
+                    <button type="submit" id="submitForm" form="CreazioneProgetto" class="btn btn-lg">
                       Submit
                     </button>
 
@@ -302,10 +389,6 @@
 
 
               </div>
-
-          
-
-
 
 
 

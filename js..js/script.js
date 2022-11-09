@@ -286,9 +286,9 @@ $(document).ready(function () {
 
   //PARTE DI SPRING SECURITY
 
-  // modifica la parte precedente del codice per utilizzare questo ingegnoso stratagemma
 
-  //form login
+
+  //form login francesca
   let baseURL = 'http://localhost:8080';
   $("#loginBtn").click(function (event) {
     event.preventDefault();
@@ -322,14 +322,14 @@ $(document).ready(function () {
     });
   });
 
-  // Logout
+  // Logout francesca
   $('#logoutBtn').click(function () {
     $.cookie('jwt', '');
     JWTHeader = updateHeader();
     window.open ("http://127.0.0.1:5500/index.html", "_self");
   });
 
-  //signup 
+  //signup francesca
   
   $('#signupBtn').click(function(event) {
     event.preventDefault();
@@ -442,6 +442,52 @@ $(document).ready(function () {
 
 
 });
+
+
+
+//francesca post FUNZIONA
+
+
+
+  $("#submitForm").click(function(event){
+    event.preventDefault();
+    let titolo = $('#titoloCreazione').val();
+    let img =$("#formImg").val();
+    let info=$("#formDescrizione").val();
+    let cifraGoal=$("#formGoal").val();
+    let idCategorie= $("#formCategorie").val();
+    let params = {
+     titolo:titolo,
+     img: img,
+     info: info,
+     cifraGoal: cifraGoal,
+     idCategorie: idCategorie
+
+    };
+  
+    let jsonParams = JSON.stringify(params);
+      $.ajax({
+        url: `${baseURL}/progetti/save`,
+        contentType: 'application/json;',
+        type: "POST",
+        data: jsonParams,
+        success: function (response) {
+    
+          
+          alert("il tup progetto è stato creato correttamente ")
+        },
+        error: function () {
+          alert('errore');
+        }
+      });
+    });
+
+
+
+
+
+
+
 
   //ANDREA SABIA
 
@@ -596,6 +642,9 @@ $.get('http://localhost:8080/utenti/' + '1', function(response) {
             }
             $('#mieiProgetti').html(htmlDaAggiungereAProprietario);
             $('#visualizzaProgetti').html(htmlDaAggiungereACollaboratore);
+            $('#profiloCollab').html(htmlDaAggiungereACollaboratore);
+            $('#profiloProgetti').html(htmlDaAggiungereAProprietario);
+
           })  
       }
     });
@@ -611,68 +660,19 @@ $.get('http://localhost:8080/utenti/' + '1', function(response) {
 
 
 
-  //FRANCESCA BARONISSI
- 
 
 
 
 
-
-  //form login
-  $("#loginBtn").click(function (event) {
-    event.preventDefault();
-    let email = $('#email').val();
-    let password = $('#password').val();
-    let params = {
-      email: email,
-      password: password
-    };
-    let jsonParams = JSON.stringify(params);
-    $.ajax({
-      url: `${baseURL}/api/auth/login`,
-      contentType: 'application/json;charset=UTF-8',
-      type: "POST",
-      data: jsonParams,
-      success: function (response) {
-        //console.log('response = ' + JSON.stringify(response));
-        let token = response.accessToken;
-        console.log("token ricevuto = " + token);
-        $.cookie('jwt', token);
-        JWTHeader = updateHeader();
-        extractPayload(token);
-        //verifica
-        console.log('verifica = ' + $.cookie('jwt'));
-        console.log('JWTHeader = ' + JSON.stringify(JWTHeader));
-      },
-      error: function () {
-        alert('login errato');
-      }
-    });
-  });
-
-  // Visualizzazione di tutti gli utenti
-  $('#getUserBtn').click(function () {
-    $.ajax({
-      url: `${baseURL}/api/admin/users`,
-      headers: JWTHeader,
-      contentType: 'application/json;charset=UTF-8',
-      type: "GET",
-      success: function (response) {
-        console.log(response);
-      },
-      error: function () {
-        alert('accesso non autorizzato');
-      }
-    });
-  });
-
-  // Logout
-  $('#logoutBtn').click(function () {
-    $.cookie('jwt', '');
-    JWTHeader = updateHeader();
-  });
 
 }); /* end jQuery */
+
+
+
+
+
+
+
 
 function updateHeader() {
   return {

@@ -160,3 +160,9 @@ button, .btn {
     #signupModal h4{
         /*font-weight: 800 !important;*/
     }
+
+    .effettoHover:hover {
+    color:#38B6FF !important;
+    }
+
+    
