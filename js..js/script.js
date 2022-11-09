@@ -268,7 +268,14 @@ $(document).ready(function () {
 
     //CRISTIAN FIERRO
 
+    if ($(event.target).hasClass('aggiungi-documento')) {
 
+      (async function () {
+        //scrivere funzione
+        $('#modalProposta').modal("toggle");
+      })();
+
+    }
 
     //DOMENICO PETITO
 
@@ -314,7 +321,7 @@ $(document).ready(function () {
         //verifica
         console.log('verifica = ' + $.cookie('jwt'));
         console.log('JWTHeader = ' + JSON.stringify(JWTHeader));
-        window.open ("http://127.0.0.1:5500/index.html", "_self");
+        
       },
       error: function () {
         alert('login errato');
@@ -331,75 +338,50 @@ $(document).ready(function () {
 
   //signup francesca
   
-  $('#signupBtn').click(function(event) {
-    event.preventDefault();
-    let nome = $("#signupNome").val();
-    let cognome = $("#signupCognome").val();
-  
-    let email = $('#signupEmail').val();
-    let password = $('#signupPwd1').val();
-    let params = {
-      email: email,
-      password: password,
-      nome: nome, 
-      cognome: cognome, 
-    };
-  
-  
-    //validation
-    var uppercasePassword = /(?=.*?[A-Z])/;
-    var lowercasePassword = /(?=.*?[a-z])/;
-    var digitPassword = /(?=.*?[0-9])/;
-    var spacesPassword = /^$|\s+/;
-    var symbolPassword = /(?=.*?[#?!@$%^&*-])/;
-    let password2 = $('#signupPwd2').val();
-    var pass1= $('#signupPwd1');
-    var validName = /^[a-zA-Z ]*$/;
-    var validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    var errore ='';
-  
+$('#signupBtn').click(function(event) {
+  event.preventDefault();
+  let nome = $("#signupNome").val();
+  let cognome = $("#signupCognome").val();
+
+  let email = $('#signupEmail').val();
+  let password = $('#signupPwd1').val();
+  let params = {
+    email: email,
+    password: password,
+    nome: nome, 
+    cognome: cognome, 
+  };
+
+
+  //WORK IN PROGRESS DI FRANCESCA
+  var uppercasePassword = /(?=.*?[A-Z])/;
+  var lowercasePassword = /(?=.*?[a-z])/;
+  var digitPassword = /(?=.*?[0-9])/;
+  var spacesPassword = /^$|\s+/;
+  var symbolPassword = /(?=.*?[#?!@$%^&*-])/;
+  let password2 = $('#signupPwd2').val();
+  var pass1= $('#signupPwd1');
+
+  if (password != password2) {
+    alert('Le password inserite non coincidono')
+    $('#signupPwd2').addClass('invalid-input');
+  } if (uppercasePassword.test(password)==false) {
+    alert('Non sono presenti caratteri in maiuscolo')
+    pass1.addClass('invalid-input');
+
+  }
+
+
+  if (password === password2 && password.length >= 8 && uppercasePassword.test(password)==true && 
+  lowercasePassword.test(password)==true && digitPassword.test(password)==true && !(spacesPassword.test(password)==true) &&
+  symbolPassword.test(password)==true) {
+
     if (password != password2) {
-      errore+='Le password inserite non coincidono \n'
+      alert('Le password inserite non coincidono')
       $('#signupPwd2').addClass('invalid-input');
-    } if (uppercasePassword.test(password)==false) {
-      errore+='Non sono presenti caratteri in maiuscolo\n'
+    } if (uppercasePassword.test(password) == false) {
+      alert('Non sono presenti caratteri in maiuscolo')
       pass1.addClass('invalid-input');
-  
-    } if (digitPassword.test(password)== false) {
-      errore+= 'La password deve contenere almeno 9 caratteri \n'
-      pass1.addClass('invalid-input');
-    } if ( symbolPassword.test(password)== false) {
-      errore+= 'La password deve contenere almeno un simbolo\n'
-      pass1.addClass('invalid-input'); 
-    } if (nome.length <= 0 ) {
-      errore+= 'Inserire il nome\n';
-      $('#signupNome').addClass('invalid-input'); 
-    } if (validName.test(nome)==false ) {
-      errore+= 'inserire un nome valido \n'
-      $('#signupNome').addClass('invalid-input');
-    } if (cognome.length <= 0 ) {
-      errore+= 'Inserire il cognome\n';
-      $('#signupCognome').addClass('invalid-input'); 
-    } if (validName.test(cognome)==false ) {
-      errore+= 'inserire un cognome valido \n'
-      $('#signupCognome').addClass('invalid-input');
-    }if (email <=0) {
-      errore+= 'Inserire un e-mail\n'
-      $('#signupEmail').addClass('invalid-input');
-    }
-      if (validEmail.test(email)== false){
-        errore+= 'Inserire un e-mail valida\n'
-        $('#signupEmail').addClass('invalid-input');
-      } if (document.getElementById("terminiCondizioni").checked ==false) {
-        errore+= 'Accettare termini e condizioni';
-      }
-  
-
-    if (password === password2  && uppercasePassword.test(password)==true && 
-    lowercasePassword.test(password)==true && digitPassword.test(password)==true && !(spacesPassword.test(password)==true) &&
-    symbolPassword.test(password)==true && nome.length > 0 && validName.test(nome) == true && cognome.length > 0 && validName.test(cognome)== true &&
-    validEmail.test(email) == true && document.getElementById("terminiCondizioni").checked==true ){
-
 
   let jsonParams = JSON.stringify(params);
     $.ajax({
@@ -411,8 +393,6 @@ $(document).ready(function () {
       success: function (response) {
         
         
-        alert("La registrazione è andata a buon fine");
-        window.open("http://127.0.0.1:5500/index.html", "_self");
 
           
         
@@ -426,7 +406,9 @@ $(document).ready(function () {
         console.log('JWTHeader = ' + JSON.stringify(JWTHeader));
 
       
-    
+
+        
+        
       },
 
       
@@ -437,7 +419,7 @@ $(document).ready(function () {
       }
     })
 
-  } else { alert (errore)}
+  } else { alert ('fail')}
 
 
 
@@ -491,6 +473,7 @@ $(document).ready(function () {
 
   //ANDREA SABIA
 
+  
 
   (async function createTreeData () {
     if (queryParams.idProgetto != undefined && window.location.pathname == '/project.html') {
@@ -603,7 +586,7 @@ $(document).ready(function () {
 $.get('http://localhost:8080/utenti/' + '1', function(response) {
     let utente = response;
     $('#foto').attr("src", utente.immagineProfilo);
-    $('#nomeUtenteProfilo').html(utente.nome);
+    $('#nomeInfoProfilo').html(utente.nome);
     $('#emailUtenteProfilo').html(utente.email);
     $('#bioProfiloUtente').html(utente.bio);
   });
@@ -618,6 +601,7 @@ $.get('http://localhost:8080/utenti/' + '1', function(response) {
     }
     $('#nomeSocialProfilo').html(x);
   });
+
 
   //DOMENICO PETITO
   $.get('http://localhost:8080/partecipazioni', function(response) {
@@ -649,6 +633,9 @@ $.get('http://localhost:8080/utenti/' + '1', function(response) {
       }
     });
 
+  (async function () {
+    let emailDaVerificare = await getUtenteByEmail(checkLoggedUser()).email;
+    partecipazioniProgetti.then(function (response) {
 
   $('#prg').click(function () {
     alert("Prova effettuata");
@@ -916,4 +903,4 @@ function checkLoggedUser () {
   }
 
   
-}
+})
