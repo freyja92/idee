@@ -295,39 +295,6 @@ $(document).ready(function () {
 
   // modifica la parte precedente del codice per utilizzare questo ingegnoso stratagemma
 
-  //form login
-  let baseURL = 'http://localhost:8080';
-  $("#loginBtn").click(function (event) {
-    event.preventDefault();
-    let email = $('#email').val();
-    let password = $('#password').val();
-    let params = {
-      email: email,
-      password: password
-    };
-    let jsonParams = JSON.stringify(params);
-    $.ajax({
-      url: `${baseURL}/api/auth/login`,
-      contentType: 'application/json;charset=UTF-8',
-      type: "POST",
-      data: jsonParams,
-      success: function (response) {
-        //console.log('response = ' + JSON.stringify(response));
-        let token = response.accessToken;
-        console.log("token ricevuto = " + token);
-        $.cookie('jwt', token);
-        JWTHeader = updateHeader();
-        extractPayload(token);
-        //verifica
-        console.log('verifica = ' + $.cookie('jwt'));
-        console.log('JWTHeader = ' + JSON.stringify(JWTHeader));
-        window.open ("http://127.0.0.1:5500/index.html", "_self");
-      },
-      error: function () {
-        alert('login errato');
-      }
-    });
-  });
 
   // Logout
   $('#logoutBtn').click(function () {
@@ -587,7 +554,6 @@ $(document).ready(function () {
     $('#nomeSocialProfilo').html(x);
   });
 
-  //DOMENICO PETITO
   (function () {
     partecipazioniProgetti.then(function(response) {
       let emailDaVerificare = checkLoggedUser();
@@ -643,7 +609,37 @@ $(document).ready(function () {
 
   //Salvataggio proposta 
 
-  $('#salvaProposta').click(function () {
+  (async function() {
+    let utente = await getUtenteByEmail(checkLoggedUser());
+    utente.idUtente;
+    $('#salvaProposta').click(function () {
+      testoProposta = tinymce.get("testoProposta").getContent()
+      motivazione = $('#insMotiv').val();
+      let params = {
+        idUtente: utente.idUtente,
+        testoModificato: testoProposta,
+        motivazione: motivazione,
+        dataPubblicazione: new Date().getTime()
+      }
+      let jsonParams = JSON.stringify(params);
+      console.log('params string = ' + jsonParams);
+      $.ajax({
+        url: 'http://localhost:8080/proposte/save',
+        contentType: 'application/json;charset=UTF-8',
+        type: "POST",
+        data: jsonParams,
+        success: function (response) {
+          console.log('response dopo create =' + JSON.stringify(response));
+          alert('proposta inserita');
+          //ricarica la pagina
+          location.reload(true);
+        }
+      });
+    });
+}) ();
+
+
+  /*$('#salvaProposta').click(function () {
     testoProposta = tinymce.get("testoProposta").getContent()
     motivazione = $('#insMotiv').val();
     let params = {
@@ -664,7 +660,7 @@ $(document).ready(function () {
         location.reload(true);
       }
     });
-  });
+  });*/
 
   //accordion lista proposte
   let i = 0;
@@ -684,12 +680,11 @@ $(document).ready(function () {
         '<p>' + '<h5>Proposta pubblicata il:</h5> ' +'<div>'+ proposte.dataPubblicazione +'</div>'+'</p>' +
         '<p>' + '<h5>Motivazione:</h5> ' +'<div>'+ proposte.motivazione + '</div>'+'</p>' +
         '<p>' + '<h5>Proposta:</h5> ' +'<div>'+ proposte.testoModificato + '</div>'+'</p>' +
-        '</div>' +
-        '</div>' + '</div>' + '</div>';
+        '</div>' + '</div>' + '</div>' + '</div>';
       proposteList[i] = {
         motivazione: proposte.motivazione
       }
-    } /* end for of */
+    }
     $("#listaProposte").append(accordion);
   });
 
@@ -738,67 +733,166 @@ $(document).ready(function () {
 
 
 
-  //form login
-  $("#loginBtn").click(function (event) {
-    event.preventDefault();
-    let email = $('#email').val();
-    let password = $('#password').val();
-    let params = {
-      email: email,
-      password: password
-    };
-    let jsonParams = JSON.stringify(params);
-    $.ajax({
-      url: `${baseURL}/api/auth/login`,
-      contentType: 'application/json;charset=UTF-8',
-      type: "POST",
-      data: jsonParams,
-      success: function (response) {
-        //console.log('response = ' + JSON.stringify(response));
-        let token = response.accessToken;
-        console.log("token ricevuto = " + token);
-        $.cookie('jwt', token);
-        JWTHeader = updateHeader();
-        extractPayload(token);
-        //verifica
-        console.log('verifica = ' + $.cookie('jwt'));
-        console.log('JWTHeader = ' + JSON.stringify(JWTHeader));
-      },
-      error: function () {
-        alert('login errato');
-      }
-    });
-  });
+   //form login francesca
+   let baseURL = 'http://localhost:8080';
+   $("#loginBtn").click(function (event) {
+     event.preventDefault();
+     let email = $('#email').val();
+     let password = $('#password').val();
+     let params = {
+       email: email,
+       password: password
+     };
+     let jsonParams = JSON.stringify(params);
+     $.ajax({
+       url: `${baseURL}/api/auth/login`,
+       contentType: 'application/json;charset=UTF-8',
+       type: "POST",
+       data: jsonParams,
+       success: function (response) {
+         //console.log('response = ' + JSON.stringify(response));
+         let token = response.accessToken;
+         console.log("token ricevuto = " + token);
+         $.cookie('jwt', token);
+         JWTHeader = updateHeader();
+         extractPayload(token);
+         //verifica
+         console.log('verifica = ' + $.cookie('jwt'));
+         console.log('JWTHeader = ' + JSON.stringify(JWTHeader));
+         window.open ("http://127.0.0.1:5500/index.html", "_self");
+       },
+       error: function () {
+         alert('login errato');
+       }
+     });
+   });
+ 
+   // Logout francesca
+   $('#logoutBtn').click(function () {
+     $.cookie('jwt', '');
+     JWTHeader = updateHeader();
+     window.open ("http://127.0.0.1:5500/index.html", "_self");
+   });
+ 
+   //signup francesca
+   
+   $('#signupBtn').click(function(event) {
+     event.preventDefault();
+     let nome = $("#signupNome").val();
+     let cognome = $("#signupCognome").val();
+   
+     let email = $('#signupEmail').val();
+     let password = $('#signupPwd1').val();
+     let params = {
+       email: email,
+       password: password,
+       nome: nome, 
+       cognome: cognome, 
+     };
+   
+   
+     //validation
+     var uppercasePassword = /(?=.*?[A-Z])/;
+     var lowercasePassword = /(?=.*?[a-z])/;
+     var digitPassword = /(?=.*?[0-9])/;
+     var spacesPassword = /^$|\s+/;
+     var symbolPassword = /(?=.*?[#?!@$%^&*-])/;
+     let password2 = $('#signupPwd2').val();
+     var pass1= $('#signupPwd1');
+     var validName = /^[a-zA-Z ]*$/;
+     var validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+     var errore ='';
+   
+     if (password != password2) {
+       errore+='Le password inserite non coincidono \n'
+       $('#signupPwd2').addClass('invalid-input');
+     } if (uppercasePassword.test(password)==false) {
+       errore+='Non sono presenti caratteri in maiuscolo\n'
+       pass1.addClass('invalid-input');
+   
+     } if (digitPassword.test(password)== false) {
+       errore+= 'La password deve contenere almeno 9 caratteri \n'
+       pass1.addClass('invalid-input');
+     } if ( symbolPassword.test(password)== false) {
+       errore+= 'La password deve contenere almeno un simbolo\n'
+       pass1.addClass('invalid-input'); 
+     } if (nome.length <= 0 ) {
+       errore+= 'Inserire il nome\n';
+       $('#signupNome').addClass('invalid-input'); 
+     } if (validName.test(nome)==false ) {
+       errore+= 'inserire un nome valido \n'
+       $('#signupNome').addClass('invalid-input');
+     } if (cognome.length <= 0 ) {
+       errore+= 'Inserire il cognome\n';
+       $('#signupCognome').addClass('invalid-input'); 
+     } if (validName.test(cognome)==false ) {
+       errore+= 'inserire un cognome valido \n'
+       $('#signupCognome').addClass('invalid-input');
+     }if (email <=0) {
+       errore+= 'Inserire un e-mail\n'
+       $('#signupEmail').addClass('invalid-input');
+     }
+       if (validEmail.test(email)== false){
+         errore+= 'Inserire un e-mail valida\n'
+         $('#signupEmail').addClass('invalid-input');
+       } if (document.getElementById("terminiCondizioni").checked ==false) {
+         errore+= 'Accettare termini e condizioni';
+       }
+   
+ 
+     if (password === password2  && uppercasePassword.test(password)==true && 
+     lowercasePassword.test(password)==true && digitPassword.test(password)==true && !(spacesPassword.test(password)==true) &&
+     symbolPassword.test(password)==true && nome.length > 0 && validName.test(nome) == true && cognome.length > 0 && validName.test(cognome)== true &&
+     validEmail.test(email) == true && document.getElementById("terminiCondizioni").checked==true ){
+ 
+ 
+   let jsonParams = JSON.stringify(params);
+     $.ajax({
+       url: `${baseURL}/api/auth/signup`,
+       contentType: 'application/json;charset=UTF-8',
+       type: "POST",
+       data: jsonParams,
+ 
+       success: function (response) {
+         
+         
+         alert("La registrazione è andata a buon fine");
+         window.open("http://127.0.0.1:5500/index.html", "_self");
+ 
+           
+         
+         let token = response.accessToken;
+         console.log("token ricevuto = " + token);
+         $.cookie('jwt', token);
+         JWTHeader = updateHeader();
+         extractPayload(token);
+ 
+         console.log('verifica = ' + $.cookie('jwt'));
+         console.log('JWTHeader = ' + JSON.stringify(JWTHeader));
+ 
+       
+     
+       },
+ 
+       
+       error: function () {
+         alert('registrazione fallita');
+ 
+         
+       }
+     })
+ 
+   } else { alert (errore)}
+ 
+ 
+ 
+ });
 
-  // Visualizzazione di tutti gli utenti
-  $('#getUserBtn').click(function () {
-    $.ajax({
-      url: `${baseURL}/api/admin/users`,
-      headers: JWTHeader,
-      contentType: 'application/json;charset=UTF-8',
-      type: "GET",
-      success: function (response) {
-        console.log(response);
-      },
-      error: function () {
-        alert('accesso non autorizzato');
-      }
-    });
-  });
-
-  // Logout
-  $('#logoutBtn').click(function () {
-    $.cookie('jwt', '');
-    JWTHeader = updateHeader();
-  });
+  
 
 }); /* end jQuery */
 
-function updateHeader() {
-  return {
-    Authorization: 'Bearer ' + $.cookie('jwt')
-  };
-}
+
 
 function extractPayload(token) {
   let array = token.split('.');
