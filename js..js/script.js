@@ -138,47 +138,37 @@ $(document).ready(function () {
   });
 
   //NavBar utente loggato
+  (async function () {
+    if (checkLoggedUser()) {
+          let utente = await getUtenteByEmail(checkLoggedUser());
+          $('#navbar').html(`    <div class="container-fluid">
+          <a class="navbar-brand" href="index.html"><img src="img/logonav.png"></a>     
+          <ul class="nav justify-content-end fs-2">
+            <li class="nav-item ">
+              <a class="nav-link  " aria-current="page"style="color: #DCF5FF" href="search.html">Idee</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link  " style="color:#DCF5FF" aria-current="page" href="guida.html">Guida</a>
+            </li>
+            <li class="nav-item  ">
+              <div class="btn-group dropstart ">
+              <a class="btn dropdown-toggle " type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:#DCF5FF" href="#"><i class="bi bi-person-workspace"></i></a>
+              <ul class="dropdown-menu ">
 
-  (function() {
-    if(checkLoggedUser()) {
-      $('#navbar').html(`    <div class="container-fluid">
-      <a class="navbar-brand" href="index.html"><img src="img/logonav.png"></a>
-      
-      <ul class="nav justify-content-end fs-2">
-      
-      
-
-        <li class="nav-item ">
-          <a class="nav-link  " aria-current="page"style="color: #DCF5FF" href="search.html">Idee</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link  " style="color:#DCF5FF" aria-current="page" href="guida.html">Guida</a>
-        </li>
-
-        <li class="nav-item  ">
-          <div class="btn-group dropstart ">
-          <a class="btn dropdown-toggle " type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:#DCF5FF" href="#"><i class="bi bi-person-workspace"></i></a>
-          <ul class="dropdown-menu ">
-          
-            <li><a class="dropdown-item" href="profilocopy.html">Profilo</a></li>
-            <li><a class="dropdown-item" href="user.html">Impostazioni</a></li>
-            <li><a class="dropdown-item" href="#" id="logoutBtn">Esci</a></li>
+                <li><a class="dropdown-item" href="profilocopy.html?idUtente=${utente.idUtente}">Profilo</a></li>
+                <li><a class="dropdown-item" href="user.html">Impostazioni</a></li>
+                <li><a class="dropdown-item" href="#" id="logoutBtn">Esci</a></li>
+              </ul>
+            </div>
+            </li>
           </ul>
-        </div>
-        
-        </li>
-    
-      </ul>
-
-
-    </div>`);
-    } else {
-      //Sloggare l'utente
-      $.cookie('jwt', '');
-      updateHeader();
-    }
-  })();
+        </div>`);
+        } else {
+          //Sloggare l'utente
+          $.cookie('jwt', '');
+          updateHeader();
+        }
+      })();
 
 
 
@@ -203,17 +193,33 @@ $(document).ready(function () {
 
   //Generazione anteprima in preview.html
 
-  if (queryParams.idProgetto != undefined) {
-    progetti.then((response) => {
+  
+   /* progetti.then((response) => {
       let progetto;
       for (progetto of response) {
         if (progetto.idProgetti == queryParams.idProgetto) {
-          $('.anteprima').html(createAnteprima(progetto, 'idProgetto=' + queryParams.idProgetto));
+       //  $('.anteprima').html(createAnteprima(progetto, 'idProgetto=' + queryParams.idProgetto));
+
         }
       }
-    });
-  }
+    });*/
 
+
+  (async function () {
+    if (queryParams.idProgetto != undefined) {
+    let progetto = await getProgettoById(queryParams.idProgetto);
+    $('#preview-titolo').html(progetto.titolo);
+    $('#preview-img').attr('src', progetto.img)
+    $('#preview-info').html(progetto.info);
+   // $('#preview-btn').attr('data-id', progetto.idProgetti);
+    //$('#preview-btn').attr('href', url.replace(url.slice(url.lastIndexOf('/') + 1), 'preview.html?idProgetto=' + queryParams.idProgetto));
+    //francesca
+    }
+    })();
+
+    $('#preview-btn').click(function(){ 
+      window.open (window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/" + "project.html?idProgetto="+ queryParams.idProgetto, "_self");
+    });
 
   //Pulsante per tornare indietro in project.html
 
@@ -267,6 +273,11 @@ $(document).ready(function () {
 
 
     //CRISTIAN FIERRO
+   
+
+    if ($(event.target).parents('.vai-al-profilo').length > 0) {
+      window.open('profilocopy.html?idUtente='+$(event.target).parents('.vai-al-profilo').data('utente'), '_self');
+    }
 
  //CRISTIAN FIERRO
 
@@ -323,7 +334,9 @@ $(document).ready(function () {
         //verifica
         console.log('verifica = ' + $.cookie('jwt'));
         console.log('JWTHeader = ' + JSON.stringify(JWTHeader));
-        window.open ("http://127.0.0.1:5500/index.html", "_self");
+        window.open (window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/"+"index.html", "_self");
+
+    
        
         
       },
@@ -339,7 +352,7 @@ $(document).ready(function () {
   $('#logoutBtn').click(function () {
     $.cookie('jwt', '');
     JWTHeader = updateHeader();
-    window.open ("http://127.0.0.1:5500/index.html", "_self");
+    window.open (window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/"+"index.html", "_self");
   });
 
   //signup francesca
@@ -425,7 +438,7 @@ $(document).ready(function () {
         
         
         alert("La registrazione è andata a buon fine");
-        window.open("http://127.0.0.1:5500/index.html", "_self");
+        window.open(window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/"+"index.html", "_self");
 
           
         
@@ -582,7 +595,6 @@ $("#submitForm").click(function(event){
 
   //ANDREA SABIA
 
-
   (async function createTreeData () {
     if (queryParams.idProgetto != undefined && window.location.pathname == '/project.html') {
       let parentFolder = await getCartellaById(queryParams.idProgetto, 'Generale');
@@ -596,6 +608,7 @@ $("#submitForm").click(function(event){
         }
 
         let treeData = treeNodes([], parentFolder.sottoCartella, parentFolder.documenti);
+        treeData.push({text: 'Aggiungi un Documento', icon:'fa-solid fa-plus', class:'aggiungi-documento'});
         $('#tree').bstreeview({
         data: treeData
         });
@@ -604,7 +617,6 @@ $("#submitForm").click(function(event){
     
     
   })();
-
   function initializeFolder (folder) {
     folder.documenti = [];
     let cartella;
@@ -654,36 +666,71 @@ $("#submitForm").click(function(event){
 
   //PASQUALE PANICO
 
+    
+  
   $.get('http://localhost:8080/donazioni', function (response) {
     let donazione;
     let htmlDaAggiungere = '';
+    let htmlTutto= '';
+    let i=0;
+    //sort response su data
+    //ciclo 3 volte
+    response.sort((a,b) => (a.orarioPubblicazione > b.orarioPubblicazione) ? -1 : ((b.orarioPubblicazione > a.orarioPubblicazione) ? 1 : 0));
     for (donazione of response) {
-      htmlDaAggiungere += createListaDonazioni(donazione);
+      i++
+      if(queryParams.idProgetto == donazione.progetto.idProgetti){
+        if(i<=3)
+          htmlDaAggiungere += createListaDonazioni(donazione);
+       
+          htmlTutto+=createListaDonazioni(donazione);
+      }
+      
     }
-    //$('#donazioni').html(htmlDaAggiungere);
+    
+    htmlDaAggiungere+= ` <div class="card" style="border-color:#38B6FF " > 
+    <button class=" btn " data-bs-toggle="modal" data-bs-target="#mostraTutto" href="#" style="border-width: 1px; background-color: white !important; color: black;">
+     Mostra tutti 
+    </button>
+  </div>
+  <form class="modal form-progetto" tabindex="-1" id="mostraTutto">
+    <div class="modal-dialog"style="overflow-y: initial;  " >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Donazioni</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+       
+        <div class="modal-body" style="overflow-y: auto;  height: 80vh;" id="donazioni-tutto">
+         
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  </form>`
+    $('#donazioni').html(htmlDaAggiungere);
+    $('#donazioni-tutto').html(htmlTutto);
   });
 
   function createListaDonazioni(donazione) {
     return `
-    <div class="card d-flex   " style="border: none; ">
-                  <div class="card-text " >
-                    
-                    <div class="row  " >
-                      <div class="col-4">
-                        <div class="card" style="border: none">
-                    <img src="https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_960_720.png" alt="avatar"
-                      class="rounded-circle h-100 w-100 mb-4 mt-4" >
-                    </div></div>
-                    <div class="col-8">
-                      <div class="card-body">
-                        <p class="card-title mb-4 mt-4">${donazione.nome}
-                        ha donato <b>€ ${donazione.importo} </b></p>
-                      </div>
-                   
-                  </div>
-                </div>
-                </div>
-                </div>
+    <div class="card  d-flex   " style="border: none; ">
+    <div class="card-text " >
+      
+      <div class="row  " >
+        <div class="col-4">
+          <div class="card" style="border: none">
+            <img src=  "${donazione.utente == null ?" https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_960_720.png" : donazione.utente.immagineProfilo}" alt="avatar"
+              class="rounded-circle h-100 w-100 mb-4 mt-4" >
+            </div></div>
+            <div class="col-8">
+              <div class="card-body">
+                <p class="card-title mb-4 mt-4">${donazione.utente == null ?"Anonima" : donazione.utente.nome  }
+                ha donato <b>€${donazione.importo} </b></p>
+              </div>
+     
+    </div>
+  </div>
     `
   }
 
@@ -710,7 +757,7 @@ $("#submitForm").click(function(event){
 
 
 (function () {
-  partecipazioniProgetti.then(function(response) {
+  partecipazioniProgetti.then(async function(response) {
     let emailDaVerificare = checkLoggedUser();
     let emailUtente;
     let partecipazioni;
@@ -719,45 +766,81 @@ $("#submitForm").click(function(event){
     let progetti;
 
     for(partecipazioni of response) { 
-      emailUtente = partecipazioni.utente.email;    
+      emailUtente = partecipazioni.utente.email; 
+      console.log(emailUtente);  
+      let num = partecipazioni.progetto.idProgetti;
+      progetti = await getProgettoById(num);
+      let ruolo = partecipazioni.ruolo;
+          if (ruolo === 'proprietario' && emailUtente == emailDaVerificare) {
+           
+
+            htmlDaAggiungereAProprietario += createCardUser(progetti);
+          } else if (ruolo === 'collaboratore' && emailUtente == emailDaVerificare) {
+          
+            htmlDaAggiungereACollaboratore += createCardUser(progetti);
+          }
+          
+    }
+    $('#mieiProgetti').html(htmlDaAggiungereAProprietario);
+          $('#visualizzaProgetti').html(htmlDaAggiungereACollaboratore);
+  });
+})();
+( function () {
+  partecipazioniProgetti.then(async function(response) {
+    if (queryParams.idUtente != undefined) {
+      let utente = await getUtenteById(queryParams.idUtente);
+    let emailDaVerificare = utente.email;
+    let partecipazioni;
+    let htmlDaAggiungereAProprietario = '';
+    let htmlDaAggiungereACollaboratore = '';
+    let progetti;
+
+    for(partecipazioni of response) { 
+      let emailUtente = partecipazioni.utente.email;    
       let num = partecipazioni.progetto.idProgetti;
       let ruolo = partecipazioni.ruolo;
       $.get('http://localhost:8080/progetti/' + num, function(response) {
         progetti = response;
           if (ruolo === 'proprietario' && emailUtente === emailDaVerificare) {
-            htmlDaAggiungereAProprietario += createCard(progetti);
+            htmlDaAggiungereAProprietario += createCardUser(progetti);
           } else if (ruolo === 'collaboratore' && emailUtente === emailDaVerificare) {
-            htmlDaAggiungereACollaboratore += createCard(progetti);
+            htmlDaAggiungereACollaboratore += createCardUser(progetti);
           }
-          $('#mieiProgetti').html(htmlDaAggiungereAProprietario);
           $('#profiloProgetti').html(htmlDaAggiungereAProprietario);
-          $('#visualizzaProgetti').html(htmlDaAggiungereACollaboratore);
           $('#profiloCollab').html(htmlDaAggiungereACollaboratore);
         })  
     }
+    }
+    
   });
 })();
+
+
+
 $.get('http://localhost:8080/partecipazioni', function (response) {
-  let utente = response;
+  //let utente = response;
+  let utente;
   let html = "";
   response.sort((a,b) => (a.utente.nome > b.utente.nome) ? 1 : ((b.utente.nome > a.utente.nome) ? -1 : 0));
     for(utente of response){
-
-
-      html+=`
+      if (utente.ruolo == 'collaboratore') {
+        html+=`
       <tbody >
           <tr class="gino mt-3">
-              <td class=""> <div class="pt-2"><img class="fotolistacollaboratori" id="foto" src="${utente.utente.immagineProfilo}" alt=""> </div>
+              <td class="pt-2"> <img class="fotolistacollaboratori" id="foto" src="${utente.utente.immagineProfilo}" alt="">
                   <div class="pl-lg-5 pl-md-3 pl-1 name"></div>
               </td>
               <td id="nomeUtenteProfilo" class="pt-3">${utente.utente.nome}</td>
-              <td class="pt-3"><div class="btn btn-sm" >Vai al profilo</div></td>
+              <td class="pt-3"><div class="btn">Vai al profilo</div></td>
           </tr>
           <tr id="spacing-row">
               <td></td>
           </tr>
       </tbody>
       `
+      }
+
+      
   }
   $('#listaColl').html(html);
 });
@@ -783,16 +866,60 @@ $.get('http://localhost:8080/partecipazioni', function (response) {
       contentType: 'application/json;charset=UTF-8',
       type: "POST",
       data: jsonParams,
-      success: function (response) {
-        console.log('response dopo create =' + JSON.stringify(response));
-        alert('proposta inserita');
-        //ricarica la pagina
-        location.reload(true);
-      }
-    });
-  });
-}) ();
+      success: async function (response) {
+        let idProposta = response.idProposte;
+        let utente = await getUtenteByEmail(checkLoggedUser());
+        partecipazioniProgetti.then(function (response) {
+          let registrato = false;
+          for (partecipazione of response) {
+            if (utente.idUtente == partecipazione.utente.idUtente) {
+              registrato = true;
+            }
+          }
+          console.log("registrato =" + registrato);
+          if (!registrato) {
+            console.log(utente.idUtente);
+            console.log(queryParams.idProgetti);
+        let partecipazione = {
+            ruolo : 'collaboratore',
+            punteggio : 0,
+            idUtente : utente.idUtente,
+            idProgetto : queryParams.idProgetto
 
+        };
+        let jsonPartecipazione = JSON.stringify(partecipazione);
+        $.ajax({
+          url:` ${baseURL}/partecipazioni/save`,
+          contentType: 'application/json;',
+          type: "POST",
+          data: jsonPartecipazione,
+          success: function (response) {
+
+
+            alert('proposta inserita');
+            location.reload(true);
+          },
+          error: function (response) {
+            console.log('parametri inviati' + JSON.stringify(response));
+            $.ajax({
+              url: `${baseURL}/proposte/delete/${idProposta}`,
+              type: 'DELETE',
+              success: function(result) {
+                alert('errore');
+              }
+          });
+          
+          }
+        });
+          } else {
+            alert('proposta inserita');
+            location.reload(true);
+          }
+        });
+      }
+  });
+});
+}) ();
 
 /*$('#salvaProposta').click(function () {
   testoProposta = tinymce.get("testoProposta").getContent()
@@ -843,35 +970,7 @@ $.get('http://localhost:8080/proposte', function (response) {
   $("#listaProposte").append(accordion);
 });
   //DOMENICO PETITO
-  (function () {
-    partecipazioniProgetti.then(function(response) {
-      let emailDaVerificare = checkLoggedUser();
-      let emailUtente;
-      let partecipazioni;
-      let htmlDaAggiungereAProprietario = '';
-      let htmlDaAggiungereACollaboratore = '';
-      let progetti;
-
-      for(partecipazioni of response) { 
-        emailUtente = partecipazioni.utente.email;    
-        let num = partecipazioni.progetto.idProgetti;
-        let ruolo = partecipazioni.ruolo;
-        $.get('http://localhost:8080/progetti/' + num, function(response) {
-          progetti = response;
-            if (ruolo === 'proprietario' && emailUtente === emailDaVerificare) {
-              htmlDaAggiungereAProprietario += createCardUser(progetti);
-            } else if (ruolo === 'collaboratore' && emailUtente === emailDaVerificare) {
-              htmlDaAggiungereACollaboratore += createCardUser(progetti);
-            }
-            $('#mieiProgetti').html(htmlDaAggiungereAProprietario);
-            $('#profiloProgetti').html(htmlDaAggiungereAProprietario);
-            $('#visualizzaProgetti').html(htmlDaAggiungereACollaboratore);
-            $('#profiloCollab').html(htmlDaAggiungereACollaboratore);
-          })  
-      }
-    });
-  })();
-
+  
 
 
 
@@ -951,21 +1050,33 @@ function createCardUser(card) {
 
 function createAnteprima(progetto, query) {
   return `<div class="row">
-<div class="col-8">
+<div class="col-lg-8">
 <h1 class="card-title">${progetto.titolo}</h1>
 <img src="${progetto.img}" style="width:100%" >
 <p class="display-6">${progetto.info}</p>
     </div>
-    <div class="col">
-        <div class="d-grid gap-3 col-6 mx-auto">
-            <button class="btn btn-lg " type="button" style="background-color:rgb(246, 246, 55) !important;">Dona</button>
-            <p><b>€ ${progetto.cifraRaccolta}</b>  a fronte di € ${progetto.cifraGoal}</p>
+    <div class="col-lg-4 pt-5">
+        <div class="d-grid gap-3 col-10 mx-auto">
+
+          
+         
             <button class="btn btn-lg " type="button">Condividi</button>
             <button class="btn btn-lg" id="btn" type="button" onclick="window.location.replace('${'project.html?' + query}', 'preview.html')">Collabora</button>
+            <button class="btn btn-lg " type="button" style="background-color:rgb(255, 194, 14) !important;">Dona</button>
+            <div class="card" style="border-color:rgb(255, 194, 14); " > 
+            <div class="card-body text-center">
+              <b>€  ${progetto.cifraRaccolta}</b> raccolti a fronte di € ${progetto.cifraGoal}
+            </div>
+          </div>
           </div>
         
 </div> 
-</div>`;
+</div>
+<div class="container-fluid" id="donazioni">
+</div>
+
+
+`;
 }
 
 function ricercaProgetto(form) {
@@ -1035,6 +1146,7 @@ async function getDocumentoModificatoById(id) {
   });
   return documento;
 }
+
 
 async function getDonazioneById(id) {
   let donazione;

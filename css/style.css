@@ -28,7 +28,7 @@ button, .btn {
    
   }
   
-  #btn {
+  #preview-btn {
     
     background-color: #A172FF !important;
     font-size: larger;
@@ -79,9 +79,7 @@ button, .btn {
 
     @import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@700&family=Poppins:wght@600&display=swap');
 
-    * {
-        box-sizing: border-box
-    }
+   
     
     thead {
         font-family: 'Poppins', sans-serif;
@@ -130,28 +128,36 @@ button, .btn {
         border-top-right-radius: 10px
     }
     
-    #spacing-row {
-        height: 10px
-    }
+   
     .table{
       font-size: medium !important;
     }
 
     .gino{
       background-color: #DCF5FF !important;
+      
     }
 
     .ciao {
       font-size: medium !important;
     }
-    #nomeUtenteProfilo, #nome2{
-      font-size: xx-large;
+    #nomeUtenteProfilo  {
+      font-size:x-large;
+      vertical-align: middle ;
+      
     }
     .fotolistacollaboratori{
-      height: 60px;
-      width: 60px;
+      height: 70px;
+      width: 70px;
+      border-radius: 100%;
+      vertical-align: middle;
+    
     }
+  #vaiAlProfiloUtente {
+  vertical-align: middle;
+  
 
+}
  
     #terminiCondizioni:checked {
         background-color: #A172FF !important;
@@ -177,6 +183,4 @@ button, .btn {
       font-weight: bold !important;
     }
 
-  #foto {
-    border-radius: 20%;
-  }
+
