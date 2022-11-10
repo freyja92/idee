@@ -300,6 +300,16 @@ $(document).ready(function () {
 
     //FRANCESCA BARONISSI
 
+    
+     // $('#logoutBtn').click(function () {
+      if ($(event.target).attr('id') == 'logoutBtn') {
+    
+        
+
+      $.cookie('jwt', '');
+      JWTHeader = updateHeader();
+      window.open (window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/"+"index.html", "_self");
+    };
 
 
   });
@@ -348,12 +358,6 @@ $(document).ready(function () {
 
 
 
-  // Logout francesca
-  $('#logoutBtn').click(function () {
-    $.cookie('jwt', '');
-    JWTHeader = updateHeader();
-    window.open (window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/"+"index.html", "_self");
-  });
 
   //signup francesca
   
@@ -388,7 +392,7 @@ $(document).ready(function () {
       errore+='Le password inserite non coincidono \n'
       $('#signupPwd2').addClass('invalid-input');
     } if (uppercasePassword.test(password)==false) {
-      errore+='Non sono presenti caratteri in maiuscolo\n'
+      errore+='Non sono presenti caratteri in maiuscolo e/o minuscolo\n'
       pass1.addClass('invalid-input');
   
     } if (digitPassword.test(password)== false) {
@@ -767,7 +771,7 @@ $("#submitForm").click(function(event){
 
     for(partecipazioni of response) { 
       emailUtente = partecipazioni.utente.email; 
-      console.log(emailUtente);  
+     
       let num = partecipazioni.progetto.idProgetti;
       progetti = await getProgettoById(num);
       let ruolo = partecipazioni.ruolo;
