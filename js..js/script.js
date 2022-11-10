@@ -160,7 +160,7 @@ $(document).ready(function () {
           <div class="btn-group dropstart ">
           <a class="btn dropdown-toggle " type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:#DCF5FF" href="#"><i class="bi bi-person-workspace"></i></a>
           <ul class="dropdown-menu ">
-            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#test" href="#">Crea</a></li>
+          
             <li><a class="dropdown-item" href="profilocopy.html">Profilo</a></li>
             <li><a class="dropdown-item" href="user.html">Impostazioni</a></li>
             <li><a class="dropdown-item" href="#" id="logoutBtn">Esci</a></li>
@@ -747,11 +747,11 @@ $.get('http://localhost:8080/partecipazioni', function (response) {
       html+=`
       <tbody >
           <tr class="gino mt-3">
-              <td class="pt-2"> <img class="fotolistacollaboratori" id="foto" src="${utente.utente.immagineProfilo}" alt="">
+              <td class=""> <div class="pt-2"><img class="fotolistacollaboratori" id="foto" src="${utente.utente.immagineProfilo}" alt=""> </div>
                   <div class="pl-lg-5 pl-md-3 pl-1 name"></div>
               </td>
               <td id="nomeUtenteProfilo" class="pt-3">${utente.utente.nome}</td>
-              <td class="pt-3"><div class="btn">Vai al profilo</div></td>
+              <td class="pt-3"><div class="btn btn-sm" >Vai al profilo</div></td>
           </tr>
           <tr id="spacing-row">
               <td></td>

@@ -176,3 +176,7 @@ button, .btn {
     .boldP{
       font-weight: bold !important;
     }
+
+  #foto {
+    border-radius: 20%;
+  }
