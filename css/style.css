@@ -183,4 +183,6 @@ button, .btn {
       font-weight: bold !important;
     }
 
-
+.vai-al-profilo {
+  vertical-align: middle;
+}

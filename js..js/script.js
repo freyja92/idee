@@ -173,22 +173,29 @@ $(document).ready(function () {
 
 
   //Generazione galleria progetti in search.html
-
   progetti.then((response) => {
     let htmlString = '';
+    let htmlStringIndex = '';
+    let count = 0;
     if (queryParams.search != undefined) { //se è stata effettuata una ricerca
       for (card of response) {
         //console.log(card);
         if (card.titolo.toLowerCase().includes(queryParams.search.toLowerCase())) {
+
           htmlString += createCard(card);
         }
       }
     } else {
       for (card of response) {
+        if (count < 8) {
+          htmlStringIndex += createCard(card);
+          count++;
+        }
         htmlString += createCard(card);
       }
     }
     $('.galleria').html(htmlString);
+    $('.galleria-index').html(htmlStringIndex);
   });
 
   //Generazione anteprima in preview.html
@@ -211,6 +218,7 @@ $(document).ready(function () {
     $('#preview-titolo').html(progetto.titolo);
     $('#preview-img').attr('src', progetto.img)
     $('#preview-info').html(progetto.info);
+    $('#cifra-preview').html('  <b>€ '+progetto.cifraRaccolta+'</b> raccolti a fronte di € '+ progetto.cifraGoal)
    // $('#preview-btn').attr('data-id', progetto.idProgetti);
     //$('#preview-btn').attr('href', url.replace(url.slice(url.lastIndexOf('/') + 1), 'preview.html?idProgetto=' + queryParams.idProgetto));
     //francesca
@@ -652,15 +660,13 @@ $("#submitForm").click(function(event){
       treeNode.push({text: cartella.cartelleId.nomeSottoCartella, icon:'fa fa-folder'});
       if (cartella.sottoCartella.length != 0 || cartella.documenti.length != 0) {
         treeNode[count++].nodes = treeNodes([], cartella.sottoCartella, cartella.documenti);
-      } else {
-        treeNode[count++].nodes = [{text: 'Aggiungi un Documento', icon:'fa-solid fa-plus', class:'aggiungi-documento'}];
       }
     }
     let documento;
     for (documento of documenti) {
       treeNode.push({id: 'documento-' + documento.id, text: documento.nome, icon:'fa-solid fa-file', class:'documento'});
     }
-    treeNode.push({text: 'Aggiungi un Documento', icon:'fa-solid fa-plus', class:'aggiungi-documento'});
+    
     console.log(cartelle.length == 0);
     if (cartelle.length == 0) {
       
@@ -691,12 +697,12 @@ $("#submitForm").click(function(event){
       
     }
     
-    htmlDaAggiungere+= ` <div class="card" style="border-color:#38B6FF " > 
+    htmlDaAggiungere+= ` <div class="card mb-3" style="border-color:#38B6FF " > 
     <button class=" btn " data-bs-toggle="modal" data-bs-target="#mostraTutto" href="#" style="border-width: 1px; background-color: white !important; color: black;">
      Mostra tutti 
     </button>
   </div>
-  <form class="modal form-progetto" tabindex="-1" id="mostraTutto">
+  <form class="modal form-progetto " tabindex="-1" id="mostraTutto">
     <div class="modal-dialog"style="overflow-y: initial;  " >
       <div class="modal-content">
         <div class="modal-header">
@@ -724,8 +730,8 @@ $("#submitForm").click(function(event){
       <div class="row  " >
         <div class="col-4">
           <div class="card" style="border: none">
-            <img src=  "${donazione.utente == null ?" https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_960_720.png" : donazione.utente.immagineProfilo}" alt="avatar"
-              class="rounded-circle h-100 w-100 mb-4 mt-4" >
+            <img style="height: 80px; width: 80px;" src=  "${donazione.utente == null ?" https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_960_720.png" : donazione.utente.immagineProfilo}" alt="avatar"
+              class="rounded-circle h-80 w-80 mb-4 mt-4" >
             </div></div>
             <div class="col-8">
               <div class="card-body">
@@ -742,16 +748,18 @@ $("#submitForm").click(function(event){
 
 //AL POSTO DI '1' Inserirai il l'id dell'utente loggato
 (async function() {
-      let utente = await getUtenteByEmail(checkLoggedUser());
-      utente.idUtente;
+  if (queryParams.idUtente != undefined) {
+    let utente = await getUtenteById(queryParams.idUtente);
 
 
 
-    $('#foto').attr("src", utente.immagineProfilo);
-    $('#nomeUtenteProfilo').html(utente.nome);
-    $('#emailUtenteProfilo').html(utente.email);
-    $('#cognomeUtenteProfilo').html(utente.cognome);
-    $('#bioProfiloUtente').html(utente.bio);
+    $('#foto-profcpy').attr("src", utente.immagineProfilo);
+    $('#nome-profcpy').html(utente.nome);
+    $('#email-profcpy').html(utente.email);
+    $('#cognome-profcpy').html(utente.cognome);
+    $('#bio-profcpy').html(utente.bio);
+  }
+
 
 
 
@@ -832,10 +840,10 @@ $.get('http://localhost:8080/partecipazioni', function (response) {
       <tbody >
           <tr class="gino mt-3">
               <td class="pt-2"> <img class="fotolistacollaboratori" id="foto" src="${utente.utente.immagineProfilo}" alt="">
-                  <div class="pl-lg-5 pl-md-3 pl-1 name"></div>
+              
               </td>
               <td id="nomeUtenteProfilo" class="pt-3">${utente.utente.nome}</td>
-              <td class="pt-3"><div class="btn">Vai al profilo</div></td>
+              <td class="pt-3 vai-al-profilo"data-utente="${utente.utente.idUtente}" ><div class="btn">Vai al profilo</div></td>
           </tr>
           <tr id="spacing-row">
               <td></td>
@@ -1085,7 +1093,7 @@ function createAnteprima(progetto, query) {
 
 function ricercaProgetto(form) {
   let url = window.location.href;
-  window.location.replace(url.replace('index.html', 'search.html?' + form.search.value));
+  window.open(window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/"+"search.html?search=" + form.search.value, "_self");
   return false;
 }
 
