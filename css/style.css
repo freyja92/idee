@@ -165,4 +165,14 @@ button, .btn {
     color:#38B6FF !important;
     }
 
-    
+    #ddd{
+      width: 300%;
+   height: auto;
+   position: absolute;
+   left: 50%;
+   top: 50%; 
+   margin-left: -750px;
+    }
+    .boldP{
+      font-weight: bold !important;
+    }
