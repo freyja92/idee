@@ -142,20 +142,14 @@ $(document).ready(function () {
   (function () {
     if (checkLoggedUser()) {
       $('#navbar').html(`    <div class="container-fluid">
-      <a class="navbar-brand" href="index.html"><img src="img/logonav.png"></a>
-      
+      <a class="navbar-brand" href="index.html"><img src="img/logonav.png"></a>     
       <ul class="nav justify-content-end fs-2">
-      
-      
-
         <li class="nav-item ">
           <a class="nav-link  " aria-current="page"style="color: #DCF5FF" href="search.html">Idee</a>
         </li>
-
         <li class="nav-item">
           <a class="nav-link  " style="color:#DCF5FF" aria-current="page" href="guida.html">Guida</a>
         </li>
-
         <li class="nav-item  ">
           <div class="btn-group dropstart ">
           <a class="btn dropdown-toggle " type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:#DCF5FF" href="#"><i class="bi bi-person-workspace"></i></a>
@@ -166,12 +160,8 @@ $(document).ready(function () {
             <li><a class="dropdown-item" href="#" id="logoutBtn">Esci</a></li>
           </ul>
         </div>
-        
         </li>
-    
       </ul>
-
-
     </div>`);
     } else {
       //Sloggare l'utente
@@ -179,8 +169,6 @@ $(document).ready(function () {
       updateHeader();
     }
   })();
-
-
 
   //Generazione galleria progetti in search.html
 
@@ -213,7 +201,6 @@ $(document).ready(function () {
       }
     });
   }
-
 
   //Pulsante per tornare indietro in project.html
 
@@ -277,6 +264,10 @@ $(document).ready(function () {
 
     }
 
+    if ($(event.target).hasClass('vai-al-profilo')) {
+      window.open('profilocopy.html?idUtente='+$(event.target).data('utente'), '_self');
+    }
+
     //DOMENICO PETITO
 
 
@@ -293,10 +284,48 @@ $(document).ready(function () {
 
   //PARTE DI SPRING SECURITY
 
+<<<<<<< Updated upstream
   // modifica la parte precedente del codice per utilizzare questo ingegnoso stratagemma
 
 
   // Logout
+=======
+  //form login francesca
+  let baseURL = 'http://localhost:8080';
+  $("#loginBtn").click(function (event) {
+    event.preventDefault();
+    let email = $('#email').val();
+    let password = $('#password').val();
+    let params = {
+      email: email,
+      password: password
+    };
+    let jsonParams = JSON.stringify(params);
+    $.ajax({
+      url: `${baseURL}/api/auth/login`,
+      contentType: 'application/json;charset=UTF-8',
+      type: "POST",
+      data: jsonParams,
+      success: function (response) {
+        //console.log('response = ' + JSON.stringify(response));
+        let token = response.accessToken;
+        console.log("token ricevuto = " + token);
+        $.cookie('jwt', token);
+        JWTHeader = updateHeader();
+        extractPayload(token);
+        //verifica
+        console.log('verifica = ' + $.cookie('jwt'));
+        console.log('JWTHeader = ' + JSON.stringify(JWTHeader));
+        window.open ("http://127.0.0.1:5500/index.html", "_self");
+      },
+      error: function () {
+        alert('login errato');
+      }
+    });
+  });
+
+  // Logout francesca
+>>>>>>> Stashed changes
   $('#logoutBtn').click(function () {
     $.cookie('jwt', '');
     JWTHeader = updateHeader();
@@ -318,7 +347,6 @@ $(document).ready(function () {
       nome: nome, 
       cognome: cognome, 
     };
-  
   
     //validation
     var uppercasePassword = /(?=.*?[A-Z])/;
@@ -367,13 +395,12 @@ $(document).ready(function () {
       } if (document.getElementById("terminiCondizioni").checked ==false) {
         errore+= 'Accettare termini e condizioni';
       }
-  
-
     if (password === password2  && uppercasePassword.test(password)==true && 
     lowercasePassword.test(password)==true && digitPassword.test(password)==true && !(spacesPassword.test(password)==true) &&
     symbolPassword.test(password)==true && nome.length > 0 && validName.test(nome) == true && cognome.length > 0 && validName.test(cognome)== true &&
     validEmail.test(email) == true && document.getElementById("terminiCondizioni").checked==true ){
 
+<<<<<<< Updated upstream
 
     if (password === password2 && password.length >= 8 && uppercasePassword.test(password) == true &&
       lowercasePassword.test(password) == true && digitPassword.test(password) == true && !(spacesPassword.test(password) == true) &&
@@ -424,6 +451,131 @@ $(document).ready(function () {
 
 
 
+=======
+  let jsonParams = JSON.stringify(params);
+    $.ajax({
+      url: `${baseURL}/api/auth/signup`,
+      contentType: 'application/json;charset=UTF-8',
+      type: "POST",
+      data: jsonParams,
+      success: function (response) {
+        alert("La registrazione è andata a buon fine");
+        window.open("http://127.0.0.1:5500/index.html", "_self");
+        let token = response.accessToken;
+        console.log("token ricevuto = " + token);
+        $.cookie('jwt', token);
+        JWTHeader = updateHeader();
+        extractPayload(token);
+        console.log('verifica = ' + $.cookie('jwt'));
+        console.log('JWTHeader = ' + JSON.stringify(JWTHeader));
+      },
+      error: function () {
+        alert('registrazione fallita');
+      }
+    })
+
+  } else { alert (errore)}
+});
+
+//francesca post FUNZIONA
+
+//creazione progetto 
+$("#submitForm").click(function(event){
+  event.preventDefault();
+  let titolo = $('#titoloCreazione').val();
+  let img =$("#formImg").val().replace("C:\\fakepath", "img");
+  let info=$("#formDescrizione").val();
+  let cifraGoal=$("#formGoal").val();
+  let idCategorie= $("#formCategorie").val();
+  let params = {
+   titolo:titolo,
+   img: img,
+   info: info,
+   cifraGoal: cifraGoal,
+   idCategorie: idCategorie
+
+  };
+
+  let jsonParams = JSON.stringify(params);
+    $.ajax({
+      url: `${baseURL}/progetti/save`,
+      contentType: 'application/json;',
+      type: "POST",
+      data: jsonParams,
+      success: async function (response) {
+        let utente = await getUtenteByEmail(checkLoggedUser());
+        let idProgetto = response.idProgetti;
+        let partecipazione = {
+            ruolo : 'proprietario',
+            punteggio : 0,
+            idUtente : utente.idUtente,
+            idProgetto : idProgetto
+
+        };
+        let jsonPartecipazione = JSON.stringify(partecipazione);
+        $.ajax({
+          url:` ${baseURL}/partecipazioni/save`,
+          contentType: 'application/json;',
+          type: "POST",
+          data: jsonPartecipazione,
+          success: function (response) {
+            alert("il tuo progetto è stato creato correttamente ");
+          },
+          error: function () {
+            alert('ti ho trovato')
+            $.ajax({
+              url: `${baseURL}/progetti/delete/${idProgetto}`,
+              type: 'DELETE',
+              success: function(result) {
+                alert('errore');
+              }
+          });
+
+          }
+        });
+      },
+      error: function () {
+        alert('errore');
+      }
+    });
+
+  });
+
+    //update del profilo 
+
+      $("#assurdoBtn").click(async function(event){
+        event.preventDefault();
+        let utente = await getUtenteByEmail(checkLoggedUser());
+        let nome= $("#nomeCreazione").val();
+        let cognome = $("#cognomeCreazione").val();
+        let email = $('#emailCreazione').val();
+        let immagineProfilo =$("#picCreazione").val().replace("C:\\fakepath", "img");
+        let bio = $("#bioCreazione").val();
+        let params = {
+          nome:nome,
+          cognome: cognome,
+          email:email,
+          immagineProfilo:immagineProfilo,
+          bio:bio,
+          password: utente.password
+          
+        }; 
+    
+        let jsonParams = JSON.stringify(params);
+        $.ajax({
+          url: `${baseURL}/utenti/update/`+ utente.idUtente,
+          contentType: 'application/json;',
+          type: "PUT",
+          data: jsonParams,
+          success: function (response) {
+            alert("il tuo profilo è stato aggiornato correttamente ")
+          },
+          error: function () {
+            alert('errore');
+          }
+        });
+        });
+>>>>>>> Stashed changes
   //ANDREA SABIA
 
 
@@ -439,7 +591,6 @@ $(document).ready(function () {
             parentFolder = addDocument(parentFolder, documento);
           }
         }
-
         let treeData = treeNodes([], parentFolder.sottoCartella, parentFolder.documenti);
         $('#tree').bstreeview({
           data: treeData
@@ -533,15 +684,82 @@ $(document).ready(function () {
 
   //CRISTIAN FIERRO
 
+<<<<<<< Updated upstream
   //AL POSTO DI '1' Inserirai il l'id dell'utente loggato
 
   $.get('http://localhost:8080/utenti/' + '1', function (response) {
     let utente = response;
+=======
+(async function() {
+      let utente = await getUtenteById(queryParams.idUtente);
+>>>>>>> Stashed changes
     $('#foto').attr("src", utente.immagineProfilo);
     $('#nomeInfoProfilo').html(utente.nome);
     $('#emailUtenteProfilo').html(utente.email);
     $('#bioProfiloUtente').html(utente.bio);
+<<<<<<< Updated upstream
   });
+=======
+}) ();
+
+
+
+
+(function () {
+  partecipazioniProgetti.then(function(response) {
+    let emailDaVerificare = checkLoggedUser();
+    let emailUtente;
+    let partecipazioni;
+    let htmlDaAggiungereAProprietario = '';
+    let htmlDaAggiungereACollaboratore = '';
+    let progetti;
+
+    for(partecipazioni of response) { 
+      emailUtente = partecipazioni.utente.email;    
+      let num = partecipazioni.progetto.idProgetti;
+      let ruolo = partecipazioni.ruolo;
+      $.get('http://localhost:8080/progetti/' + num, function(response) {
+        progetti = response;
+          if (ruolo === 'proprietario' && emailUtente === emailDaVerificare) {
+            htmlDaAggiungereAProprietario += createCard(progetti);
+          } else if (ruolo === 'collaboratore' && emailUtente === emailDaVerificare) {
+            htmlDaAggiungereACollaboratore += createCard(progetti);
+          }
+          $('#mieiProgetti').html(htmlDaAggiungereAProprietario);
+          $('#profiloProgetti').html(htmlDaAggiungereAProprietario);
+          $('#visualizzaProgetti').html(htmlDaAggiungereACollaboratore);
+          $('#profiloCollab').html(htmlDaAggiungereACollaboratore);
+        })  
+    }
+  });
+})();
+$.get('http://localhost:8080/partecipazioni', function (response) {
+  let utente = response;
+  let html = "";
+  response.sort((a,b) => (a.utente.nome > b.utente.nome) ? 1 : ((b.utente.nome > a.utente.nome) ? -1 : 0));
+    for(utente of response){
+      html+=`
+      <tbody >
+          <tr class="gino mt-3">
+              <td class="pt-2"> <img class="fotolistacollaboratori" id="foto" src="${utente.utente.immagineProfilo}" alt="">
+                  <div class="pl-lg-5 pl-md-3 pl-1 name"></div>
+              </td>
+              <td id="nomeUtenteProfilo" class="pt-3">${utente.utente.nome}</td>
+              <td class="pt-3"><div class="btn vai-al-profilo" id="VaiProfilo" data-utente="${utente.utente.idUtente}" >Vai al profilo</div></td>
+          </tr>
+          <tr id="spacing-row">
+              <td></td>
+          </tr>
+      </tbody>
+      `
+  }
+  $('#listaColl').html(html);
+});
+
+
+
+//Salvataggio proposta 
+>>>>>>> Stashed changes
 
   $.get('http://localhost:8080/social', function (response) {
     let social = response;
@@ -582,6 +800,7 @@ $(document).ready(function () {
       }
     });
   })();
+<<<<<<< Updated upstream
   $.get('http://localhost:8080/partecipazioni', function (response) {
     let utente = response;
     let html = "";
@@ -893,6 +1112,15 @@ $(document).ready(function () {
 }); /* end jQuery */
 
 
+=======
+}); /* end jQuery */
+
+function updateHeader() {
+  return {
+    Authorization: 'Bearer ' + $.cookie('jwt')
+  };
+}
+>>>>>>> Stashed changes
 
 function extractPayload(token) {
   let array = token.split('.');
@@ -906,7 +1134,6 @@ function extractPayload(token) {
   console.log("user email = " + userEmail + ", data expiration = " + dataExp);
 
 }
-
 
 function createCard(card) {
   return `<div class="col">

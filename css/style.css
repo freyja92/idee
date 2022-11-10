@@ -150,17 +150,28 @@ button, .btn {
     .fotolistacollaboratori{
       height: 60px;
       width: 60px;
+      border-radius: 10%;
     }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
  
     #terminiCondizioni:checked {
         background-color: #A172FF !important;
     }
 
+<<<<<<< Updated upstream
     #signupModal h4{
         /*font-weight: 800 !important;*/
 =======
+=======
+    .effettoHover:hover {
+    color:#38B6FF !important;
+    }
+
+>>>>>>> Stashed changes
     #ddd{
       width: 300%;
    height: auto;
