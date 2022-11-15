@@ -72,7 +72,7 @@
         </div>
         <div class="modal-body">
 
-          <form>
+          <form id="creazioneDelProgetto">
             <div class="mb-3">
               <label for="email" class="form-label">Email address</label>
               <input type="email" class="form-control " id="email">
@@ -127,9 +127,17 @@
 
             </div>
             <div class="mb-3">
-              <label for="signupPwd1" class="form-label">Password</label>
-              <input type="password" class="form-control" id="signupPwd1" required>
+              <label for="signupPwd1" class="form-label">Password &nbsp</label>
 
+              <input type="password" class="form-control" id="signupPwd1" required > 
+
+          
+         
+        
+
+
+
+       
               <label for="signupPwd2" class="form-label">Conferma password</label>
               <input type="password" class="form-control" id="signupPwd2" required>
             </div>
@@ -208,7 +216,7 @@
         </div>
       </div>
       <!--collapse-->
-      <div id="myGroup" class="col-10 py-5 ">
+      <div id="myGroup" class="col-lg-10 py-5 ">
 
         <div class="  collapse " id="infoPersonali" data-bs-parent="#myGroup">
 
@@ -217,7 +225,7 @@
 <div class="row">
   
   <div class="col-2"></div>
-        <div class="col-4">
+        <div class="col-lg-4">
           <div class="row pt-3 ">
               <label for="nomeCreazione" class="form-label" style="color:#38B6FF">
                     <h5>Nome</h5>
@@ -235,13 +243,8 @@
             <label for="emailCreazione" class="form-label" style="color:#38B6FF">
               <h5>Email</h5>
             </label>
-            <input type="email" class="form-control" id="emailCreazione" placeholder="Email"> </div>
-          <div class="row pt-3"> 
-            <label for="socialCreazione" class="form-label" style="color:#38B6FF">
-              <h5>I tuoi contatti </h5>
-            </label>
-            <input type="text" class="form-control" id="socialCreazione" placeholder="Social networks"> 
-          </div>
+            <input type="text" class="form-control" id="emailCreazione" placeholder="Email"> </div>
+         
 
 
 
@@ -258,16 +261,16 @@
         </div>
 <div class="col"></div>
 
-        <div class="col-3 pt-3">
+        <div class="col-lg-3 pt-3">
           <div class="row">
           <label for="picCreazione" class="form-label" style="color:#38B6FF">
             <h5>Avatar </h5>
           </label>
-          <input type="file" class="form-control" id="picCreazione" placeholder="Social networks"> 
+          <input type="file" class="form-control" id="picCreazione"> 
         </div>
         
-        <div class="row " style="margin-top: 350px" >
-         <button type="submit" class="btn">Submit</button>
+        <div class="row " style="margin-top: 270px" >
+         <button type="submit" id="assurdoBtn" class="btn">Submit</button>
         </div>
       </div>
    
@@ -287,7 +290,7 @@
 
               <div class="row  mt-4">
                 <div class="col"></div>
-                <div class="col-8 ">
+                <div class="col-lg-8 ">
 
                   <label for="titoloCreazione" class="form-label" style="color:#38B6FF">
                     <h5>Aggiungi titolo</h5>

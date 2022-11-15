@@ -51,30 +51,11 @@
 
     </div>
   </nav>
-  <!-- modale creazione progetto -->
+ 
 
 
   
-  <form class="modal form-progetto" tabindex="-1" id="test">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Titolo</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-header">
-          <img src="img">
-          </div>
-        <div class="modal-body">
-          <p >Scrivi qui la drs</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn ">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </form>
+
 
 
 <!-- Modale login -->
@@ -182,15 +163,14 @@
     <div class="row row-cols-1  row-cols-lg-2 g-2">
 
       <div class="col pt-5 fs-5 "><br>
-        <p>Nam vitae cursus tellus. Integer dui justo, rhoncus a cursus vel, tristique non massa. Curabitur accumsan
-          dolor eleifend, posuere nulla non, vestibulum lectus. Ut pretium eget orci at hendrerit. Donec non consequat
-          ipsum. Sed vel metus sit amet diam iaculis maximus. Etiam vitae commodo enim. In ornare faucibus ultricies.
-          Mauris porta, libero sit amet varius ullamcorper, ipsum purus mollis massa, quis maximus justo nibh vitae ex.
-          Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
-        <div class="blockquote-footer">Andrea, CEO of Generation</div>
+        <p>
+          TeamFund nasce dall'idea del CEO Andrea Sabia, il quale, insoddisfatto dalle soluzioni proposte nel web relative alla collaborazione tra professionisti di qualunque settore, ha deciso di unire le pratiche di crowdfunding a crowdsourcing per la realizzazione di un progetto in grado di generare e sviluppare idee che possano trovare i collaboratori adeguati e i fondi necessari affinché possano essere realizzate. 
+         <p class="lead">"...di una cosa però sono quasi certo, non esiste piattaforma crowdfunding che faccia uso del crowdsourcing, il nostro progetto mette insieme questi due potenti strumenti per dare una forta spinta all'innovazione"</p> 
         </p>
+        <div class="blockquote-footer">Andrea, CEO of Generation</div>
+       
 
-        <button id="btn" type="button" class="btn btn-primaryn btn-lg ">Join Us</button>
+        <button id="btn" type="button" class="btn btn-lg "data-bs-toggle="modal" data-bs-target="#signupModal">Join Us</button>
       </div>
 
       <div class="col  " id="immagineVetrina"><img src="img/team fund 2-fococlipping-standard.png "
@@ -211,10 +191,8 @@
       <input style="width: 100%; background-color: white !important;" class=" border border-3 border-top-3 border-start-3 border-end-3" type="search"
         id="site-search" name="search" placeholder="Type to search...">
 
-      <button type="submit" class="btn " ><i class="bi bi-search"></i> <button type="button" class="btn btn-primary" data-bs-toggle="popover" title="A cosa serve" data-bs-content="Con questa barra di ricerca hai la possibilità blah blah">Help</button>
-      <script>
-      
-        </script>
+      <button type="submit" class="btn " ><i class="bi bi-search"></i> 
+     
 
     </form>
 
@@ -231,134 +209,9 @@
   <div id="cards" class="container-fluid pt-5 pb-5">
 
     <h2 style="color:#A172FF;">In primo piano </h2>
-    <div class="row row-cols-1 pt-5 row-cols-md-4 g-2">
+    <div class="row row-cols-1 pt-5 row-cols-md-4 g-2 galleria-index">
       <div class="col">
-        <div class="card h-100 w-100 ">
-          <img src="img/ImageCard6.jpg" class="card-img-top h-50" alt="...">
-          <div class="card-body h-50">
-            <h5 class="card-title">Special title treatment</h5> 
-            <p class="card-text w-100 h-45 line-clamp">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab<!--qui viene gestita una classe line-clamp invece che text-truncate per poter avere i puntini sospensivi dopo più di una linea-->
-              aliquid eaque in delectus nobis nisi? Cupiditate itaque saepe deserunt nisi vero corporis voluptas
-              aliquam, delectus omnis! Saepe id quo harum! Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Labore libero unde veritatis quod minima fugiat soluta repudiandae ipsum dolore odio praesentium, neque
-              non ipsam! Nulla excepturi inventore nam odit commodi.Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab
-              aliquid eaque in delectus nobis nisi? Cupiditate itaque saepe deserunt nisi vero corporis voluptas
-              aliquam, delectus omnis! Saepe id quo harum! Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Labore libero unde veritatis quod minima fugiat soluta repudiandae ipsum dolore odio praesentium, neque
-              non ipsam! Nulla excepturi inventore nam odit commodi.</p>
-              <div class="card" style="border-color:#38B6FF; " > <!--qui è presente una sorta di card dentro la card per poter gestire il contatore delle donazioni-->
-                <div class="card-body text-center">
-                  <b>€ 20.000</b> raccolti a fronte di € 30.000
-                </div>
-              </div>
-          
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card h-100 w-100">
-          <img src="img/shutterstock_730521172.webp" class="card-img-top h-50" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Special title treatment</h5>
-            <p class="card-text h-50 text-truncate">With supporting text below as a natural lead-in to additional
-              content.</p>
-              <div class="card">
-                <div class="card-body">
-                  This is some text within a card body.
-                </div>
-              </div>
-            <a href="#" class="text-end">
-              <p>More information</p>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card h-100 w-100">
-          <img src="img/imageCard1.jpg" class="card-img-top h-50" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Special title treatment</h5>
-            <p class="card-text h-50 text-truncate">With supporting text below as a natural lead-in to additional
-              content.</p>
-            <a href="#" class="text-end">
-              <p>More information</p>
-            </a>
-          </div>
-        </div>
-
-      </div>
-      <div class="col">
-        <div class="card h-100 w-100">
-          <img src="img/imageCard3.jpg" class="card-img-top h-50" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Special title treatment</h5>
-            <p class="card-text h-50 text-truncate">With supporting text below as a natural lead-in to additional
-              content.</p>
-            <a href="#" class="text-end">
-              <p>More information</p>
-            </a>
-          </div>
-        </div>
-
-      </div>
-      <div class="col  ">
-        <div class="card h-100 w-100 ">
-          <img src="img/3081636.jpg" class="card-img-top h-50" alt="...">
-          <div class="card-body h-50">
-            <h5 class="card-title">Special title treatment</h5>
-            <p class="card-text w-100 h-50 text-truncate">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab
-              aliquid eaque in delectus nobis nisi? Cupiditate itaque saepe deserunt nisi vero corporis voluptas
-              aliquam, delectus omnis! Saepe id quo harum! Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Labore libero unde veritatis quod minima fugiat soluta repudiandae ipsum dolore odio praesentium, neque
-              non ipsam! Nulla excepturi inventore nam odit commodi.</p>
-            <a href="#" class="text-end">
-              <p>More information</p>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="col ">
-        <div class="card h-100 w-100">
-          <img src="img/imageCard2.jpg" class="card-img-top h-50" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Special title treatment</h5>
-            <p class="card-text h-50 text-truncate">With supporting text below as a natural lead-in to additional
-              content.</p>
-            <a href="#" class="text-end">
-              <p>More information</p>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="col ">
-        <div class="card h-100 w-100">
-          <img src="img/ImageCard5.jpg" class="card-img-top h-50" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Special title treatment</h5>
-            <p class="card-text h-50 text-truncate">With supporting text below as a natural lead-in to additional
-              content.</p>
-            <a href="#" class="text-end">
-              <p>More information</p>
-            </a>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="col ">
-        <div class="card h-100 w-100">
-          <img src="img/imageCard4.jpg" class="card-img-top h-50" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Special title treatment</h5>
-            <p class="card-text h-50 text-truncate">With supporting text below as a natural lead-in to additional
-              content.</p>
-            <a href="#" class="text-end"> 
-              <p>More information</p>
-            </a>
-          </div>
-        </div>
-
-      </div>
+       </div>
     </div>
   </div>
 

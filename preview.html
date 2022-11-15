@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -154,221 +155,28 @@
 <div class="container pt-4 pb-2 anteprima">
     <div class="row">
         <div class="col-lg-8">
-    <img src="img/ImageCard6.jpg" style="width:100%"
->
-    <p class="display-6">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab
-        aliquid eaque in delectus nobis nisi? Cupiditate itaque saepe deserunt nisi vero corporis voluptas
-        aliquam, delectus omnis! Saepe id quo harum! Lorem ipsum dolor sit amet consectetur adipisicing elit.
-        Labore libero unde veritatis quod minima fugiat soluta repudiandae ipsum dolore odio praesentium, neque
-        non ipsam! Nulla excepturi inventore nam odit commodi.</p>
+          <h1 class="card-title" id="preview-titolo"></h1>
+    <img src="" style="width:100%" id="preview-img">
+    <p class="display-6" id="preview-info"></p>
         </div>
 
-        <div class="col-lg-4">
+        <div class="col-lg-4 pt-5">
             <div class="d-grid gap-3 col-10 mx-auto">
              
                 <button class="btn btn-lg " type="button">Condividi</button>
-                <button class="btn btn-lg" id="btn" type="button">Collabora</button>
+                <button class="btn btn-lg" id="preview-btn" type="button" >Collabora</button>
               
                 <button class="btn btn-lg " type="button" style="background-color:rgb(255, 194, 14) !important;">Dona</button>
                 <div class="card" style="border-color:rgb(255, 194, 14); " > 
-                  <div class="card-body text-center">
-                    <b>€ 20.000</b> raccolti a fronte di € 30.000
+                  <div class="card-body text-center"id="cifra-preview">
+                 
                   </div>
                 </div>
                 <!--ultimi donatori-->
                 <div class="container-fluid" id="donazioni">
 
-                <div class="card d-flex   " style="border: none; ">
-                  <div class="card-text " >
-                    
-                    <div class="row  " >
-                      <div class="col-4">
-                        <div class="card" style="border: none">
-                    <img src="https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_960_720.png" alt="avatar"
-                      class="rounded-circle h-100 w-100 mb-4 mt-4" >
-                    </div></div>
-                    <div class="col-8">
-                      <div class="card-body">
-                        <p class="card-title mb-4 mt-4">Anonima Ricca
-                        ha donato <b>€ 50 </b></p>
-                      </div>
-                   
-                  </div>
-                </div>
-                </div>
-                </div>
-              
-
-              <div class="card  d-flex   " style="border: none; ">
-                <div class="card-text " >
-                  
-                  <div class="row  " >
-                    <div class="col-4">
-                      <div class="card" style="border: none">
-                        <img src="https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_960_720.png" alt="avatar"
-                          class="rounded-circle h-100 w-100 mb-4 mt-4" >
-                        </div></div>
-                        <div class="col-8">
-                          <div class="card-body">
-                            <p class="card-title mb-4 mt-4">Maria Antonietta d'Asburgo-Lorena
-                            ha donato <b>€ 50 </b></p>
-                          </div>
-                 
-                </div>
-              </div>
-              </div>
-              </div>
-           
-              <div class="card  d-flex   " style="border: none; ">
-                <div class="card-text " >
-                  
-                  <div class="row  " >
-                    <div class="col-4">
-                      <div class="card" style="border: none">
-                        <img src="https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_960_720.png" alt="avatar"
-                          class="rounded-circle h-100 w-100 mb-4 mt-4" >
-                        </div></div>
-                        <div class="col-8">
-                          <div class="card-body">
-                            <p class="card-title mb-4 mt-4">Maria Antonietta d'Asburgo-Lorena
-                            ha donato <b>€ 50 </b></p>
-                          </div>
-                 
-                </div>
-              </div>
-              </div>
-              </div>
-
-              <div class="card" style="border-color:#38B6FF " > 
-                <button class=" btn " data-bs-toggle="modal" data-bs-target="#mostraTutto" href="#" style="border-width: 1px; background-color: white !important; color: black;">
-                 Mostra tutti 
-                </button>
-              </div>
-<!--qui comincia la modale di tutte le donazioni -->
-              <form class="modal form-progetto" tabindex="-1" id="mostraTutto">
-                <div class="modal-dialog"style="overflow-y: initial;  " >
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title">Donazioni</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                   
-                    <div class="modal-body" style="overflow-y: auto;  height: 80vh;">
-                      <div class="card  d-flex   " style="border: none; ">
-                        <div class="card-text " >
-                          
-                          <div class="row  " >
-                            <div class="col-4">
-                              <div class="card" style="border: none">
-                                <img src="https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_960_720.png" alt="avatar"
-                                  class="rounded-circle h-100 w-100 mb-4 mt-4" >
-                                </div></div>
-                                <div class="col-8">
-                                  <div class="card-body">
-                                    <p class="card-title mb-4 mt-4">Maria Antonietta d'Asburgo-Lorena
-                                    ha donato <b>€ 50 </b></p>
-                                  </div>
-                         
-                        </div>
-                      </div>
-                      </div>
-                      </div>
-
-                      <div class="card  d-flex   " style="border: none; ">
-                        <div class="card-text " >
-                          
-                          <div class="row  " >
-                            <div class="col-4">
-                              <div class="card" style="border: none">
-                                <img src="https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_960_720.png" alt="avatar"
-                                  class="rounded-circle h-100 w-100 mb-4 mt-4" >
-                                </div></div>
-                                <div class="col-8">
-                                  <div class="card-body">
-                                    <p class="card-title mb-4 mt-4">Maria Antonietta d'Asburgo-Lorena
-                                    ha donato <b>€ 50 </b></p>
-                                  </div>
-                         
-                        </div>
-                      </div>
-                      </div>
-                      </div>
-
-                      <div class="card  d-flex   " style="border: none; ">
-                        <div class="card-text " >
-                          
-                          <div class="row  " >
-                            <div class="col-4">
-                              <div class="card" style="border: none">
-                                <img src="https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_960_720.png" alt="avatar"
-                                  class="rounded-circle h-100 w-100 mb-4 mt-4" >
-                                </div></div>
-                                <div class="col-8">
-                                  <div class="card-body">
-                                    <p class="card-title mb-4 mt-4">Maria Antonietta d'Asburgo-Lorena
-                                    ha donato <b>€ 50 </b></p>
-                                  </div>
-                         
-                        </div>
-                      </div>
-                      </div>
-                      </div>
-
-                      <div class="card  d-flex   " style="border: none; ">
-                        <div class="card-text " >
-                          
-                          <div class="row  " >
-                            <div class="col-4">
-                              <div class="card" style="border: none">
-                                <img src="https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_960_720.png" alt="avatar"
-                                  class="rounded-circle h-100 w-100 mb-4 mt-4" >
-                                </div></div>
-                                <div class="col-8">
-                                  <div class="card-body">
-                                    <p class="card-title mb-4 mt-4">Maria Antonietta d'Asburgo-Lorena
-                                    ha donato <b>€ 50 </b></p>
-                                  </div>
-                         
-                        </div>
-                      </div>
-                      </div>
-                      </div>
-
-                      <div class="card  d-flex   " style="border: none; ">
-                        <div class="card-text " >
-                          
-                          <div class="row  " >
-                            <div class="col-4">
-                              <div class="card" style="border: none">
-                                <img src="https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_960_720.png" alt="avatar"
-                                  class="rounded-circle h-100 w-100 mb-4 mt-4" >
-                                </div></div>
-                                <div class="col-8">
-                                  <div class="card-body">
-                                    <p class="card-title mb-4 mt-4">Maria Antonietta d'Asburgo-Lorena
-                                    ha donato <b>€ 50 </b></p>
-                                  </div>
-                         
-                        </div>
-                      </div>
-                      </div>
-                      </div>
-
-                    </div>
-                    
-                  </div>
-                </div>
-              </form>
-
-
-
-
-            </div>
-            </div>
-          </div>
-
           
-        
+                </div></div>
             
 </div>
 

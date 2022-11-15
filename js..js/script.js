@@ -138,82 +138,96 @@ $(document).ready(function () {
   });
 
   //NavBar utente loggato
+  (async function () {
+    if (checkLoggedUser()) {
+          let utente = await getUtenteByEmail(checkLoggedUser());
+          $('#navbar').html(`    <div class="container-fluid">
+          <a class="navbar-brand" href="index.html"><img src="img/logonav.png"></a>     
+          <ul class="nav justify-content-end fs-2">
+            <li class="nav-item ">
+              <a class="nav-link  " aria-current="page"style="color: #DCF5FF" href="search.html">Idee</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link  " style="color:#DCF5FF" aria-current="page" href="guida.html">Guida</a>
+            </li>
+            <li class="nav-item  ">
+              <div class="btn-group dropstart ">
+              <a class="btn dropdown-toggle " type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:#DCF5FF" href="#"><i class="bi bi-person-workspace"></i></a>
+              <ul class="dropdown-menu ">
 
-  (function() {
-    if(checkLoggedUser()) {
-      $('#navbar').html(`    <div class="container-fluid">
-      <a class="navbar-brand" href="index.html"><img src="img/logonav.png"></a>
-      
-      <ul class="nav justify-content-end fs-2">
-      
-      
-
-        <li class="nav-item ">
-          <a class="nav-link  " aria-current="page"style="color: #DCF5FF" href="search.html">Idee</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link  " style="color:#DCF5FF" aria-current="page" href="guida.html">Guida</a>
-        </li>
-
-        <li class="nav-item  ">
-          <div class="btn-group dropstart ">
-          <a class="btn dropdown-toggle " type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:#DCF5FF" href="#"><i class="bi bi-person-workspace"></i></a>
-          <ul class="dropdown-menu ">
-            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#test" href="#">Crea</a></li>
-            <li><a class="dropdown-item" href="profilocopy.html">Profilo</a></li>
-            <li><a class="dropdown-item" href="user.html">Impostazioni</a></li>
-            <li><a class="dropdown-item" href="#" id="logoutBtn">Esci</a></li>
+                <li><a class="dropdown-item" href="profilocopy.html?idUtente=${utente.idUtente}">Profilo</a></li>
+                <li><a class="dropdown-item" href="user.html">Impostazioni</a></li>
+                <li><a class="dropdown-item" href="#" id="logoutBtn">Esci</a></li>
+              </ul>
+            </div>
+            </li>
           </ul>
-        </div>
-        
-        </li>
-    
-      </ul>
-
-
-    </div>`);
-    } else {
-      //Sloggare l'utente
-      $.cookie('jwt', '');
-      updateHeader();
-    }
-  })();
+        </div>`);
+        } else {
+          //Sloggare l'utente
+          $.cookie('jwt', '');
+          updateHeader();
+        }
+      })();
 
 
 
   //Generazione galleria progetti in search.html
-
   progetti.then((response) => {
     let htmlString = '';
+    let htmlStringIndex = '';
+    let count = 0;
     if (queryParams.search != undefined) { //se è stata effettuata una ricerca
       for (card of response) {
         //console.log(card);
         if (card.titolo.toLowerCase().includes(queryParams.search.toLowerCase())) {
+
           htmlString += createCard(card);
         }
       }
     } else {
       for (card of response) {
+        if (count < 8) {
+          htmlStringIndex += createCard(card);
+          count++;
+        }
         htmlString += createCard(card);
       }
     }
     $('.galleria').html(htmlString);
+    $('.galleria-index').html(htmlStringIndex);
   });
 
   //Generazione anteprima in preview.html
 
-  if (queryParams.idProgetto != undefined) {
-    progetti.then((response) => {
+  
+   /* progetti.then((response) => {
       let progetto;
       for (progetto of response) {
         if (progetto.idProgetti == queryParams.idProgetto) {
-          $('.anteprima').html(createAnteprima(progetto, 'idProgetto=' + queryParams.idProgetto));
+       //  $('.anteprima').html(createAnteprima(progetto, 'idProgetto=' + queryParams.idProgetto));
+
         }
       }
-    });
-  }
+    });*/
 
+
+  (async function () {
+    if (queryParams.idProgetto != undefined) {
+    let progetto = await getProgettoById(queryParams.idProgetto);
+    $('#preview-titolo').html(progetto.titolo);
+    $('#preview-img').attr('src', progetto.img)
+    $('#preview-info').html(progetto.info);
+    $('#cifra-preview').html('  <b>€ '+progetto.cifraRaccolta+'</b> raccolti a fronte di € '+ progetto.cifraGoal)
+   // $('#preview-btn').attr('data-id', progetto.idProgetti);
+    //$('#preview-btn').attr('href', url.replace(url.slice(url.lastIndexOf('/') + 1), 'preview.html?idProgetto=' + queryParams.idProgetto));
+    //francesca
+    }
+    })();
+
+    $('#preview-btn').click(function(){ 
+      window.open (window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/" + "project.html?idProgetto="+ queryParams.idProgetto, "_self");
+    });
 
   //Pulsante per tornare indietro in project.html
 
@@ -267,6 +281,13 @@ $(document).ready(function () {
 
 
     //CRISTIAN FIERRO
+   
+
+    if ($(event.target).parents('.vai-al-profilo').length > 0) {
+      window.open('profilocopy.html?idUtente='+$(event.target).parents('.vai-al-profilo').data('utente'), '_self');
+    }
+
+ //CRISTIAN FIERRO
 
     if ($(event.target).hasClass('aggiungi-documento')) {
 
@@ -287,6 +308,16 @@ $(document).ready(function () {
 
     //FRANCESCA BARONISSI
 
+    
+     // $('#logoutBtn').click(function () {
+      if ($(event.target).attr('id') == 'logoutBtn') {
+    
+        
+
+      $.cookie('jwt', '');
+      JWTHeader = updateHeader();
+      window.open (window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/"+"index.html", "_self");
+    };
 
 
   });
@@ -321,6 +352,10 @@ $(document).ready(function () {
         //verifica
         console.log('verifica = ' + $.cookie('jwt'));
         console.log('JWTHeader = ' + JSON.stringify(JWTHeader));
+        window.open (window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/"+"index.html", "_self");
+
+    
+       
         
       },
       error: function () {
@@ -329,48 +364,74 @@ $(document).ready(function () {
     });
   });
 
-  // Logout francesca
-  $('#logoutBtn').click(function () {
-    $.cookie('jwt', '');
-    JWTHeader = updateHeader();
-    window.open ("http://127.0.0.1:5500/index.html", "_self");
-  });
+
+
 
   //signup francesca
   
-$('#signupBtn').click(function(event) {
-  event.preventDefault();
-  let nome = $("#signupNome").val();
-  let cognome = $("#signupCognome").val();
-
-  let email = $('#signupEmail').val();
-  let password = $('#signupPwd1').val();
-  let params = {
-    email: email,
-    password: password,
-    nome: nome, 
-    cognome: cognome, 
-  };
-
-
-  //WORK IN PROGRESS DI FRANCESCA
-  var uppercasePassword = /(?=.*?[A-Z])/;
-  var lowercasePassword = /(?=.*?[a-z])/;
-  var digitPassword = /(?=.*?[0-9])/;
-  var spacesPassword = /^$|\s+/;
-  var symbolPassword = /(?=.*?[#?!@$%^&*-])/;
-  let password2 = $('#signupPwd2').val();
-  var pass1= $('#signupPwd1');
-
-  if (password != password2) {
-    alert('Le password inserite non coincidono')
-    $('#signupPwd2').addClass('invalid-input');
-  } if (uppercasePassword.test(password)==false) {
-    alert('Non sono presenti caratteri in maiuscolo')
-    pass1.addClass('invalid-input');
-
-  }
-
+  $('#signupBtn').click(function(event) {
+    event.preventDefault();
+    let nome = $("#signupNome").val();
+    let cognome = $("#signupCognome").val();
+  
+    let email = $('#signupEmail').val();
+    let password = $('#signupPwd1').val();
+    let params = {
+      email: email,
+      password: password,
+      nome: nome, 
+      cognome: cognome, 
+    };
+  
+  
+    //validation
+    var uppercasePassword = /(?=.*?[A-Z])/;
+    var lowercasePassword = /(?=.*?[a-z])/;
+    var digitPassword = /(?=.*?[0-9])/;
+    var spacesPassword = /^$|\s+/;
+    var symbolPassword = /(?=.*?[#?!@$%^&*-])/;
+    let password2 = $('#signupPwd2').val();
+    var pass1= $('#signupPwd1');
+    var validName = /^[a-zA-Z ]*$/;
+    var validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    var errore ='';
+  
+    if (password != password2) {
+      errore+='Le password inserite non coincidono \n'
+      $('#signupPwd2').addClass('invalid-input');
+    } if (uppercasePassword.test(password)==false) {
+      errore+='Non sono presenti caratteri in maiuscolo e/o minuscolo\n'
+      pass1.addClass('invalid-input');
+  
+    } if (digitPassword.test(password)== false) {
+      errore+= 'La password deve contenere almeno 9 caratteri \n'
+      pass1.addClass('invalid-input');
+    } if ( symbolPassword.test(password)== false) {
+      errore+= 'La password deve contenere almeno un simbolo\n'
+      pass1.addClass('invalid-input'); 
+    } if (nome.length <= 0 ) {
+      errore+= 'Inserire il nome\n';
+      $('#signupNome').addClass('invalid-input'); 
+    } if (validName.test(nome)==false ) {
+      errore+= 'inserire un nome valido \n'
+      $('#signupNome').addClass('invalid-input');
+    } if (cognome.length <= 0 ) {
+      errore+= 'Inserire il cognome\n';
+      $('#signupCognome').addClass('invalid-input'); 
+    } if (validName.test(cognome)==false ) {
+      errore+= 'inserire un cognome valido \n'
+      $('#signupCognome').addClass('invalid-input');
+    }if (email <=0) {
+      errore+= 'Inserire un e-mail\n'
+      $('#signupEmail').addClass('invalid-input');
+    }
+      if (validEmail.test(email)== false){
+        errore+= 'Inserire un e-mail valida\n'
+        $('#signupEmail').addClass('invalid-input');
+      } if (document.getElementById("terminiCondizioni").checked ==false) {
+        errore+= 'Accettare termini e condizioni';
+      }
+  
 
   if (password === password2 && password.length >= 8 && uppercasePassword.test(password)==true && 
   lowercasePassword.test(password)==true && digitPassword.test(password)==true && !(spacesPassword.test(password)==true) &&
@@ -393,6 +454,8 @@ $('#signupBtn').click(function(event) {
       success: function (response) {
         
         
+        alert("La registrazione è andata a buon fine");
+        window.open(window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/"+"index.html", "_self");
 
           
         
@@ -430,50 +493,126 @@ $('#signupBtn').click(function(event) {
 //francesca post FUNZIONA
 
 
+//creazione progetto 
+$("#submitForm").click(function(event){
+  event.preventDefault();
+  let titolo = $('#titoloCreazione').val();
+  let img =$("#formImg").val().replace("C:\\fakepath", "img");
+  let info=$("#formDescrizione").val();
+  let cifraGoal=$("#formGoal").val();
+  let idCategorie= $("#formCategorie").val();
+  let params = {
+   titolo:titolo,
+   img: img,
+   info: info,
+   cifraGoal: cifraGoal,
+   idCategorie: idCategorie
 
-  $("#submitForm").click(function(event){
-    event.preventDefault();
-    let titolo = $('#titoloCreazione').val();
-    let img =$("#formImg").val();
-    let info=$("#formDescrizione").val();
-    let cifraGoal=$("#formGoal").val();
-    let idCategorie= $("#formCategorie").val();
-    let params = {
-     titolo:titolo,
-     img: img,
-     info: info,
-     cifraGoal: cifraGoal,
-     idCategorie: idCategorie
+  };
 
-    };
-  
-    let jsonParams = JSON.stringify(params);
-      $.ajax({
-        url: `${baseURL}/progetti/save`,
-        contentType: 'application/json;',
-        type: "POST",
-        data: jsonParams,
-        success: function (response) {
-    
-          
-          alert("il tup progetto è stato creato correttamente ")
-        },
-        error: function () {
-          alert('errore');
-        }
-      });
+  let jsonParams = JSON.stringify(params);
+    $.ajax({
+      url: `${baseURL}/progetti/save`,
+      contentType: 'application/json;',
+      type: "POST",
+      data: jsonParams,
+      success: async function (response) {
+        let utente = await getUtenteByEmail(checkLoggedUser());
+        let idProgetto = response.idProgetti;
+        let partecipazione = {
+            ruolo : 'proprietario',
+            punteggio : 0,
+            idUtente : utente.idUtente,
+            idProgetto : idProgetto
+
+        };
+        let jsonPartecipazione = JSON.stringify(partecipazione);
+        $.ajax({
+          url:` ${baseURL}/partecipazioni/save`,
+          contentType: 'application/json;',
+          type: "POST",
+          data: jsonPartecipazione,
+          success: function (response) {
+
+
+            alert("il tuo progetto è stato creato correttamente ");
+          },
+          error: function () {
+            alert('ti ho trovato')
+            $.ajax({
+              url: `${baseURL}/progetti/delete/${idProgetto}`,
+              type: 'DELETE',
+              success: function(result) {
+                alert('errore');
+              }
+          });
+
+          }
+        });
+      },
+      error: function () {
+        alert('errore');
+      }
     });
 
 
+  });
 
+  
+
+    //update del profilo 
+    
+
+    
+
+      $("#assurdoBtn").click(async function(event){
+        event.preventDefault();
+        let utente = await getUtenteByEmail(checkLoggedUser());
+        let nome= $("#nomeCreazione").val();
+        let cognome = $("#cognomeCreazione").val();
+        let email = $('#emailCreazione').val();
+        let immagineProfilo =$("#picCreazione").val().replace("C:\\fakepath", "img");
+        let bio = $("#bioCreazione").val();
+        let params = {
+          nome:nome,
+          cognome: cognome,
+          email:email,
+          immagineProfilo:immagineProfilo,
+          bio:bio,
+          password: utente.password
+          
+        }; 
+    
+        let jsonParams = JSON.stringify(params);
+        $.ajax({
+          url: `${baseURL}/utenti/update/`+ utente.idUtente,
+          contentType: 'application/json;',
+          type: "PUT",
+          data: jsonParams,
+          success: function (response) {
+      
+            
+            alert("il tuo profilo è stato aggiornato correttamente ")
+          },
+          error: function () {
+            alert('errore');
+          }
+        });
+    
+    
+    
+    
+        });
+      
+
+
+    
 
 
 
 
 
   //ANDREA SABIA
-
-  
 
   (async function createTreeData () {
     if (queryParams.idProgetto != undefined && window.location.pathname == '/project.html') {
@@ -488,6 +627,7 @@ $('#signupBtn').click(function(event) {
         }
 
         let treeData = treeNodes([], parentFolder.sottoCartella, parentFolder.documenti);
+        treeData.push({text: 'Aggiungi un Documento', icon:'fa-solid fa-plus', class:'aggiungi-documento'});
         $('#tree').bstreeview({
         data: treeData
         });
@@ -496,7 +636,6 @@ $('#signupBtn').click(function(event) {
     
     
   })();
-
   function initializeFolder (folder) {
     folder.documenti = [];
     let cartella;
@@ -528,15 +667,13 @@ $('#signupBtn').click(function(event) {
       treeNode.push({text: cartella.cartelleId.nomeSottoCartella, icon:'fa fa-folder'});
       if (cartella.sottoCartella.length != 0 || cartella.documenti.length != 0) {
         treeNode[count++].nodes = treeNodes([], cartella.sottoCartella, cartella.documenti);
-      } else {
-        treeNode[count++].nodes = [{text: 'Aggiungi un Documento', icon:'fa-solid fa-plus', class:'aggiungi-documento'}];
       }
     }
     let documento;
     for (documento of documenti) {
       treeNode.push({id: 'documento-' + documento.id, text: documento.nome, icon:'fa-solid fa-file', class:'documento'});
     }
-    treeNode.push({text: 'Aggiungi un Documento', icon:'fa-solid fa-plus', class:'aggiungi-documento'});
+    
     console.log(cartelle.length == 0);
     if (cartelle.length == 0) {
       
@@ -546,104 +683,318 @@ $('#signupBtn').click(function(event) {
 
   //PASQUALE PANICO
 
+    
+  
   $.get('http://localhost:8080/donazioni', function (response) {
     let donazione;
     let htmlDaAggiungere = '';
+    let htmlTutto= '';
+    let i=0;
+    //sort response su data
+    //ciclo 3 volte
+    response.sort((a,b) => (a.orarioPubblicazione > b.orarioPubblicazione) ? -1 : ((b.orarioPubblicazione > a.orarioPubblicazione) ? 1 : 0));
     for (donazione of response) {
-      htmlDaAggiungere += createListaDonazioni(donazione);
+      i++
+      if(queryParams.idProgetto == donazione.progetto.idProgetti){
+        if(i<=3)
+          htmlDaAggiungere += createListaDonazioni(donazione);
+       
+          htmlTutto+=createListaDonazioni(donazione);
+      }
+      
     }
-    //$('#donazioni').html(htmlDaAggiungere);
+    
+    htmlDaAggiungere+= ` <div class="card mb-3" style="border-color:#38B6FF " > 
+    <button class=" btn " data-bs-toggle="modal" data-bs-target="#mostraTutto" href="#" style="border-width: 1px; background-color: white !important; color: black;">
+     Mostra tutti 
+    </button>
+  </div>
+  <form class="modal form-progetto " tabindex="-1" id="mostraTutto">
+    <div class="modal-dialog"style="overflow-y: initial;  " >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Donazioni</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+       
+        <div class="modal-body" style="overflow-y: auto;  height: 80vh;" id="donazioni-tutto">
+         
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  </form>`
+    $('#donazioni').html(htmlDaAggiungere);
+    $('#donazioni-tutto').html(htmlTutto);
   });
 
   function createListaDonazioni(donazione) {
     return `
-    <div class="card d-flex   " style="border: none; ">
-                  <div class="card-text " >
-                    
-                    <div class="row  " >
-                      <div class="col-4">
-                        <div class="card" style="border: none">
-                    <img src="https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_960_720.png" alt="avatar"
-                      class="rounded-circle h-100 w-100 mb-4 mt-4" >
-                    </div></div>
-                    <div class="col-8">
-                      <div class="card-body">
-                        <p class="card-title mb-4 mt-4">${donazione.nome}
-                        ha donato <b>€ ${donazione.importo} </b></p>
-                      </div>
-                   
-                  </div>
-                </div>
-                </div>
-                </div>
+    <div class="card  d-flex   " style="border: none; ">
+    <div class="card-text " >
+      
+      <div class="row  " >
+        <div class="col-4">
+          <div class="card" style="border: none">
+            <img style="height: 80px; width: 80px;" src=  "${donazione.utente == null ?" https://cdn.pixabay.com/photo/2019/08/11/18/59/icon-4399701_960_720.png" : donazione.utente.immagineProfilo}" alt="avatar"
+              class="rounded-circle h-80 w-80 mb-4 mt-4" >
+            </div></div>
+            <div class="col-8">
+              <div class="card-body">
+                <p class="card-title mb-4 mt-4">${donazione.utente == null ?"Anonima" : donazione.utente.nome  }
+                ha donato <b>€${donazione.importo} </b></p>
+              </div>
+     
+    </div>
+  </div>
     `
   }
 
   //CRISTIAN FIERRO
 
 //AL POSTO DI '1' Inserirai il l'id dell'utente loggato
+(async function() {
+  if (queryParams.idUtente != undefined) {
+    let utente = await getUtenteById(queryParams.idUtente);
 
-$.get('http://localhost:8080/utenti/' + '1', function(response) {
-    let utente = response;
-    $('#foto').attr("src", utente.immagineProfilo);
-    $('#nomeInfoProfilo').html(utente.nome);
-    $('#emailUtenteProfilo').html(utente.email);
-    $('#bioProfiloUtente').html(utente.bio);
-  });
 
-  $.get('http://localhost:8080/social', function(response) {
-    let social = response;
-    let x = "";
-    for (social of response){
-      if(social.socialId.idUtente=='1'){
-        x+=`<a href="${social.linkSocial}">${social.socialId.nome}, &nbsp;&nbsp;&nbsp;&nbsp;</a>`
-      }
+
+    $('#foto-profcpy').attr("src", utente.immagineProfilo);
+    $('#nome-profcpy').html(utente.nome);
+    $('#email-profcpy').html(utente.email);
+    $('#cognome-profcpy').html(utente.cognome);
+    $('#bio-profcpy').html(utente.bio);
+  }
+
+
+
+
+}) ();
+
+
+
+
+(function () {
+  partecipazioniProgetti.then(async function(response) {
+    let emailDaVerificare = checkLoggedUser();
+    let emailUtente;
+    let partecipazioni;
+    let htmlDaAggiungereAProprietario = '';
+    let htmlDaAggiungereACollaboratore = '';
+    let progetti;
+
+    for(partecipazioni of response) { 
+      emailUtente = partecipazioni.utente.email; 
+     
+      let num = partecipazioni.progetto.idProgetti;
+      progetti = await getProgettoById(num);
+      let ruolo = partecipazioni.ruolo;
+          if (ruolo === 'proprietario' && emailUtente == emailDaVerificare) {
+           
+
+            htmlDaAggiungereAProprietario += createCardUser(progetti);
+          } else if (ruolo === 'collaboratore' && emailUtente == emailDaVerificare) {
+          
+            htmlDaAggiungereACollaboratore += createCardUser(progetti);
+          }
+          
     }
-    $('#nomeSocialProfilo').html(x);
+    $('#mieiProgetti').html(htmlDaAggiungereAProprietario);
+          $('#visualizzaProgetti').html(htmlDaAggiungereACollaboratore);
   });
+})();
+( function () {
+  partecipazioniProgetti.then(async function(response) {
+    if (queryParams.idUtente != undefined) {
+      let utente = await getUtenteById(queryParams.idUtente);
+    let emailDaVerificare = utente.email;
+    let partecipazioni;
+    let htmlDaAggiungereAProprietario = '';
+    let htmlDaAggiungereACollaboratore = '';
+    let progetti;
 
-
-  //DOMENICO PETITO
-  $.get('http://localhost:8080/partecipazioni', function(response) {
-      //let email = $('#email').val();
-      let emailDaVerificare = 'francescabaronissi@outlook.it';
-      let emailUtente;
-      let partecipazioni;
-      let htmlDaAggiungereAProprietario = '';
-      let htmlDaAggiungereACollaboratore = '';
-      let progetti;
-
-      for(partecipazioni of response) { 
-        emailUtente = partecipazioni.utente.email;    
-        let num = partecipazioni.progetto.idProgetti;
-        let ruolo = partecipazioni.ruolo;
-        $.get('http://localhost:8080/progetti/' + num, function(response) {
-          progetti = response;
-            if (ruolo === 'proprietario' && emailUtente === emailDaVerificare) {
-              htmlDaAggiungereAProprietario += createCardUser(progetti);
-            } else if (ruolo === 'collaboratore' && emailUtente === emailDaVerificare) {
-              htmlDaAggiungereACollaboratore += createCardUser(progetti);
-            }
-            $('#mieiProgetti').html(htmlDaAggiungereAProprietario);
-            $('#visualizzaProgetti').html(htmlDaAggiungereACollaboratore);
-            $('#profiloCollab').html(htmlDaAggiungereACollaboratore);
-            $('#profiloProgetti').html(htmlDaAggiungereAProprietario);
-
-          })  
-      }
-    });
+    for(partecipazioni of response) { 
+      let emailUtente = partecipazioni.utente.email;    
+      let num = partecipazioni.progetto.idProgetti;
+      let ruolo = partecipazioni.ruolo;
+      $.get('http://localhost:8080/progetti/' + num, function(response) {
+        progetti = response;
+          if (ruolo === 'proprietario' && emailUtente === emailDaVerificare) {
+            htmlDaAggiungereAProprietario += createCardUser(progetti);
+          } else if (ruolo === 'collaboratore' && emailUtente === emailDaVerificare) {
+            htmlDaAggiungereACollaboratore += createCardUser(progetti);
+          }
+          $('#profiloProgetti').html(htmlDaAggiungereAProprietario);
+          $('#profiloCollab').html(htmlDaAggiungereACollaboratore);
+        })  
+    }
+    }
+    
+  });
+})();
 
   (async function () {
     let emailDaVerificare = await getUtenteByEmail(checkLoggedUser()).email;
     partecipazioniProgetti.then(function (response) {
 
-  $('#prg').click(function () {
-    alert("Prova effettuata");
+
+$.get('http://localhost:8080/partecipazioni', function (response) {
+  //let utente = response;
+  let utente;
+  let html = "";
+  response.sort((a,b) => (a.utente.nome > b.utente.nome) ? 1 : ((b.utente.nome > a.utente.nome) ? -1 : 0));
+    for(utente of response){
+      if (utente.ruolo == 'collaboratore') {
+        html+=`
+      <tbody >
+          <tr class="gino mt-3">
+              <td class="pt-2"> <img class="fotolistacollaboratori" id="foto" src="${utente.utente.immagineProfilo}" alt="">
+              
+              </td>
+              <td id="nomeUtenteProfilo" class="pt-3">${utente.utente.nome}</td>
+              <td class="pt-3 vai-al-profilo"data-utente="${utente.utente.idUtente}" ><div class="btn">Vai al profilo</div></td>
+          </tr>
+          <tr id="spacing-row">
+              <td></td>
+          </tr>
+      </tbody>
+      `
+      }
+
+      
+  }
+  $('#listaColl').html(html);
+});
+
+//Salvataggio proposta 
+
+(async function() {
+  let utente = await getUtenteByEmail(checkLoggedUser());
+  utente.idUtente;
+  $('#salvaProposta').click(function () {
+    testoProposta = tinymce.get("testoProposta").getContent()
+    motivazione = $('#insMotiv').val();
+    let params = {
+      idUtente: utente.idUtente,
+      testoModificato: testoProposta,
+      motivazione: motivazione,
+      dataPubblicazione: new Date().getTime()
+    }
+    let jsonParams = JSON.stringify(params);
+    console.log('params string = ' + jsonParams);
+    $.ajax({
+      url: 'http://localhost:8080/proposte/save',
+      contentType: 'application/json;charset=UTF-8',
+      type: "POST",
+      data: jsonParams,
+      success: async function (response) {
+        let idProposta = response.idProposte;
+        let utente = await getUtenteByEmail(checkLoggedUser());
+        partecipazioniProgetti.then(function (response) {
+          let registrato = false;
+          for (partecipazione of response) {
+            if (utente.idUtente == partecipazione.utente.idUtente) {
+              registrato = true;
+            }
+          }
+          console.log("registrato =" + registrato);
+          if (!registrato) {
+            console.log(utente.idUtente);
+            console.log(queryParams.idProgetti);
+        let partecipazione = {
+            ruolo : 'collaboratore',
+            punteggio : 0,
+            idUtente : utente.idUtente,
+            idProgetto : queryParams.idProgetto
+
+        };
+        let jsonPartecipazione = JSON.stringify(partecipazione);
+        $.ajax({
+          url:` ${baseURL}/partecipazioni/save`,
+          contentType: 'application/json;',
+          type: "POST",
+          data: jsonPartecipazione,
+          success: function (response) {
+
+
+            alert('proposta inserita');
+            location.reload(true);
+          },
+          error: function (response) {
+            console.log('parametri inviati' + JSON.stringify(response));
+            $.ajax({
+              url: `${baseURL}/proposte/delete/${idProposta}`,
+              type: 'DELETE',
+              success: function(result) {
+                alert('errore');
+              }
+          });
+          
+          }
+        });
+          } else {
+            alert('proposta inserita');
+            location.reload(true);
+          }
+        });
+      }
   });
+});
+}) ();
+
+/*$('#salvaProposta').click(function () {
+  testoProposta = tinymce.get("testoProposta").getContent()
+  motivazione = $('#insMotiv').val();
+  let params = {
+    testoModificato: testoProposta,
+    motivazione: motivazione
+  }
+  let jsonParams = JSON.stringify(params);
+  console.log('params string = ' + jsonParams);
+  $.ajax({
+    url: 'http://localhost:8080/proposte/save',
+    contentType: 'application/json;charset=UTF-8',
+    type: "POST",
+    data: jsonParams,
+    success: function (response) {
+      console.log('response dopo create =' + JSON.stringify(response));
+      alert('proposta inserita');
+      //ricarica la pagina
+      location.reload(true);
+    }
+  });
+});*/
+
+//accordion lista proposte
+let i = 0;
+let proposteList = [];
+$.get('http://localhost:8080/proposte', function (response) {
+  let accordion = '<div class="accordion" id="accordion">';
+  for (proposte of response) {
+    i++;
+    accordion +=
+      '<div class="accordion-item mt-3">' + '<h2 class="accordion-header" id="heading' + i + '">' +
+      '<button style="background-color: #DCF5FF !important;"class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse' + i + '" aria-expanded="true" aria-controls="collapseOne">' +
+      '<strong>Proposta di ' + proposte.utente.nome + '</strong>' + '</button>' + '</h2>' +
+      '<div id="collapse' + i + '" class="accordion-collapse collapse" aria-labelledby="heading' + i + '">' +
+      '<div class="accordion-body">' +
+      '<div class="row">' +
+      '<div class="col">' +
+      '<p>' + '<h5>Proposta pubblicata il:</h5> ' +'<div>'+ proposte.dataPubblicazione +'</div>'+'</p>' +
+      '<p>' + '<h5>Motivazione:</h5> ' +'<div>'+ proposte.motivazione + '</div>'+'</p>' +
+      '<p>' + '<h5>Proposta:</h5> ' +'<div>'+ proposte.testoModificato + '</div>'+'</p>' +
+      '</div>' + '</div>' + '</div>' + '</div>';
+    proposteList[i] = {
+      motivazione: proposte.motivazione
+    }
+  }
+  $("#listaProposte").append(accordion);
+});
+  //DOMENICO PETITO
+  
 
 
-
-  //ANTONIO PASCARELLA
 
 
 
@@ -701,7 +1052,7 @@ function createCard(card) {
 }
 
 function createCardUser(card) {
-  return `<div class="col-4">
+  return `<div class="col-lg-4 pt-3">
   <div class="card h-100 w-100 galleria-card" data-id="${'idProgetto=' + card.idProgetti}">
     <img src="${card.img}" class="card-img-top h-50" alt="...">
     <div class="card-body h-50">
@@ -721,26 +1072,38 @@ function createCardUser(card) {
 
 function createAnteprima(progetto, query) {
   return `<div class="row">
-<div class="col-8">
+<div class="col-lg-8">
 <h1 class="card-title">${progetto.titolo}</h1>
 <img src="${progetto.img}" style="width:100%" >
 <p class="display-6">${progetto.info}</p>
     </div>
-    <div class="col">
-        <div class="d-grid gap-3 col-6 mx-auto">
-            <button class="btn btn-lg " type="button" style="background-color:rgb(246, 246, 55) !important;">Dona</button>
-            <p><b>€ ${progetto.cifraRaccolta}</b>  a fronte di € ${progetto.cifraGoal}</p>
+    <div class="col-lg-4 pt-5">
+        <div class="d-grid gap-3 col-10 mx-auto">
+
+          
+         
             <button class="btn btn-lg " type="button">Condividi</button>
             <button class="btn btn-lg" id="btn" type="button" onclick="window.location.replace('${'project.html?' + query}', 'preview.html')">Collabora</button>
+            <button class="btn btn-lg " type="button" style="background-color:rgb(255, 194, 14) !important;">Dona</button>
+            <div class="card" style="border-color:rgb(255, 194, 14); " > 
+            <div class="card-body text-center">
+              <b>€  ${progetto.cifraRaccolta}</b> raccolti a fronte di € ${progetto.cifraGoal}
+            </div>
+          </div>
           </div>
         
 </div> 
-</div>`;
+</div>
+<div class="container-fluid" id="donazioni">
+</div>
+
+
+`;
 }
 
 function ricercaProgetto(form) {
   let url = window.location.href;
-  window.location.replace(url.replace('index.html', 'search.html?' + form.search.value));
+  window.open(window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/"+"search.html?search=" + form.search.value, "_self");
   return false;
 }
 
@@ -805,6 +1168,7 @@ async function getDocumentoModificatoById(id) {
   });
   return documento;
 }
+
 
 async function getDonazioneById(id) {
   let donazione;
